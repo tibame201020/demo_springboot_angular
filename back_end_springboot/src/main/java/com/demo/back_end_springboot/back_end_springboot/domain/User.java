@@ -19,6 +19,11 @@ public class User implements Serializable {
 
     private String changePwd;
 
+    @Column(nullable = false)
+    private String mail;
+
+    private Integer phone;
+
     public String getChangePwd() {
         return changePwd;
     }
@@ -49,5 +54,21 @@ public class User implements Serializable {
 
     public void setValid(boolean valid) {
         this.valid = valid;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public Integer getPhone() {
+        return phone;
+    }
+
+    public void setPhone(Integer phone) {
+        this.phone = phone;
     }
 }
