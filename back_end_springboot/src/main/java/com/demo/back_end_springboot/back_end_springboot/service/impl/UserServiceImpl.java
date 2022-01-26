@@ -24,20 +24,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String addUser(User registerUser) {
+    public User addUser(User registerUser) {
         //若已有同account
         String rtnMsg;
         if (userRepo.findById(registerUser.getAccount()).isPresent()) {
             rtnMsg = String.format("%s已註冊過", registerUser.getAccount());
+            registerUser.setMessage(rtnMsg);
+
+            return registerUser;
         } else {
             User user = userRepo.save(registerUser);
             rtnMsg = String.format("%s已註冊成功", user.getAccount());
+            user.setMessage(rtnMsg);
+
+            return user;
         }
-        return rtnMsg;
     }
 
     @Override
-    public String updatePwd(User user) {
+    public User updatePwd(User user) {
         //驗證帳號
         String rtnMsg;
         if (!userRepo.findById(user.getAccount()).isPresent()) {
@@ -47,10 +52,11 @@ public class UserServiceImpl implements UserService {
         } else {
             user.setPwd(user.getChangePwd());
             user.setChangePwd("");
-            userRepo.save(user);
+            user = userRepo.save(user);
             rtnMsg = String.format("%s帳號已更新密碼，往後請用新密碼登入", user.getAccount());
         }
+        user.setMessage(rtnMsg);
 
-        return rtnMsg;
+        return user;
     }
 }

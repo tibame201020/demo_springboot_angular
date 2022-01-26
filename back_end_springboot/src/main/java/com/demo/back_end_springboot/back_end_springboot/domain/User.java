@@ -24,6 +24,8 @@ public class User implements Serializable {
 
     private Integer phone;
 
+    private String message;
+
     public String getChangePwd() {
         return changePwd;
     }
@@ -70,5 +72,13 @@ public class User implements Serializable {
 
     public void setPhone(Integer phone) {
         this.phone = phone;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

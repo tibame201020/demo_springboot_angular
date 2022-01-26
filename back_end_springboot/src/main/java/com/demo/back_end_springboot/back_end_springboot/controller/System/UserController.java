@@ -32,27 +32,30 @@ public class UserController {
     }
 
     @RequestMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody User registerUser) {
+    public ResponseEntity<User> registerUser(@RequestBody User registerUser) {
         if (StringUtils.isBlank(registerUser.getAccount()) || StringUtils.isBlank(registerUser.getPwd())) {
             // 若其一為空，不需去db撈data
-            return new ResponseEntity<>("必填資訊不得為空", HttpStatus.OK);
+            registerUser.setMessage("必填資訊不得為空");
+            return new ResponseEntity<>(registerUser, HttpStatus.OK);
         }
-        String registerUserMsg = userService.addUser(registerUser);
+        User user = userService.addUser(registerUser);
 
-        return new ResponseEntity<>(registerUserMsg, HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @RequestMapping("/updatePwd")
-    public ResponseEntity<String> updatePwd (@RequestBody User user) {
+    public ResponseEntity<User> updatePwd (@RequestBody User user) {
         if (StringUtils.isBlank(user.getAccount()) || StringUtils.isBlank(user.getPwd()) || StringUtils.isBlank(user.getPwd())) {
-            return new ResponseEntity<>("必填資訊不得為空", HttpStatus.OK);
+            user.setMessage("必填資訊不得為空");
+            return new ResponseEntity<>(user, HttpStatus.OK);
         }
         if (user.getPwd().equals(user.getChangePwd())) {
-            return new ResponseEntity<>("修改密碼不得與原密碼相同", HttpStatus.OK);
+            user.setMessage("修改密碼不得與原密碼相同");
+            return new ResponseEntity<>(user, HttpStatus.OK);
         }
-        String rtnMsg = userService.updatePwd(user);
+        user = userService.updatePwd(user);
 
-        return new ResponseEntity<>(rtnMsg, HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     //todo validMail驗證, sms一次性登入, 圖形驗證
