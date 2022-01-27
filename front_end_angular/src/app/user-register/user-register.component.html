@@ -1,41 +1,66 @@
 <div class="container loginForm">
   <h2>Welcome Friend</h2>
   <br>
-		<form (ngSubmit)="onRegisterSubmit(registerForm)" #registerForm="ngForm">
-		  <div class="form-group has-feedback">
-		    <input type="text" class="form-control form-input" id="account" name="account" placeholder="please enter the account" required ngModel autocomplete="off">
-			 <span class="glyphicon form-control-feedback"></span>
+		<form [formGroup]="registerForm" novalidate (submit)="onRegisterSubmit(registerForm)">
+		  <div class="form-group has-feedback inputControl">
+		    <input type="text" class="form-control form-input"formControlName="account" placeholder="please enter the account" required ngModel autocomplete="off" userAccountValidator>
+			 <span class="glyphicon form-control-feedback" *ngIf="registerForm.controls['account'].invalid && (registerForm.controls['account'].dirty || registerForm.controls['account'].touched)">
+          <span *ngIf="registerForm.controls['account'].errors">
+            <pre *ngIf="registerForm.controls['account'].errors['required']"> the account is required </pre>
+            <pre *ngIf="registerForm.controls['account'].errors['unique']"> the account already been registered</pre>
+          </span>
+       </span>
+       <pre class = "valid" *ngIf="registerForm.controls['account'].valid"> the account good to use</pre>
 		  </div>
 		  <div class="form-group has-feedback">
-		    <input type="password" class="form-control form-input" id="pwd" name="pwd" placeholder="please enter the password" required ngModel>
-			 <span class="glyphicon form-control-feedback"></span>
+		    <input type="password" class="form-control form-input" formControlName="pwd" placeholder="please enter the password" required ngModel>
+        <span class="glyphicon form-control-feedback" *ngIf="registerForm.controls['pwd'].invalid && (registerForm.controls['pwd'].dirty || registerForm.controls['pwd'].touched)">
+          <span *ngIf="registerForm.controls['pwd'].errors">
+            <pre *ngIf="registerForm.controls['pwd'].errors['required']"> the password is required </pre>
+          </span>
+       </span>
 		  </div>
       <div class="form-group has-feedback">
-		    <input type="password" class="form-control form-input" id="pwd2nd" name="pwd2nd" placeholder="please enter the same password" required ngModel>
-			 <span class="glyphicon form-control-feedback"></span>
+		    <input type="password" class="form-control form-input" formControlName="pwd2nd" placeholder="please enter the same password" required ngModel>
+       <span class="glyphicon form-control-feedback" *ngIf="registerForm.errors">
+        <pre *ngIf="registerForm.errors['pwdDifferent']"> those two password must be same</pre>
+      </span>
 		  </div>
       <div class="form-group has-feedback">
-		    <input type="mail" class="form-control form-input" id="mail" name="mail" placeholder="please enter the mail address" required ngModel>
-			 <span class="glyphicon form-control-feedback"></span>
+		    <input type="email" class="form-control form-input" formControlName="mail" placeholder="please enter the mail address" required ngModel>
+        <span class="glyphicon form-control-feedback" *ngIf="registerForm.controls['mail'].invalid && (registerForm.controls['mail'].dirty || registerForm.controls['mail'].touched)">
+          <span *ngIf="registerForm.controls['mail'].errors">
+            <pre *ngIf="registerForm.controls['mail'].errors['required']"> the mail is required </pre>
+            <pre *ngIf="registerForm.controls['mail'].errors['pattern']"> the mail format is incorrect </pre>
+            <pre *ngIf="registerForm.controls['mail'].errors['unique']"> the mail already been registered</pre>
+          </span>
+       </span>
+       <pre class = "valid" *ngIf="registerForm.controls['mail'].valid"> the mail good to use</pre>
 		  </div>
 		  <div class="form-group has-feedback">
-		    <input type="tel" class="form-control form-input" id="phone" name="phone" placeholder="please enter the phone number" required ngModel>
-			 <span class="glyphicon form-control-feedback"></span>
+		    <input type="tel" class="form-control form-input" formControlName="phone" placeholder="please enter the mobile phone number" required ngModel>
+        <span class="glyphicon form-control-feedback" *ngIf="registerForm.controls['phone'].invalid && (registerForm.controls['phone'].dirty || registerForm.controls['phone'].touched)">
+          <span *ngIf="registerForm.controls['phone'].errors">
+            <pre *ngIf="registerForm.controls['phone'].errors['required']"> the mobile phone number is required </pre>
+            <pre *ngIf="registerForm.controls['phone'].errors['pattern']"> the mobile phone number is incorrect </pre>
+            <pre *ngIf="registerForm.controls['phone'].errors['unique']"> the mobile phone number already been registered</pre>
+          </span>
+       </span>
+       <pre class = "valid" *ngIf="registerForm.controls['phone'].valid"> the mobile phone number good to use</pre>
 		  </div>
 
-
-
-
-
-
+      <br>
       <div class="container">
         <div class="row justify-content-between">
           <div class="col-9"><a href="#" class="loginPwReset">Forgot Password ?</a></div>
           <div class="col-3"><a href="#" routerLink="/login" class="singUp">Login</a></div>
         </div>
       </div>
-
-		<button id="submit" type="submit" class="btn btn-default submit" value="Login" [disabled]="registerForm.invalid">Sign Up</button>
+      <div *ngIf="!registerForm.valid">
+        <button id="requiredMsg" type="submit" class="btn btn-default submit" [disabled]="true">plz check the all required fileds</button>
+      </div>
+      <div *ngIf="registerForm.valid">
+        <button id="submit" type="submit" class="btn btn-default submit" [disabled]="!registerForm.valid" >Sign Up</button>
+      </div>
   </form>
 </div>
-
