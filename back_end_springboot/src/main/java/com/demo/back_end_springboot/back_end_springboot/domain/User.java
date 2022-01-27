@@ -19,10 +19,11 @@ public class User implements Serializable {
 
     private String changePwd;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String mail;
 
-    private Integer phone;
+    @Column(unique = true)
+    private String phone;
 
     private String message;
 
@@ -66,11 +67,11 @@ public class User implements Serializable {
         this.mail = mail;
     }
 
-    public Integer getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
