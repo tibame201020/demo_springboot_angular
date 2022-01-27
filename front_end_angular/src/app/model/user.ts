@@ -4,6 +4,6 @@ export interface User {
   changePwd : string,
   valid : boolean,
   mail : string,
-  phone : number,
+  phone : string,
   message : string
 }
