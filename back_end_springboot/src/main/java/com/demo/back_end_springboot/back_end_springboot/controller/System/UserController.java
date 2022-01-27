@@ -58,5 +58,36 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    //todo validMail驗證, sms一次性登入, 圖形驗證
+
+    // 有重複帳號回傳true
+    @RequestMapping("/isAlreadyHaveAccount")
+    public ResponseEntity<Boolean> isAlreadyHaveAccount (@RequestBody String account) {
+        if (StringUtils.isBlank(account)) {
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(userService.isAlreadyHaveAccount(account), HttpStatus.OK);
+    }
+
+    // 有重複mail回傳true
+    @RequestMapping("/isAlreadyHaveMail")
+    public ResponseEntity<Boolean> isAlreadyHaveMail (@RequestBody String mail) {
+        if (StringUtils.isBlank(mail)) {
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(userService.isAlreadyHaveMail(mail), HttpStatus.OK);
+    }
+
+    // 有重複phone回傳true
+    @RequestMapping("/isAlreadyHavePhone")
+    public ResponseEntity<Boolean> isAlreadyHavePhone (@RequestBody String phone) {
+        if (!StringUtils.isNumericSpace(phone)) {
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(userService.isAlreadyHavePhone(phone), HttpStatus.OK);
+    }
+
+    //todo validMail驗證(spring Mail), sms一次性登入(spring sms), 圖形驗證
 }

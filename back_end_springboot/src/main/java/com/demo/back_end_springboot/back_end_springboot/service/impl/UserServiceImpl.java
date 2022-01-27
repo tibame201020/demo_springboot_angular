@@ -7,6 +7,8 @@ import com.demo.back_end_springboot.back_end_springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -58,5 +60,35 @@ public class UserServiceImpl implements UserService {
         user.setMessage(rtnMsg);
 
         return user;
+    }
+
+    @Override
+    public boolean isAlreadyHaveAccount(String account) {
+        Optional<User> optional = userRepo.findById(account);
+        if (optional.isPresent()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean isAlreadyHaveMail(String mail) {
+        Optional<User> optional = userRepo.findFirstByMail(mail);
+        if (optional.isPresent()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean isAlreadyHavePhone(String phone) {
+        Optional<User> optional = userRepo.findFirstByPhone(phone);
+        if (optional.isPresent()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
