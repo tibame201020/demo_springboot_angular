@@ -109,3 +109,16 @@ a:focus, a:hover {
 .loginPwReset:hover, .singUp:hover {
  color: lightcoral;
 }
+
+#requiredMsg {
+  background-color: lightcoral;
+  color: black;
+}
+
+pre {
+  color: lightcoral;
+}
+.valid {
+  color: 	#01B468;
+}
+
