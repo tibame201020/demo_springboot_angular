@@ -19,18 +19,18 @@ export class UserAccountValidator implements AsyncValidator {
     if (this.validType == "account") {
       return this.userService.validUserAccount(control.value).pipe(
         map(isTaken => (isTaken ? { unique: true } : null)),
-        catchError(() => of(null))
+        catchError(() => of({ serverError: `the server error, plz contact manager` }))
       );
     }
     if (this.validType == "mail") {
       return this.userService.validUserMail(control.value).pipe(
         map(isTaken => (isTaken ? { unique: true } : null)),
-        catchError(() => of(null))
+        catchError(() => of({ serverError: `the server error, plz contact manager` }))
       );
     }
     return this.userService.validUserPhone(control.value).pipe(
       map(isTaken => (isTaken ? { unique: true } : null)),
-      catchError(() => of(null))
+      catchError(() => of({ serverError: `the server error, plz contact manager` }))
     );
   }
 }

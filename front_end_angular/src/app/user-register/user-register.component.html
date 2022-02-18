@@ -8,6 +8,7 @@
           <span *ngIf="registerForm.controls['account'].errors">
             <pre *ngIf="registerForm.controls['account'].errors['required']"> the account is required </pre>
             <pre *ngIf="registerForm.controls['account'].errors['unique']"> the account already been registered</pre>
+            <pre *ngIf="registerForm.controls['account'].errors['serverError']"> {{registerForm.controls['account'].errors['serverError']}}</pre>
           </span>
        </span>
        <pre class = "valid" *ngIf="registerForm.controls['account'].valid"> the account good to use</pre>
@@ -23,7 +24,7 @@
       <div class="form-group has-feedback">
 		    <input type="password" class="form-control form-input" formControlName="pwd2nd" placeholder="please enter the same password" required ngModel>
        <span class="glyphicon form-control-feedback" *ngIf="registerForm.errors">
-        <pre *ngIf="registerForm.errors['pwdDifferent']"> those two password must be same</pre>
+        <pre *ngIf="registerForm.errors['pwdDifferent']"> {{registerForm.errors['pwdDifferent']}}</pre>
       </span>
 		  </div>
       <div class="form-group has-feedback">
@@ -33,6 +34,7 @@
             <pre *ngIf="registerForm.controls['mail'].errors['required']"> the mail is required </pre>
             <pre *ngIf="registerForm.controls['mail'].errors['pattern']"> the mail format is incorrect </pre>
             <pre *ngIf="registerForm.controls['mail'].errors['unique']"> the mail already been registered</pre>
+            <pre *ngIf="registerForm.controls['mail'].errors['serverError']"> {{registerForm.controls['mail'].errors['serverError']}}</pre>
           </span>
        </span>
        <pre class = "valid" *ngIf="registerForm.controls['mail'].valid"> the mail good to use</pre>
@@ -44,13 +46,15 @@
             <pre *ngIf="registerForm.controls['phone'].errors['required']"> the mobile phone number is required </pre>
             <pre *ngIf="registerForm.controls['phone'].errors['pattern']"> the mobile phone number is incorrect </pre>
             <pre *ngIf="registerForm.controls['phone'].errors['unique']"> the mobile phone number already been registered</pre>
+            <pre *ngIf="registerForm.controls['phone'].errors['serverError']"> {{registerForm.controls['phone'].errors['serverError']}}</pre>
           </span>
        </span>
        <pre class = "valid" *ngIf="registerForm.controls['phone'].valid"> the mobile phone number good to use</pre>
 		  </div>
 
-      <br>
+
       <div class="container">
+        <hr style="margin-top: 5%;">
         <div class="row justify-content-between">
           <div class="col-9"><a href="#" class="loginPwReset">Forgot Password ?</a></div>
           <div class="col-3"><a href="#" routerLink="/login" class="singUp">Login</a></div>

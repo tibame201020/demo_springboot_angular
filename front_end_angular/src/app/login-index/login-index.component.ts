@@ -2,6 +2,7 @@ import { UserService } from './../user.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login-index',
@@ -14,7 +15,8 @@ export class LoginIndexComponent implements OnInit {
 
   constructor(private userService:UserService,
               private router: Router,
-              private formBuilder:FormBuilder) { }
+              private formBuilder:FormBuilder,
+              private authService:AuthService) { }
 
   ngOnInit(): void {
     this.createForm();
@@ -28,15 +30,13 @@ export class LoginIndexComponent implements OnInit {
   }
 
   public onLoginSubmit(loginForm : FormGroup):void {
-    this.userService.validUser(loginForm.value).subscribe(
-      (res:Boolean) => {
-        if (res) {
+    this.authService.validUser(loginForm.value).subscribe(
+      (res:any) => {
+        if (res.access_token) {
           // 驗證成功
-          alert(res);
           this.router.navigate(['home']);
         } else {
-          // 驗證fail
-          alert (res + "登入失敗");
+          alert (res.un_success_msg);
         }
       }
     )

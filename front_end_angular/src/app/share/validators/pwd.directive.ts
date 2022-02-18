@@ -5,5 +5,5 @@ export const pwdValidator: ValidatorFn = (control: AbstractControl): ValidationE
   const pwd = control.get('pwd');
   const pwd2nd = control.get('pwd2nd');
 
-  return pwd && pwd2nd && pwd.value === pwd2nd.value ? null : { pwdDifferent: true };
+  return pwd && pwd2nd && pwd.value === pwd2nd.value ? null : { pwdDifferent: `those two password must be same` };
 };
