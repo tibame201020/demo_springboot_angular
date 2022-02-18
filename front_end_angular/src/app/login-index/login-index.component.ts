@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-login-index',
@@ -36,7 +37,12 @@ export class LoginIndexComponent implements OnInit {
           // 驗證成功
           this.router.navigate(['home']);
         } else {
-          alert (res.un_success_msg);
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: res.un_success_msg,
+            footer: `<a href="login/forgot_password">Forgot Password ?</a>`
+          });
         }
       }
     )
