@@ -3,6 +3,7 @@ package com.demo.back_end_springboot.back_end_springboot.filter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.demo.back_end_springboot.back_end_springboot.domain.Auth;
+import com.demo.back_end_springboot.back_end_springboot.domain.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +13,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -76,11 +76,14 @@ public class AuthorFilter extends UsernamePasswordAuthenticationFilter {
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("role", auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
+        User user = auth.getUser();
+        user.setPwd(null);
+        user.setChangePwd(null);
 
         Map<String, Object> tokens = new HashMap<>();
         tokens.put("access_token", access_token);
         tokens.put("refresh_token", refresh_token);
-        tokens.put("user_info", auth.getUser());
+        tokens.put("user_info", user);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }
@@ -88,11 +91,11 @@ public class AuthorFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                               AuthenticationException failed) throws IOException, ServletException {
-    System.out.println("un_success");
+        System.out.println("un_success");
 
-    Map<String, String> unSuccessMsg = new HashMap<>();
-    unSuccessMsg.put("un_success_msg", "valid is un successful");
-    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-    new ObjectMapper().writeValue(response.getOutputStream(), unSuccessMsg);
+        Map<String, String> unSuccessMsg = new HashMap<>();
+        unSuccessMsg.put("un_success_msg", "帳號密碼錯誤");
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        new ObjectMapper().writeValue(response.getOutputStream(), unSuccessMsg);
     }
 }
