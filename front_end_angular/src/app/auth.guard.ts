@@ -1,3 +1,4 @@
+import { ForwardMessageService } from './forward-message.service';
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -8,7 +9,8 @@ import { User } from './model/user';
 export class AuthGuard implements CanActivate {
     constructor(
         private router: Router,
-        private AuthService: AuthService
+        private AuthService: AuthService,
+        private forwardMessageService:ForwardMessageService
     ) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
@@ -17,12 +19,17 @@ export class AuthGuard implements CanActivate {
     if (user && user.access_token) {
        // 未有權限
       if (route.data['roles'] && JSON.stringify(user.roles).indexOf(route.data['roles']) === -1) {
-          this.router.navigate(['home']);
+          this.forwardMessageService.setMessage('未有權限，將跳轉至首頁');
+          this.forwardMessageService.setNextRoute('home');
+          this.router.navigate(['forward']);
           return false;
       }
       return true;
     }
-    this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+    this.forwardMessageService.setMessage('尚未登入，將跳轉至登入頁面');
+    this.forwardMessageService.setNextRoute('login');
+    this.router.navigate(['forward']);
+
     return false;
   }
 

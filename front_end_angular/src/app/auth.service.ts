@@ -51,7 +51,7 @@ export class AuthService {
 
   public get userValue(): User {
     return this.currentUserSubject.value;
-}
+  }
 
   isLogIn():Boolean {
     let rtn = false;
