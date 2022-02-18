@@ -1,9 +1,14 @@
 package com.demo.back_end_springboot.back_end_springboot.domain;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 public class User implements Serializable {
@@ -26,6 +31,9 @@ public class User implements Serializable {
     private String phone;
 
     private String message;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<Role> roles = new ArrayList<>();
 
     public String getChangePwd() {
         return changePwd;
@@ -81,5 +89,13 @@ public class User implements Serializable {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
     }
 }
