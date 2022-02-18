@@ -1,4 +1,7 @@
+import { UserService } from './../user.service';
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth.service';
+import { User } from '../model/user';
 
 @Component({
   selector: 'app-front-index',
@@ -7,9 +10,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FrontIndexComponent implements OnInit {
 
-  constructor() { }
+  public user_info = 'default';
+
+  public loginOrNot = 'defaultNot';
+
+  constructor(private authService:AuthService) {
+    this.authService.getCurrentUser().subscribe(
+      (data:User) => {
+        if (data != null) {
+          this.user_info = JSON.stringify(data);
+        }
+      }
+    )
+   }
 
   ngOnInit(): void {
+
   }
 
 }
