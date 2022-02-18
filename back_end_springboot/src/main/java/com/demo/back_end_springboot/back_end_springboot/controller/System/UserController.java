@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.demo.back_end_springboot.back_end_springboot.domain.Auth;
 import com.demo.back_end_springboot.back_end_springboot.domain.User;
+import com.demo.back_end_springboot.back_end_springboot.service.MailService;
 import com.demo.back_end_springboot.back_end_springboot.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
@@ -35,8 +36,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-//    @Autowired
-//    private MailService mailService;
+    @Autowired
+    private MailService mailService;
 
     @RequestMapping("/register")
     public ResponseEntity<User> registerUser(@RequestBody User registerUser) {
@@ -48,7 +49,7 @@ public class UserController {
         User user = userService.addUser(registerUser);
 
         // 發驗證信 尚未實作
-//        user = mailService.sendValidMail(user);
+        user = mailService.sendValidMail(user);
 
 
         return new ResponseEntity<>(user, HttpStatus.OK);
@@ -100,7 +101,7 @@ public class UserController {
         return new ResponseEntity<>(userService.isAlreadyHavePhone(phone), HttpStatus.OK);
     }
 
-    //todo validMail驗證(spring Mail), sms一次性登入(spring sms), 圖形驗證
+    //todo validMail驗證(spring Mail), sms一次性登入(spring sms)
 
     @RequestMapping("/refresh_token")
     public void refreshToken (HttpServletRequest request, HttpServletResponse response) throws IOException {
