@@ -1,18 +1,31 @@
 package com.demo.back_end_springboot.back_end_springboot.service.impl;
 
+import com.demo.back_end_springboot.back_end_springboot.domain.Role;
 import com.demo.back_end_springboot.back_end_springboot.domain.User;
 import com.demo.back_end_springboot.back_end_springboot.exception.UserNotFoundException;
+import com.demo.back_end_springboot.back_end_springboot.repo.RoleRepo;
 import com.demo.back_end_springboot.back_end_springboot.repo.UserRepo;
 import com.demo.back_end_springboot.back_end_springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private RoleRepo roleRepo;
+
+    private BCryptPasswordEncoder passwordEncoder;
+
+    public UserServiceImpl() {
+        this.passwordEncoder = new BCryptPasswordEncoder();
+    }
 
     @Override
     public boolean isValidUser(User validUser) {
@@ -35,6 +48,14 @@ public class UserServiceImpl implements UserService {
 
             return registerUser;
         } else {
+            List<Role> roles = new ArrayList<>();
+            for (int i = 1; i <= 3; i++) {
+                roles.add(roleRepo.findById(i).get());
+            }
+            registerUser.setRoles(roles);
+            registerUser.setValid(true);
+            registerUser.setPwd(passwordEncoder.encode(registerUser.getPwd()));
+
             User user = userRepo.save(registerUser);
             rtnMsg = String.format("%s已註冊成功", user.getAccount());
             user.setMessage(rtnMsg);
@@ -90,5 +111,21 @@ public class UserServiceImpl implements UserService {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public List<User> getAll() {
+        return userRepo.findAll();
+    }
+
+    @Override
+    public void addRole(Role role) {
+        roleRepo.save(role);
+    }
+
+    @Override
+    public User getUser(String account) {
+        Optional<User> optional = userRepo.findById(account);
+        return optional.get();
     }
 }
