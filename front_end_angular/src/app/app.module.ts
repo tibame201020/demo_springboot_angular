@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -10,6 +10,10 @@ import { LoginIndexComponent } from './login-index/login-index.component';
 import { UserRegisterComponent } from './user-register/user-register.component';
 import { ReaderComponent } from './reader/reader.component';
 import { PublisherComponent } from './publisher/publisher.component';
+import { ForwardComponent } from './forward/forward.component';
+import { JwtInterceptor } from './inteceptor/jwt.interceptor';
+import { LoginByMoblieComponent } from './login-by-moblie/login-by-moblie.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +22,10 @@ import { PublisherComponent } from './publisher/publisher.component';
     LoginIndexComponent,
     UserRegisterComponent,
     ReaderComponent,
-    PublisherComponent
+    PublisherComponent,
+    ForwardComponent,
+    LoginByMoblieComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +34,7 @@ import { PublisherComponent } from './publisher/publisher.component';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
