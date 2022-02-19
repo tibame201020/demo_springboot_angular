@@ -15,11 +15,15 @@ export class ForwardComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    setInterval(()=>{
+    const interval = setInterval(()=>{
       this.seconds = this.seconds - 1;
     }, 1000);
-    setTimeout(() => {
-      this.router.navigate([this.forwardMessageService.getNextRoute]);
+    const timeout = setTimeout(() => {
+      if (window.location.pathname == '/forward') {
+        this.router.navigate([this.forwardMessageService.getNextRoute]);
+      }
+      clearInterval(interval);
+      clearTimeout(timeout);
     }, this.seconds * 1000);
   }
 
