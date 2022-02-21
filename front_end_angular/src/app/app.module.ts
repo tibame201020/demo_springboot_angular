@@ -14,6 +14,8 @@ import { ForwardComponent } from './forward/forward.component';
 import { JwtInterceptor } from './inteceptor/jwt.interceptor';
 import { LoginByMoblieComponent } from './login-by-moblie/login-by-moblie.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ValidUserComponent } from './valid-user/valid-user.component';
+import { UnValidUserComponent } from './un-valid-user/un-valid-user.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     PublisherComponent,
     ForwardComponent,
     LoginByMoblieComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    ValidUserComponent,
+    UnValidUserComponent
   ],
   imports: [
     BrowserModule,

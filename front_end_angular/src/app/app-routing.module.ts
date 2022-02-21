@@ -1,3 +1,4 @@
+import { ValidUserComponent } from './valid-user/valid-user.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ForwardComponent } from './forward/forward.component';
 import { AuthGuard } from './auth.guard';
@@ -29,6 +30,7 @@ const routes: Routes = [
   {path:"login/forgot_password", component:ForgotPasswordComponent},
   {path:"login/login_by_mobile", component:LoginByMoblieComponent},
   {path:"forward", component:ForwardComponent},
+  {path:"valid", component:ValidUserComponent},
   {path:'', redirectTo:"/home", pathMatch: 'full'}
 ];
 
