@@ -1,5 +1,7 @@
+import { ForwardMessageService } from './../forward-message.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-valid-user',
@@ -8,11 +10,73 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ValidUserComponent implements OnInit {
 
-  constructor(private route:ActivatedRoute) { }
+  public message:string = '';
+  // enable the account success; => home
+  // the account is already enable; => home
+  // the token has expired; => re-send-mail-> or change mail to send
+
+  // the token is not valid; => home
+
+  constructor(private route:ActivatedRoute,
+              private userService:UserService,
+              private forwardMessageService:ForwardMessageService,
+              private router: Router,) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams) => {
-      console.log(queryParams['validToken']);
+      if (!queryParams['validToken']) {
+        this.forwardMessageService.setMessage(`don't has the token`);
+        this.forwardMessageService.setNextRoute('home');
+        this.router.navigate(['forward']);
+      } else {
+        this.userService.enableAccount(queryParams['validToken']).subscribe(
+          (res) => {
+            this.message = res.message
+            switch (true) {
+              // enable the account success; => home
+              case (this.message.indexOf("the account is already enable") !=-1):
+                this.forwardMessageService.setMessage(this.message);
+                this.forwardMessageService.setNextRoute('home');
+                this.router.navigate(['forward']);
+              break;
+              // the account is already enable; => home
+              case (this.message.indexOf("the account is enable now") !=-1):
+                this.forwardMessageService.setMessage(this.message);
+                this.forwardMessageService.setNextRoute('home');
+                this.router.navigate(['forward']);
+              break;
+              // the token has expired; => re-send-mail-> or change mail to send
+              case (this.message.indexOf("the token has Expired") !=-1):
+
+              break;
+              // the token is not valid; => home
+              case (this.message.indexOf("the token is un-valid") !=-1):
+                this.forwardMessageService.setMessage(this.message);
+                this.forwardMessageService.setNextRoute('home');
+                this.router.navigate(['forward']);
+              break;
+              // the token can not be verify; => home
+              case (this.message.indexOf("the token can not be verify") != -1):
+                this.forwardMessageService.setMessage(this.message);
+                this.forwardMessageService.setNextRoute('home');
+                this.router.navigate(['forward']);
+              break;
+              // the account does not exist; => home
+              case (this.message.indexOf("the account does not exist") != -1):
+                this.forwardMessageService.setMessage(this.message);
+                this.forwardMessageService.setNextRoute('home');
+                this.router.navigate(['forward']);
+              break;
+              // res no mapping any message; => home
+              case (true) :
+                this.forwardMessageService.setMessage('res no mapping message');
+                this.forwardMessageService.setNextRoute('home');
+                this.router.navigate(['forward']);
+              break;
+            }
+          }
+        )
+      }
     });
   }
 
