@@ -47,7 +47,7 @@ public class UserController {
         }
         User user = userService.addUser(registerUser);
         // 發驗證信 尚未實作
-        mailService.sendValidMail(user);
+//        mailService.sendValidMail(user);
 
 
         return new ResponseEntity<>(user, HttpStatus.OK);

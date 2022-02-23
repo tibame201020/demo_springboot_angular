@@ -20,6 +20,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.demo.back_end_springboot.back_end_springboot.constant.SecurityConstant.USER_LOGIN_NOT_ALLOW;
+import static com.demo.back_end_springboot.back_end_springboot.constant.SecurityConstant.USER_LOGIN_NOT_ENABLED;
+
 public class AuthorFilter extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;
     private JwtProvider jwtProvider;
@@ -73,9 +76,15 @@ public class AuthorFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                               AuthenticationException failed) throws IOException, ServletException {
-        Map<String, String> unSuccessMsg = new HashMap<>();
-        unSuccessMsg.put("un_success_msg", "帳號密碼錯誤");
+        Map<String, String> unSuccessMsgMap = new HashMap<>();
+        String unSuccessMsg;
+        if (failed.getMessage().contains("disabled")) {
+            unSuccessMsg = USER_LOGIN_NOT_ENABLED;
+        } else {
+            unSuccessMsg = USER_LOGIN_NOT_ALLOW;
+        }
+        unSuccessMsgMap.put("un_success_msg", unSuccessMsg);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        new ObjectMapper().writeValue(response.getOutputStream(), unSuccessMsg);
+        new ObjectMapper().writeValue(response.getOutputStream(), unSuccessMsgMap);
     }
 }
