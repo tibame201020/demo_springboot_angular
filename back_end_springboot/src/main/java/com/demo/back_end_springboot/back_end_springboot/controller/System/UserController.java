@@ -1,13 +1,11 @@
 package com.demo.back_end_springboot.back_end_springboot.controller.System;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.demo.back_end_springboot.back_end_springboot.domain.Auth;
+import com.demo.back_end_springboot.back_end_springboot.domain.Jwt;
 import com.demo.back_end_springboot.back_end_springboot.domain.User;
 import com.demo.back_end_springboot.back_end_springboot.service.MailService;
 import com.demo.back_end_springboot.back_end_springboot.service.UserService;
+import com.demo.back_end_springboot.back_end_springboot.util.JwtProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,12 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-import static com.demo.back_end_springboot.back_end_springboot.constant.SecurityConstant.*;
+
+//todo sms一次性登入(spring sms) mail改用thread發
 
 @RestController
 @RequestMapping("/api/user")
@@ -39,6 +35,9 @@ public class UserController {
     @Autowired
     private MailService mailService;
 
+    @Autowired
+    private JwtProvider jwtProvider;
+
     @RequestMapping("/register")
     public ResponseEntity<User> registerUser(@RequestBody User registerUser) {
         if (StringUtils.isBlank(registerUser.getAccount()) || StringUtils.isBlank(registerUser.getPwd())) {
@@ -47,9 +46,8 @@ public class UserController {
             return new ResponseEntity<>(registerUser, HttpStatus.OK);
         }
         User user = userService.addUser(registerUser);
-
         // 發驗證信 尚未實作
-        user = mailService.sendValidMail(user);
+        mailService.sendValidMail(user);
 
 
         return new ResponseEntity<>(user, HttpStatus.OK);
@@ -101,48 +99,46 @@ public class UserController {
         return new ResponseEntity<>(userService.isAlreadyHavePhone(phone), HttpStatus.OK);
     }
 
-    //todo validMail驗證(spring Mail), sms一次性登入(spring sms)
-
     @RequestMapping("/refresh_token")
     public void refreshToken (HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            try {
-                String refresh_token = authorizationHeader.substring("Bearer ".length());
-                Algorithm algorithm = Algorithm.HMAC512(SECRET.getBytes());
-                JWTVerifier verifier = JWT.require(algorithm).build();
-                DecodedJWT decodedJWT = verifier.verify(refresh_token);
-                String account = decodedJWT.getSubject();
-                User user = userService.getUser(account);
+            String refresh_token = authorizationHeader.substring("Bearer ".length());
+            Jwt jwt = jwtProvider.validToken(refresh_token);
+            if (jwt.isExpire()) {
+                User user = userService.getUser(jwt.getAccount());
                 Auth auth = new Auth(user);
-
-                String access_token = JWT.create()
-                        .withSubject(auth.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + 60 * 60 * 1000))
-                        .withIssuer(request.getRequestURL().toString())
-                        .withClaim("role", auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-                        .sign(algorithm);
-
-                Map<String, String> tokens = new HashMap<>();
+                String access_token = jwtProvider.getToken(auth, 60 * 60 * 1000, request.getRequestURL().toString());
+                Map<String, Object> tokens = new HashMap<>();
                 tokens.put("access_token", access_token);
                 tokens.put("refresh_token", refresh_token);
+                tokens.put("user_info", jwt);
                 response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-                System.out.println("refresh_token is ok");
                 new ObjectMapper().writeValue(response.getOutputStream(), tokens);
-
-            } catch (Exception e) {
-                response.setHeader("error", e.getMessage());
+            } else {
+                response.setHeader("error", jwt.getMessage());
                 response.setStatus(HttpStatus.FORBIDDEN.value());
-                Map<String, String> errorMsg = new HashMap<>();
-                errorMsg.put("error", e.getMessage());
+                Map<String, Object> errorMsg = new HashMap<>();
+                errorMsg.put("error", jwt);
                 response.setContentType(MediaType.APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), errorMsg);
             }
         } else {
             throw new RuntimeException("refresh token is missing");
         }
-
-
     }
 
+    @RequestMapping("/enableTheAccount")
+    public ResponseEntity<User> enableTheAccount (@RequestBody String token) {
+        User user = new User();
+        Jwt jwt = jwtProvider.validToken(token);
+        if (jwt.isExpire()) {
+            user = userService.enableUser(jwt.getAccount());
+        } else {
+            user.setMessage(jwt.getMessage());
+        }
+        user.setPwd(null);
+        user.setChangePwd(null);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
 }
