@@ -1,6 +1,7 @@
 package com.demo.back_end_springboot.back_end_springboot;
 
 import com.demo.back_end_springboot.back_end_springboot.domain.Role;
+import com.demo.back_end_springboot.back_end_springboot.domain.User;
 import com.demo.back_end_springboot.back_end_springboot.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,11 +15,21 @@ public class BackEndSpringbootApplication {
 		SpringApplication.run(BackEndSpringbootApplication.class, args);
 	}
 
-	// @Bean
+	@Bean
 	CommandLineRunner run(UserService userService) {
 		return args -> {
-			userService.addRole(new Role(null, "Lvl1"));
-			userService.addRole(new Role(null, "Lvl2"));
+			userService.addRole(new Role(null, "Reader"));
+			userService.addRole(new Role(null, "Subscriber"));
+			userService.addRole(new Role(null, "Publisher"));
+			userService.addRole(new Role(null, "Seller"));
+			User user = new User();
+			user.setAccount("test");
+			user.setPwd("123");
+			user.setValid(true);
+			user.setMail("");
+			user.setPhone("");
+			user.setRoles(userService.getAllRole());
+			userService.addUser(user);
 		};
 	}
 }
