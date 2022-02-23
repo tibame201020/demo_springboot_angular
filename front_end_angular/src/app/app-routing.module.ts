@@ -1,3 +1,4 @@
+import { LoginByMailComponent } from './login-by-mail/login-by-mail.component';
 import { ValidUserComponent } from './valid-user/valid-user.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ForwardComponent } from './forward/forward.component';
@@ -10,7 +11,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { ReaderComponent } from './reader/reader.component';
 import { PublisherComponent } from './publisher/publisher.component';
 import { Role } from './model/role_enum';
-import { LoginByMoblieComponent } from './login-by-moblie/login-by-moblie.component';
 
 
 const routes: Routes = [
@@ -28,7 +28,7 @@ const routes: Routes = [
   },
   {path:"signUp", component:UserRegisterComponent},
   {path:"login/forgot_password", component:ForgotPasswordComponent},
-  {path:"login/login_by_mobile", component:LoginByMoblieComponent},
+  {path:"login/login_by_mail", component:LoginByMailComponent},
   {path:"forward", component:ForwardComponent},
   {path:"valid", component:ValidUserComponent},
   {path:'', redirectTo:"/home", pathMatch: 'full'}

@@ -5,11 +5,11 @@ import { AuthService } from '../auth.service';
 import { UserService } from '../user.service';
 
 @Component({
-  selector: 'app-login-by-moblie',
-  templateUrl: './login-by-moblie.component.html',
-  styleUrls: ['./login-by-moblie.component.css']
+  selector: 'app-login-by-mail',
+  templateUrl: './login-by-mail.component.html',
+  styleUrls: ['./login-by-mail.component.css']
 })
-export class LoginByMoblieComponent implements OnInit {
+export class LoginByMailComponent implements OnInit {
 
   form: FormGroup = new FormGroup({});
 
@@ -26,10 +26,10 @@ export class LoginByMoblieComponent implements OnInit {
   }
 
   private createForm():void {
-    const phoneRegex = /^09\d{2}-?\d{3}-?\d{3}$/;
+    const emailRegex = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
       this.form = this.formBuilder.group({
         account:['', Validators.required],
-        phone: ['', [Validators.required, Validators.pattern(phoneRegex)]]
+        mail: ['', [Validators.required, Validators.pattern(emailRegex)]]
       });
   }
 

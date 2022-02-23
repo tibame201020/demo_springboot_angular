@@ -1,5 +1,5 @@
 <div class="container loginForm">
-  <h2>Use Ur Moblie Login</h2>
+  <h2>Use Ur Email Login</h2>
   <br>
   <form [formGroup]="form" novalidate (submit)="onSubmit(form)">
 		  <div class="form-group has-feedback">
@@ -11,11 +11,11 @@
        </span>
 		  </div>
 		  <div class="form-group has-feedback">
-		    <input type="tel" class="form-control form-input" formControlName="phone" placeholder="please enter the mobile phone number" required ngModel>
-			 <span class="glyphicon form-control-feedback" *ngIf="form.controls['phone'].invalid && (form.controls['phone'].dirty || form.controls['phone'].touched)">
-          <span *ngIf="form.controls['phone'].errors">
-            <pre *ngIf="form.controls['phone'].errors['required']"> the mobile phone number is required </pre>
-            <pre *ngIf="form.controls['phone'].errors['pattern']"> the mobile phone number is incorrect </pre>
+		    <input type="email" class="form-control form-input" formControlName="mail" placeholder="please enter the mail" required ngModel>
+			 <span class="glyphicon form-control-feedback" *ngIf="form.controls['mail'].invalid && (form.controls['mail'].dirty || form.controls['mail'].touched)">
+          <span *ngIf="form.controls['mail'].errors">
+            <pre *ngIf="form.controls['mail'].errors['required']"> the mail is required </pre>
+            <pre *ngIf="form.controls['mail'].errors['pattern']"> the mail is incorrect </pre>
           </span>
        </span>
 		  </div>

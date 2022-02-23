@@ -12,10 +12,10 @@ import { ReaderComponent } from './reader/reader.component';
 import { PublisherComponent } from './publisher/publisher.component';
 import { ForwardComponent } from './forward/forward.component';
 import { JwtInterceptor } from './inteceptor/jwt.interceptor';
-import { LoginByMoblieComponent } from './login-by-moblie/login-by-moblie.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ValidUserComponent } from './valid-user/valid-user.component';
 import { UnValidUserComponent } from './un-valid-user/un-valid-user.component';
+import { LoginByMailComponent } from './login-by-mail/login-by-mail.component';
 
 @NgModule({
   declarations: [
@@ -26,10 +26,10 @@ import { UnValidUserComponent } from './un-valid-user/un-valid-user.component';
     ReaderComponent,
     PublisherComponent,
     ForwardComponent,
-    LoginByMoblieComponent,
     ForgotPasswordComponent,
     ValidUserComponent,
-    UnValidUserComponent
+    UnValidUserComponent,
+    LoginByMailComponent
   ],
   imports: [
     BrowserModule,
