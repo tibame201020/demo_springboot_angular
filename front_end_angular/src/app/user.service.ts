@@ -24,5 +24,9 @@ export class UserService {
     return this.http.post<Boolean>(`api/user/register/isAlreadyHavePhone`, phone);
   }
 
+  public enableAccount (token:string) : Observable<User> {
+    return this.http.post<User>(`api/user/enableTheAccount`, token);
+  }
+
 
 }
