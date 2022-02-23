@@ -31,17 +31,24 @@ export class LoginIndexComponent implements OnInit {
   }
 
   public onLoginSubmit(loginForm : FormGroup):void {
+    const forgotPwd = `<a href="login/forgot_password">Forgot Password ?</a>`;
+    const reSendMail = `<a href="login/forgot_password">re send valid mail</a>`;
     this.authService.validUser(loginForm.value).subscribe(
       (res:any) => {
         if (res.access_token) {
           // 驗證成功
           this.router.navigate(['home']);
         } else {
+          if (res.un_success_msg === 'the account is not enable yet') {
+            res.link = reSendMail;
+          } else {
+            res.link = forgotPwd;
+          }
           Swal.fire({
             icon: 'error',
             title: 'Oops...',
             text: res.un_success_msg,
-            footer: `<a href="login/forgot_password">Forgot Password ?</a>`
+            footer: res.link
           });
         }
       }
