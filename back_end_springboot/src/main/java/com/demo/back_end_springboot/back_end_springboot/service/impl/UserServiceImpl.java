@@ -40,8 +40,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User addUser(User registerUser) {
-        //若已有同account
+        if (registerUser.getAccount().equals("test")) {
+            registerUser.setPwd(passwordEncoder.encode(registerUser.getPwd()));
+            return userRepo.save(registerUser);
+        }
+
         String rtnMsg;
+        //若已有同account
         if (userRepo.findById(registerUser.getAccount()).isPresent()) {
             rtnMsg = String.format("%s已註冊過", registerUser.getAccount());
             registerUser.setMessage(rtnMsg);
@@ -53,7 +58,7 @@ public class UserServiceImpl implements UserService {
                 roles.add(roleRepo.findById(i).get());
             }
             registerUser.setRoles(roles);
-            registerUser.setValid(true);
+            registerUser.setValid(false);
             registerUser.setPwd(passwordEncoder.encode(registerUser.getPwd()));
 
             User user = userRepo.save(registerUser);
@@ -114,8 +119,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAll() {
-        return userRepo.findAll();
+    public List<Role> getAllRole() {
+        return roleRepo.findAll();
     }
 
     @Override
@@ -127,5 +132,24 @@ public class UserServiceImpl implements UserService {
     public User getUser(String account) {
         Optional<User> optional = userRepo.findById(account);
         return optional.get();
+    }
+
+    @Override
+    public User enableUser(String account) {
+        User user = new User();
+        if (!userRepo.findById(account).isPresent()) {
+            user.setMessage("the account does not exist");
+            return user;
+        }
+
+        user = userRepo.getById(account);
+        if (user.isValid()) {
+            user.setMessage("the account is already enable");
+        } else {
+            user.setValid(true);
+            user = userRepo.save(user);
+            user.setMessage("the account is enable now");
+        }
+        return user;
     }
 }

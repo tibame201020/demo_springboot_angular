@@ -19,9 +19,11 @@ public interface UserService {
 
     boolean isAlreadyHavePhone(String phone);
 
-    List<User> getAll();
+    List<Role> getAllRole();
 
     void addRole(Role role);
 
     User getUser(String account);
+
+    User enableUser(String account);
 }
