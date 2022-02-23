@@ -3,6 +3,7 @@ package com.demo.back_end_springboot.back_end_springboot.config;
 import com.demo.back_end_springboot.back_end_springboot.filter.AuthorFilter;
 import com.demo.back_end_springboot.back_end_springboot.filter.CustomAuthorizaionFilter;
 import com.demo.back_end_springboot.back_end_springboot.service.AuthService;
+import com.demo.back_end_springboot.back_end_springboot.util.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,12 +27,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        AuthorFilter authorFilter = new AuthorFilter(authenticationManagerBean());
+        AuthorFilter authorFilter = new AuthorFilter(authenticationManagerBean(), new JwtProvider());
         authorFilter.setFilterProcessesUrl(LOGIN_URL);
 
        http.csrf().disable();
        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-       http.authorizeRequests().antMatchers(LOGIN_URL, REFRESH_TOKEN_URL, REGISTER_URL)
+       http.authorizeRequests().antMatchers(PASS_URLS)
                .permitAll();
 
        http.authorizeRequests().anyRequest().authenticated();
