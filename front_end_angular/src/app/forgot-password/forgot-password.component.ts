@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { UserAccountValidator } from '../share/validators/user-account-validator';
+import Swal from 'sweetalert2'
 import { UserService } from '../user.service';
 
 @Component({
@@ -11,7 +12,8 @@ import { UserService } from '../user.service';
   styleUrls: ['./forgot-password.component.css']
 })
 export class ForgotPasswordComponent implements OnInit {
-
+  checkPass:boolean = false;
+  mail:string='';
   form: FormGroup = new FormGroup({});
 
   constructor(private userService:UserService,
@@ -24,6 +26,8 @@ export class ForgotPasswordComponent implements OnInit {
     if (this.authService.isLogIn()) {
       this.router.navigate(['home']);
     }
+    this.checkPass = false;
+    this.mail = '';
   }
 
   private createForm():void {
@@ -34,8 +38,28 @@ export class ForgotPasswordComponent implements OnInit {
       });
   }
 
-  public onSubmit(form : FormGroup):void {
-
+  public resend() : void {
+    this.onSubmit(this.form);
   }
+
+  public onSubmit(form : FormGroup):void {
+    this.userService.checkRestPwdInfo(form.value).subscribe(
+      (res => {
+        this.checkPass = res.checkResult
+        if (res.checkResult) {
+          console.log(res)
+          this.mail = res.user_info.mail;
+        } else {
+          form.reset();
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'the account or mail is un corrent'
+          })
+        }
+      })
+    )
+  }
+
 
 }
