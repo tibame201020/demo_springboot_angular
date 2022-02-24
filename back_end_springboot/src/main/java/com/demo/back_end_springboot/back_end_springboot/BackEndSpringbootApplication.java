@@ -26,7 +26,7 @@ public class BackEndSpringbootApplication {
 			user.setAccount("test");
 			user.setPwd("123");
 			user.setValid(true);
-			user.setMail("");
+			user.setMail("sc30jie@gmail.com");
 			user.setPhone("");
 			user.setRoles(userService.getAllRole());
 			userService.addUser(user);

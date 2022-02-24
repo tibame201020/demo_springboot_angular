@@ -35,6 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
        http.authorizeRequests().antMatchers(PASS_URLS)
                .permitAll();
 
+       http.authorizeRequests().antMatchers("/api/user/testMock").hasAuthority("Seller");
        http.authorizeRequests().anyRequest().authenticated();
        http.addFilter(authorFilter);
        http.addFilterBefore(new CustomAuthorizaionFilter(), UsernamePasswordAuthenticationFilter.class);
