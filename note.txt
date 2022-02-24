@@ -1,17 +1,5 @@
 
-front_end:
-	forgot pwd >> valid byMail or byPhone >> sever side updatePwd
+once_token 改 account 為id 一個user 只有一個once token 不管是登入還是重設密碼
+todo
+use mail login
 
-
-
-back_end:
-	spring_mail(註冊後驗證mail) >> send email >> account valid >> home
-	spring_sms(手機登入) >> send sms >> angular to server check >> login
-	
-	
-login status (spring_security + angular_role?)
-hide login & signUp button
-show some btn
-
-L100168847
-B220313440
