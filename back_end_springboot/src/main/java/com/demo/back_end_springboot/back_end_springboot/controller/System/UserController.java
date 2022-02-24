@@ -141,4 +141,9 @@ public class UserController {
         user.setChangePwd(null);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
+
+    @RequestMapping("/testMock")
+    public String testmock() {
+        return "success";
+    }
 }

@@ -28,8 +28,7 @@ import static com.demo.back_end_springboot.back_end_springboot.constant.Security
 
 public class CustomAuthorizaionFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private JwtProvider jwtProvider;
+    private JwtProvider jwtProvider = new JwtProvider();
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

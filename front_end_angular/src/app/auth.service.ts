@@ -66,4 +66,9 @@ export class AuthService {
     )
     return rtn;
   }
+
+
+  test():Observable<any>{
+    return this.http.get<any>(`api/user/testMock`);
+  }
 }
