@@ -31,4 +31,6 @@ public interface UserService {
     Map<String, Object> checkAccountAndMail(User user);
 
     boolean checkResetToken(String account, String token);
+
+    User getUserByMail(String mail);
 }

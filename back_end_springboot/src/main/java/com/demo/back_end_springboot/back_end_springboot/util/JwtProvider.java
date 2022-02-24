@@ -9,6 +9,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.demo.back_end_springboot.back_end_springboot.domain.Auth;
 import com.demo.back_end_springboot.back_end_springboot.domain.Jwt;
 import com.demo.back_end_springboot.back_end_springboot.domain.Role;
+import org.apache.commons.math3.random.RandomDataGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
@@ -66,5 +67,15 @@ public class JwtProvider {
             jwt.setExpire(false);
         }
         return jwt;
+    }
+
+    public static String getRandomInts() {
+        RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
+        String rtn = "";
+        for (int i = 0; i < 4; i++) {
+            int random = randomDataGenerator.nextInt(0, 9);
+            rtn = rtn + random;
+        }
+        return rtn;
     }
 }

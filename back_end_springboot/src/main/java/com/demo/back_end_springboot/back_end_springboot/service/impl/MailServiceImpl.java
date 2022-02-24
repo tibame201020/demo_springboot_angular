@@ -47,10 +47,22 @@ public class MailServiceImpl implements MailService {
         String base_enable_url = "http://localhost:4200/user/reset_pwd?resetToken=";
         message.setText(preStr + base_enable_url + reset_token);
         sendMail(message);
-        onceTokenRepo.save(new OnceToken(null, user.getAccount(), reset_token));
+        onceTokenRepo.save(new OnceToken(user.getAccount(), reset_token));
         return user;
     }
 
+    @Override
+    public void sendMailForLogin(User user) {
+        SimpleMailMessage message = getSimpleMailMessage(user);
+        String login_token = jwtProvider.getToken(new Auth(user), 10*60*1000, "");
+        message.setSubject("This is for ur once login code");
+        String preStr = "Dear " + user.getAccount() + " :" + "\n";
+        preStr = preStr + "this is the code to use login, but it's only have ten min valid" + "\n";
+        String random = JwtProvider.getRandomInts();
+        message.setText(preStr + random);
+        sendMail(message);
+        onceTokenRepo.save(new OnceToken(user.getAccount(), login_token, random));
+    }
 
     private SimpleMailMessage getSimpleMailMessage(User user) {
         SimpleMailMessage message = new SimpleMailMessage();

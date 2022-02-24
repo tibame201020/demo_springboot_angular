@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface OnceTokenRepo extends JpaRepository<OnceToken, Integer> {
     Optional<OnceToken> findByAccountAndToken(String account, String token);
+    Optional<OnceToken> findByAccountAndShortRandom(String account, String shortRandom);
 }

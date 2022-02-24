@@ -9,25 +9,22 @@ import javax.persistence.Id;
 @Entity
 public class OnceToken {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
     @Column(nullable = false)
     private String account;
     @Column(nullable = false)
     private String token;
-    public OnceToken() {
-    }
-    public OnceToken(Object o, String account, String reset_token) {
+    @Column(nullable = true)
+    private String shortRandom;
+
+    public OnceToken(String account, String token) {
         this.account = account;
-        this.token = reset_token;
+        this.token = token;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public OnceToken(String account, String token, String shortRandom) {
+        this.account = account;
+        this.token = token;
+        this.shortRandom = shortRandom;
     }
 
     public String getAccount() {
@@ -44,5 +41,13 @@ public class OnceToken {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getShortRandom() {
+        return shortRandom;
+    }
+
+    public void setShortRandom(String shortRandom) {
+        this.shortRandom = shortRandom;
     }
 }

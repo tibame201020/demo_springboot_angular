@@ -2,6 +2,7 @@ package com.demo.back_end_springboot.back_end_springboot.controller.System;
 
 import com.demo.back_end_springboot.back_end_springboot.domain.Auth;
 import com.demo.back_end_springboot.back_end_springboot.domain.Jwt;
+import com.demo.back_end_springboot.back_end_springboot.domain.OnceToken;
 import com.demo.back_end_springboot.back_end_springboot.domain.User;
 import com.demo.back_end_springboot.back_end_springboot.service.MailService;
 import com.demo.back_end_springboot.back_end_springboot.service.UserService;
@@ -176,6 +177,24 @@ public class UserController {
         user.setChangePwd(changePwd);
         user = userService.updatePwd(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @RequestMapping("/requiredUseMailLogin")
+    public Map<String, Boolean> requireUseMailLogin(@RequestBody String mail) {
+        Map<String, Boolean> rtnMap = new HashMap<>();
+        boolean flag = false;
+        User user = userService.getUserByMail(mail);
+        if (user != null) {
+            flag = true;
+            mailService.sendMailForLogin(user);
+        }
+        rtnMap.put("result", flag);
+        return rtnMap;
+    }
+
+    @RequestMapping("/loginByShortCode")
+    public void loginByShortCode (@RequestBody OnceToken onceToken) {
+        onceToken.getAccount();
     }
 
     @RequestMapping("/testMock")
