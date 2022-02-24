@@ -47,8 +47,12 @@ export class ForgotPasswordComponent implements OnInit {
       (res => {
         this.checkPass = res.checkResult
         if (res.checkResult) {
-          console.log(res)
           this.mail = res.user_info.mail;
+          Swal.fire({
+            icon: 'success',
+            title: 'Ok...',
+            text: 'the reset pwd mail was send'
+          })
         } else {
           form.reset();
           Swal.fire({
