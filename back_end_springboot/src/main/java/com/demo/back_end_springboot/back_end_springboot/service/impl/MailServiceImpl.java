@@ -1,7 +1,9 @@
 package com.demo.back_end_springboot.back_end_springboot.service.impl;
 
 import com.demo.back_end_springboot.back_end_springboot.domain.Auth;
+import com.demo.back_end_springboot.back_end_springboot.domain.OnceToken;
 import com.demo.back_end_springboot.back_end_springboot.domain.User;
+import com.demo.back_end_springboot.back_end_springboot.repo.OnceTokenRepo;
 import com.demo.back_end_springboot.back_end_springboot.service.MailService;
 import com.demo.back_end_springboot.back_end_springboot.util.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +18,14 @@ public class MailServiceImpl implements MailService {
     private JavaMailSender mailSender;
     @Autowired
     private JwtProvider jwtProvider;
+    @Autowired
+    private OnceTokenRepo onceTokenRepo;
 
     @Override
     public User sendValidMail(User user) {
         SimpleMailMessage message = getSimpleMailMessage(user);
-        message.setSubject("Thanks Register Start Ur Journey");
-        //todo
-        String valid_token = jwtProvider.getToken(new Auth(user), 7*24*60*1000, "");
+        message.setSubject("HI " + user.getAccount() + " Thanks Register Start Ur Journey");
+        String valid_token = jwtProvider.getToken(new Auth(user), 7*24*60*60*1000, "");
         //this is need to generate a link to valid user
         String preStr = "Dear " + user.getAccount() + " :" + "\n";
 
@@ -37,11 +40,14 @@ public class MailServiceImpl implements MailService {
     @Override
     public User sendResetPwdMail(User user) {
         SimpleMailMessage message = getSimpleMailMessage(user);
+        String reset_token = jwtProvider.getToken(new Auth(user), 10*60*1000, "");
         message.setSubject("Reset Ur Password");
-        //todo
-        // this is need to generate a link to reset user password
-        message.setText("");
+        String preStr = "Dear " + user.getAccount() + " :" + "\n";
+        preStr = preStr + "plz click the under url to reset ur pwd, but it's only have ten min to reset" + "\n";
+        String base_enable_url = "http://localhost:4200/user/reset_pwd?resetToken=";
+        message.setText(preStr + base_enable_url + reset_token);
         sendMail(message);
+        onceTokenRepo.save(new OnceToken(null, user.getAccount(), reset_token));
         return user;
     }
 
@@ -54,6 +60,6 @@ public class MailServiceImpl implements MailService {
 
     private void sendMail(SimpleMailMessage message) {
         message.setFrom("localjokerfool@hotmail.com");
-        mailSender.send(message);
+        new Thread(() -> mailSender.send(message)).start();
     }
 }

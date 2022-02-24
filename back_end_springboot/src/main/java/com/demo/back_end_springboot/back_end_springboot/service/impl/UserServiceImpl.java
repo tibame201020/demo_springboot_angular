@@ -1,8 +1,10 @@
 package com.demo.back_end_springboot.back_end_springboot.service.impl;
 
+import com.demo.back_end_springboot.back_end_springboot.domain.OnceToken;
 import com.demo.back_end_springboot.back_end_springboot.domain.Role;
 import com.demo.back_end_springboot.back_end_springboot.domain.User;
 import com.demo.back_end_springboot.back_end_springboot.exception.UserNotFoundException;
+import com.demo.back_end_springboot.back_end_springboot.repo.OnceTokenRepo;
 import com.demo.back_end_springboot.back_end_springboot.repo.RoleRepo;
 import com.demo.back_end_springboot.back_end_springboot.repo.UserRepo;
 import com.demo.back_end_springboot.back_end_springboot.service.UserService;
@@ -11,7 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -20,6 +24,8 @@ public class UserServiceImpl implements UserService {
     private UserRepo userRepo;
     @Autowired
     private RoleRepo roleRepo;
+    @Autowired
+    private OnceTokenRepo onceTokenRepo;
 
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -79,6 +85,7 @@ public class UserServiceImpl implements UserService {
             rtnMsg = "原有密碼不對";
         } else {
             user.setPwd(user.getChangePwd());
+            user.setPwd(passwordEncoder.encode(user.getPwd()));
             user.setChangePwd("");
             user = userRepo.save(user);
             rtnMsg = String.format("%s帳號已更新密碼，往後請用新密碼登入", user.getAccount());
@@ -151,5 +158,31 @@ public class UserServiceImpl implements UserService {
             user.setMessage("the account is enable now");
         }
         return user;
+    }
+
+    @Override
+    public Map<String, Object> checkAccountAndMail(User user) {
+        Map<String, Object> rtnMap = new HashMap<>();
+        boolean checkResult;
+        User userGetByAccount = getUser(user.getAccount());
+        if (user.getMail().equals(userGetByAccount.getMail())) {
+            checkResult = true;
+        } else {
+            checkResult = false;
+        }
+        rtnMap.put("checkResult", checkResult);
+        rtnMap.put("user_info", user);
+        return rtnMap;
+    }
+
+    @Override
+    public boolean checkResetToken(String account, String token) {
+        Optional<OnceToken> optional = onceTokenRepo.findByAccountAndToken(account, token);
+        if (optional.isPresent()) {
+            onceTokenRepo.delete(optional.get());
+            return true;
+        } else {
+            return false;
+        }
     }
 }

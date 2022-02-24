@@ -46,8 +46,8 @@ public class UserController {
             return new ResponseEntity<>(registerUser, HttpStatus.OK);
         }
         User user = userService.addUser(registerUser);
-        // 發驗證信 尚未實作
-//        mailService.sendValidMail(user);
+
+        mailService.sendValidMail(user);
 
 
         return new ResponseEntity<>(user, HttpStatus.OK);
@@ -142,8 +142,46 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    @RequestMapping("/checkResetToken")
+    public Map<String,Object> checkResetToken (@RequestBody String token) {
+        Map<String,Object> rtnMap = new HashMap<>();
+        Jwt jwt = jwtProvider.validToken(token);
+        String account = jwt.getAccount();
+        if (jwt.isExpire() && userService.checkResetToken(account, token)) {
+            rtnMap.put("token_ok", true);
+            rtnMap.put("user_info", jwt);
+        } else {
+            rtnMap.put("token_ok", false);
+        }
+        return rtnMap;
+    }
+
+    @RequestMapping("/reset_password_confirm")
+    public Map<String,Object> resetPwdConfirm(@RequestBody User user) {
+        Map<String,Object> rtnMap = userService.checkAccountAndMail(user);
+        boolean flag = false;
+        if (rtnMap.get("checkResult") instanceof Boolean) {
+            flag = (boolean) rtnMap.get("checkResult");
+        }
+        if (flag) {
+            mailService.sendResetPwdMail(user);
+        }
+        return rtnMap;
+    }
+
+    @RequestMapping("/resetPwd")
+    public ResponseEntity<User> resetPwd(@RequestBody User user) {
+        String changePwd = user.getPwd();
+        user = userService.getUser(user.getAccount());
+        user.setChangePwd(changePwd);
+        user = userService.updatePwd(user);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
     @RequestMapping("/testMock")
-    public String testmock() {
-        return "success";
+    public Map<String, String> testmock() {
+        Map<String, String> map = new HashMap<>();
+        map.put("rtn","success");
+        return map;
     }
 }
