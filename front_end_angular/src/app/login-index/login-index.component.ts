@@ -41,11 +41,13 @@ export class LoginIndexComponent implements OnInit {
         } else {
           if (res.un_success_msg === 'the account is not enable yet') {
             res.link = reSendMail;
+            res.icon = 'info';
           } else {
             res.link = forgotPwd;
+            res.icon = 'error';
           }
           Swal.fire({
-            icon: 'error',
+            icon: res.icon,
             title: 'Oops...',
             text: res.un_success_msg,
             footer: res.link

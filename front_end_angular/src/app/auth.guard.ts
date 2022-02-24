@@ -21,12 +21,14 @@ export class AuthGuard implements CanActivate {
       if (route.data['roles'] && JSON.stringify(user.roles).indexOf(route.data['roles']) === -1) {
           this.forwardMessageService.setMessage('未有權限，將跳轉至首頁');
           this.forwardMessageService.setNextRoute('home');
+          this.forwardMessageService.setIcon('warning');
           this.router.navigate(['forward']);
           return false;
       }
       return true;
     }
     this.forwardMessageService.setMessage('尚未登入，將跳轉至登入頁面');
+    this.forwardMessageService.setIcon('error');
     this.forwardMessageService.setNextRoute('login');
     this.router.navigate(['forward']);
 

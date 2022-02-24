@@ -27,6 +27,7 @@ export class ValidUserComponent implements OnInit {
       if (!queryParams['validToken']) {
         this.forwardMessageService.setMessage(`don't has the token`);
         this.forwardMessageService.setNextRoute('home');
+        this.forwardMessageService.setIcon('error');
         this.router.navigate(['forward']);
       } else {
         this.userService.enableAccount(queryParams['validToken']).subscribe(
@@ -37,12 +38,14 @@ export class ValidUserComponent implements OnInit {
               case (this.message.indexOf("the account is already enable") !=-1):
                 this.forwardMessageService.setMessage(this.message);
                 this.forwardMessageService.setNextRoute('home');
+                this.forwardMessageService.setIcon('info');
                 this.router.navigate(['forward']);
               break;
               // the account is already enable; => home
               case (this.message.indexOf("the account is enable now") !=-1):
                 this.forwardMessageService.setMessage(this.message);
                 this.forwardMessageService.setNextRoute('home');
+                this.forwardMessageService.setIcon('success');
                 this.router.navigate(['forward']);
               break;
               // the token has expired; => re-send-mail-> or change mail to send
@@ -53,24 +56,28 @@ export class ValidUserComponent implements OnInit {
               case (this.message.indexOf("the token is un-valid") !=-1):
                 this.forwardMessageService.setMessage(this.message);
                 this.forwardMessageService.setNextRoute('home');
+                this.forwardMessageService.setIcon('error');
                 this.router.navigate(['forward']);
               break;
               // the token can not be verify; => home
               case (this.message.indexOf("the token can not be verify") != -1):
                 this.forwardMessageService.setMessage(this.message);
                 this.forwardMessageService.setNextRoute('home');
+                this.forwardMessageService.setIcon('error');
                 this.router.navigate(['forward']);
               break;
               // the account does not exist; => home
               case (this.message.indexOf("the account does not exist") != -1):
                 this.forwardMessageService.setMessage(this.message);
                 this.forwardMessageService.setNextRoute('home');
+                this.forwardMessageService.setIcon('error');
                 this.router.navigate(['forward']);
               break;
               // res no mapping any message; => home
               case (true) :
                 this.forwardMessageService.setMessage('res no mapping message');
                 this.forwardMessageService.setNextRoute('home');
+                this.forwardMessageService.setIcon('error');
                 this.router.navigate(['forward']);
               break;
             }

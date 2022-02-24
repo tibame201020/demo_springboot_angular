@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class ForwardMessageService {
   private message? : string;
   private nextRoute? : string;
+  private icon?: string;
   constructor() { }
 
   public setMessage(message:string):void {
@@ -22,6 +23,14 @@ export class ForwardMessageService {
 
   public get getNextRoute(): string {
     return this.nextRoute || '';
+  }
+
+  public setIcon(icon:string):void {
+    this.icon = icon;
+  }
+
+  public get getIcon(): string {
+    return this.icon || '';
   }
 
 
