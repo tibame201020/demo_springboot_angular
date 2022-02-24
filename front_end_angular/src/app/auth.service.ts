@@ -68,7 +68,7 @@ export class AuthService {
   }
 
 
-  test():Observable<any>{
-    return this.http.get<any>(`api/user/testMock`);
+  test():Observable<string>{
+    return this.http.post<string>(`api/user/testMock`, "");
   }
 }

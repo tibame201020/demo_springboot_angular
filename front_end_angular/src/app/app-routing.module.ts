@@ -11,6 +11,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ReaderComponent } from './reader/reader.component';
 import { PublisherComponent } from './publisher/publisher.component';
 import { Role } from './model/role_enum';
+import { UserResetPwdComponent } from './user-reset-pwd/user-reset-pwd.component';
 
 
 const routes: Routes = [
@@ -31,6 +32,7 @@ const routes: Routes = [
   {path:"login/login_by_mail", component:LoginByMailComponent},
   {path:"forward", component:ForwardComponent},
   {path:"valid", component:ValidUserComponent},
+  {path:"user/reset_pwd", component:UserResetPwdComponent},
   {path:'', redirectTo:"/home", pathMatch: 'full'}
 ];
 
