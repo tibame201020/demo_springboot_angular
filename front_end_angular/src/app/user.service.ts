@@ -28,5 +28,17 @@ export class UserService {
     return this.http.post<User>(`api/user/enableTheAccount`, token);
   }
 
+  public checkRestPwdInfo (user:User) : Observable<any> {
+    return this.http.post<any>('api/user/reset_password_confirm', user);
+  }
+
+  public checkResetToken (token:string) : Observable<any> {
+    return this.http.post<any>(`api/user/checkResetToken`, token);
+  }
+
+  public resetPwd (user:User) : Observable<User> {
+    return this.http.post<User>(`api/user/resetPwd`, user);
+  }
+
 
 }
