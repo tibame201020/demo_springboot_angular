@@ -72,7 +72,7 @@ public class JwtProvider {
     public static String getRandomInts() {
         RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
         String rtn = "";
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
             int random = randomDataGenerator.nextInt(0, 9);
             rtn = rtn + random;
         }

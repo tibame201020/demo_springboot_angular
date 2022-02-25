@@ -7,7 +7,8 @@ public class SecurityConstant {
     public static final String ENABLE_USER_URL = "/api/user/enableTheAccount";
     public static final String RESET_PWD_CONFIRM_URL = "/api/user/reset_password_confirm";
     public static final String CHECK_RESET_TOKEN_URL = "/api/user/checkResetToken";
-    private static final String RESET_PWD_URL = "/api/user/resetPwd";
+    public static final String RESET_PWD_URL = "/api/user/resetPwd";
+    public static final String LOGIN_BY_MAIL_CHECK_URL = "/api/user/requiredUseMailLogin";
 
     public static final String VALID_SUCCESSFUL_MSG = "the token is valid";
     public static final String VALID_UNSUCCESSFUL_EXPIRED_MSG = "the token has Expired";
@@ -22,7 +23,7 @@ public class SecurityConstant {
     public static final String[] PASS_URLS =
             new String[] { LOGIN_URL, REGISTER_URL, REFRESH_TOKEN_URL,
                     RESET_PWD_CONFIRM_URL, ENABLE_USER_URL, "/api/user/test"
-    , CHECK_RESET_TOKEN_URL, RESET_PWD_URL};
+    , CHECK_RESET_TOKEN_URL, RESET_PWD_URL, LOGIN_BY_MAIL_CHECK_URL};
 
 
 }

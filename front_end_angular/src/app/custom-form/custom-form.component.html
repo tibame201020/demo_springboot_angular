@@ -1,0 +1,15 @@
+<div class="container loginForm">
+  <h2>{{formTitle}}</h2>
+  <br>
+  <form>
+      <app-custom-input [customInput] = "customInput"></app-custom-input>
+      <app-custom-input [customInput] = "customInput2"></app-custom-input>
+      <div *ngIf="!this.customFormService.getFormCheck()">
+        <button id="requiredMsg" type="submit" class="btn btn-default submit" [disabled]="true">Plz Enter The Necessary Info</button>
+      </div>
+      <div *ngIf="this.customFormService.getFormCheck()">
+        <button type="submit" class="btn btn-default submit" [disabled]="!this.customFormService.getFormCheck()" >Send The Verification Code</button>
+      </div>
+  </form>
+
+  {{this.customFormService.getFormCheck()}}

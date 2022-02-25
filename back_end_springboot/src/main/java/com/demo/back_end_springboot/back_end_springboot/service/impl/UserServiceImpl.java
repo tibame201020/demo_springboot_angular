@@ -185,10 +185,4 @@ public class UserServiceImpl implements UserService {
             return false;
         }
     }
-
-    @Override
-    public User getUserByMail(String mail) {
-        Optional<User> optional = userRepo.findFirstByMail(mail);
-        return optional.get();
-    }
 }

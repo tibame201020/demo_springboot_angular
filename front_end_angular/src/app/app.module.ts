@@ -17,6 +17,8 @@ import { ValidUserComponent } from './valid-user/valid-user.component';
 import { UnValidUserComponent } from './un-valid-user/un-valid-user.component';
 import { LoginByMailComponent } from './login-by-mail/login-by-mail.component';
 import { UserResetPwdComponent } from './user-reset-pwd/user-reset-pwd.component';
+import { CustomInputComponent } from './custom-input/custom-input.component';
+import { CustomFormComponent } from './custom-form/custom-form.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { UserResetPwdComponent } from './user-reset-pwd/user-reset-pwd.component
     ValidUserComponent,
     UnValidUserComponent,
     LoginByMailComponent,
-    UserResetPwdComponent
+    UserResetPwdComponent,
+    CustomInputComponent,
+    CustomFormComponent
   ],
   imports: [
     BrowserModule,

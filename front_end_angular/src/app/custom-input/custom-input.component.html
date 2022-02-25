@@ -1,0 +1,16 @@
+<div *ngIf="customInput">
+<div class="form-group has-feedback">
+  <input type="{{type}}" class="form-control form-input" placeholder="{{placeHolder}}" [(ngModel)]="value">
+  <span class="glyphicon form-control-feedback">
+    <span>
+      <pre *ngIf="checkRequired()">{{this.customInputService.requiredMsg}}</pre>
+      <pre *ngIf="checkPattern()">{{this.customInputService.patternMsg}}</pre>
+      <pre *ngIf="checkCustom()">{{this.customInputService.customMsg}}</pre>
+    </span>
+  </span>
+</div>
+</div>
+
+{{!this.checkRequired()}}
+{{!this.checkPattern()}}
+{{!this.checkCustom()}}

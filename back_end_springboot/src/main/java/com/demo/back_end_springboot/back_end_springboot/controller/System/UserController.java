@@ -180,16 +180,8 @@ public class UserController {
     }
 
     @RequestMapping("/requiredUseMailLogin")
-    public Map<String, Boolean> requireUseMailLogin(@RequestBody String mail) {
-        Map<String, Boolean> rtnMap = new HashMap<>();
-        boolean flag = false;
-        User user = userService.getUserByMail(mail);
-        if (user != null) {
-            flag = true;
-            mailService.sendMailForLogin(user);
-        }
-        rtnMap.put("result", flag);
-        return rtnMap;
+    public Map<String, Object> requireUseMailLogin(@RequestBody String mail) {
+        return mailService.sendMailForLogin(mail);
     }
 
     @RequestMapping("/loginByShortCode")

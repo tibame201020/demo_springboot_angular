@@ -16,6 +16,9 @@ public class OnceToken {
     @Column(nullable = true)
     private String shortRandom;
 
+    public OnceToken() {
+    }
+
     public OnceToken(String account, String token) {
         this.account = account;
         this.token = token;

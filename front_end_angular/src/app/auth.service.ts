@@ -67,6 +67,10 @@ export class AuthService {
     return rtn;
   }
 
+  loginByMailCheck(mail:string):Observable<any>{
+    return this.http.post<any>(`api/user/requiredUseMailLogin`, mail);
+  }
+
 
   test():Observable<string>{
     return this.http.post<string>(`api/user/testMock`, "");

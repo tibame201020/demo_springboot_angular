@@ -4,12 +4,17 @@ import com.demo.back_end_springboot.back_end_springboot.domain.Auth;
 import com.demo.back_end_springboot.back_end_springboot.domain.OnceToken;
 import com.demo.back_end_springboot.back_end_springboot.domain.User;
 import com.demo.back_end_springboot.back_end_springboot.repo.OnceTokenRepo;
+import com.demo.back_end_springboot.back_end_springboot.repo.UserRepo;
 import com.demo.back_end_springboot.back_end_springboot.service.MailService;
 import com.demo.back_end_springboot.back_end_springboot.util.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class MailServiceImpl implements MailService {
@@ -20,6 +25,8 @@ public class MailServiceImpl implements MailService {
     private JwtProvider jwtProvider;
     @Autowired
     private OnceTokenRepo onceTokenRepo;
+    @Autowired
+    private UserRepo userRepo;
 
     @Override
     public User sendValidMail(User user) {
@@ -52,16 +59,27 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public void sendMailForLogin(User user) {
-        SimpleMailMessage message = getSimpleMailMessage(user);
-        String login_token = jwtProvider.getToken(new Auth(user), 10*60*1000, "");
-        message.setSubject("This is for ur once login code");
-        String preStr = "Dear " + user.getAccount() + " :" + "\n";
-        preStr = preStr + "this is the code to use login, but it's only have ten min valid" + "\n";
-        String random = JwtProvider.getRandomInts();
-        message.setText(preStr + random);
-        sendMail(message);
-        onceTokenRepo.save(new OnceToken(user.getAccount(), login_token, random));
+    public Map<String, Object> sendMailForLogin(String mail) {
+        Map<String, Object> rtnMap = new HashMap<>();
+        Optional<User> optionalUser = userRepo.findFirstByMail(mail);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            SimpleMailMessage message = getSimpleMailMessage(user);
+            String login_token = jwtProvider.getToken(new Auth(user), 10*60*1000, "");
+            message.setSubject("This is for ur once login code");
+            String preStr = "Dear " + user.getAccount() + " :" + "\n";
+            preStr = preStr + "this is the code to use login, but it's only have ten min valid" + "\n";
+            String random = JwtProvider.getRandomInts();
+            message.setText(preStr + random);
+            // sendMail(message);
+            onceTokenRepo.save(new OnceToken(user.getAccount(), login_token, random));
+            rtnMap.put("result", true);
+            user.setPwd(null);
+            rtnMap.put("user_info", user);
+        } else {
+            rtnMap.put("result", false);
+        }
+        return rtnMap;
     }
 
     private SimpleMailMessage getSimpleMailMessage(User user) {
