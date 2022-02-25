@@ -4,13 +4,36 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class CustomFormService {
-  private formCehck?:boolean;
-  constructor() { }
-  public setformCehck(flag:boolean) {
-    this.formCehck = flag;
-    console.log('this is ' + this.formCehck);
+  private formObj:any = { "default" : false };
+  private form:any = {};
+
+  constructor() {
+    this.formObj = { "default" : false };
+    this.form = {};
   }
-  public getFormCheck():boolean {
-    return this.formCehck || false;
+
+  public setNameAndValue(key:any, isValid:boolean, value:any) {
+    if (isValid && !this.formObj.default) {
+      delete this.formObj.default;
+    }
+    this.formObj[key] = isValid;
+    this.form[key] = value;
+    console.log(this.form);
+    console.log(this.formObj);
+  }
+  public isFormValid():boolean {
+    for (const key in this.formObj) {
+      if (Object.prototype.hasOwnProperty.call(this.formObj, key)) {
+        const element = this.formObj[key];
+        if (!element) {
+          return false
+        }
+      }
+    }
+    return true;
+  }
+
+  public getForm() {
+    return this.form;
   }
 }

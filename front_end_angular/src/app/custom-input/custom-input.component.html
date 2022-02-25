@@ -1,6 +1,6 @@
 <div *ngIf="customInput">
 <div class="form-group has-feedback">
-  <input type="{{type}}" class="form-control form-input" placeholder="{{placeHolder}}" [(ngModel)]="value">
+  <input type="{{type}}" class="form-control form-input" placeholder="{{placeHolder}}" [(ngModel)]="value" (ngModelChange)="setto()">
   <span class="glyphicon form-control-feedback">
     <span>
       <pre *ngIf="checkRequired()">{{this.customInputService.requiredMsg}}</pre>
@@ -10,7 +10,3 @@
   </span>
 </div>
 </div>
-
-{{!this.checkRequired()}}
-{{!this.checkPattern()}}
-{{!this.checkCustom()}}

@@ -9,21 +9,25 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./custom-input.component.css']
 })
 export class CustomInputComponent implements OnInit {
-  type:string ='text';
-  placeHolder:string = 'test placeHolder';
-  name:string='test name';
-  value:string='test value';
+  type:string ='';
+  placeHolder:string = '';
+  name:string='';
+  value:string='';
   @Input() customInput?:CustomInput;
   @Input() text?:string;
 
 
+
+
   public customInputService: CustomInputService = new CustomInputService();
 
-  constructor(private customFormService:CustomFormService) { }
+  constructor(private customFormService:CustomFormService) {
+   }
 
   ngOnInit(): void {
     this.customInputService.fieldname = this.name;
     this.customInputService = new CustomInputService().set(this.customInput);
+    this.setto();
   }
 
   checkRequired():boolean {
@@ -38,5 +42,16 @@ export class CustomInputComponent implements OnInit {
     return this.customInputService.checkCustom(this.value);
   }
 
+  checkAllPass():boolean {
+    if (this.checkRequired() || this.checkPattern() || this.checkCustom()) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  public setto(){
+    this.customFormService.setNameAndValue(this.customInput?.fieldName, this.checkAllPass(), this.value);
+  }
 
 }

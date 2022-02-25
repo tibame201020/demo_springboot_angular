@@ -1,4 +1,3 @@
-import { CustomFormService } from './../custom-form.service';
 export interface CustomInput {
   fieldName:string,
   required:boolean,
