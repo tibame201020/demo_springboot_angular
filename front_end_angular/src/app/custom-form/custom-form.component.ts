@@ -9,69 +9,86 @@ import { CustomInput } from '../model/customInput';
 })
 export class CustomFormComponent implements OnInit {
 
-  formTitle:string = 'test title';
-  customInputArray:CustomInput[] = [
+  formTitle: string = 'test title';
+  customInputArray: CustomInput[] = [
     {
-      fieldName: 's',
-      required: true,
-      pattern: true,
-      regex: /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/,
-      custom: false,
-      custoumRule: function (value: string) {
-        if (value.length == 2) {
-          return false;
-        } else {
-          return true;
-        }
+      fieldName: 'text1',
+      type: 'text',
+      value: '',
+      palceholder: '',
+      require: {
+        valid: true,
+        errorMsg: 'this field is required'
       },
-      requiredMsg: '',
-      patternMsg: '',
-      customMsg: ''
+      regexs: {
+        valid: false,
+        pattern: undefined,
+        errorMsg: 'the enter value is un-correct'
+      },
+      customRule: {
+        valid: false,
+        rule: undefined,
+        errorMsg: 'this enter value is un-valid'
+      }
     },
     {
-      fieldName: '2s',
-      required: true,
-      pattern: true,
-      regex: /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/,
-      custom: false,
-      custoumRule: function (value: string) {
-        if (value.length == 2) {
-          return false;
-        } else {
-          return true;
-        }
+      fieldName: 'text2',
+      type: 'text',
+      value: '',
+      palceholder: '',
+      require: {
+        valid: true,
+        errorMsg: 'this field is required'
       },
-      requiredMsg: '123',
-      patternMsg: '',
-      customMsg: '234'
+      regexs: {
+        valid: true,
+        pattern: /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/,
+        errorMsg: 'the enter value is un-correct'
+      },
+      customRule: {
+        valid: false,
+        rule: null,
+        errorMsg: 'this enter value is un-valid'
+      }
     },
     {
-      fieldName: 'field_3',
-      required: false,
-      pattern: true,
-      regex: /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/,
-      custom: false,
-      custoumRule: function (value: string) {
-        if (value.length == 2) {
-          return false;
-        } else {
-          return true;
-        }
+      fieldName: 'text3',
+      type: 'text',
+      value: '',
+      palceholder: '',
+      require: {
+        valid: true,
+        errorMsg: 'this field is required'
       },
-      requiredMsg: '123',
-      patternMsg: '',
-      customMsg: '234'
+      regexs: {
+        valid: false,
+        pattern: null,
+        errorMsg: 'the enter value is un-correct'
+      },
+      customRule: {
+        valid: true,
+        rule: function (value: string) {
+          if (value.length == 2) {
+            return false;
+          } else {
+            return true;
+          }
+        },
+        errorMsg: 'this enter value is un-valid'
+      }
     }
   ];
-  formBtn = { valid:"send the form",
-              unvalid: 'Plz Enter The Necessary Info' }
+  formBtn = {
+    valid: "send the form",
+    unvalid: 'Plz Enter The Necessary Info'
+  }
 
-  constructor(public customFormService:CustomFormService) { }
+  constructor(public customFormService: CustomFormService) { }
 
   ngOnInit(): void {
   }
 
-  customClick():void {
+  customClick(): void {
     alert(JSON.stringify(this.customFormService.getForm()))
     console.log(this.customFormService.getForm())
   }

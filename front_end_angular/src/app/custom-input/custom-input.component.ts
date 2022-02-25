@@ -1,6 +1,5 @@
 import { CustomFormService } from './../custom-form.service';
 import { CustomInput } from './../model/customInput';
-import { CustomInputService } from './../custom-input.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
@@ -9,40 +8,66 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./custom-input.component.css']
 })
 export class CustomInputComponent implements OnInit {
-  type:string ='';
-  placeHolder:string = '';
-  name:string='';
-  value:string='';
-  @Input() customInput?:CustomInput;
-  @Input() text?:string;
+  @Input() customInput?: CustomInput;
+  type: string = '';
+  placeHolder: string = '';
+  name: string = '';
+  value: string = '';
+  require_err: string = '';
+  regexs_err: string = '';
+  custom_err: string = '';
 
-
-
-
-  public customInputService: CustomInputService = new CustomInputService();
-
-  constructor(private customFormService:CustomFormService) {
-   }
+  constructor(private customFormService: CustomFormService) {
+  }
 
   ngOnInit(): void {
-    this.customInputService.fieldname = this.name;
-    this.customInputService = new CustomInputService().set(this.customInput);
-    this.setto();
+    this.require_err = this.customInput?.require.errorMsg? this.customInput?.require.errorMsg : '';
+    this.regexs_err = this.customInput?.regexs.errorMsg? this.customInput?.regexs.errorMsg : '';
+    this.custom_err = this.customInput?.customRule.errorMsg? this.customInput?.customRule.errorMsg : '';
+
+    this.setToTheForm();
   }
 
-  checkRequired():boolean {
-    return this.customInputService.checkRequired(this.value);
+  checkRequired(): boolean {
+    const value = this.value;
+    if (!this.checkPattern() && !this.checkCustom()) {
+      if (!this.customInput?.require.valid) {
+        return false;
+      }
+      if (value.length == 0) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
   }
 
-  checkPattern():boolean {
-    return this.customInputService.checkPattern(this.value);
+  checkPattern(): boolean {
+    const value = this.value;
+    if (!this.customInput?.regexs.valid || value.length == 0) {
+      return false;
+    } else {
+      const regex = new RegExp(this.customInput.regexs.pattern);
+      return !regex.test(value);
+    }
   }
 
-  checkCustom():boolean {
-    return this.customInputService.checkCustom(this.value);
+  checkCustom(): boolean {
+    const value = this.value;
+    if (!this.checkPattern()) {
+      if (!this.customInput?.customRule.valid || value.length == 0 || !this.customInput.customRule.rule) {
+        return false;
+      } else {
+        return this.customInput.customRule.rule(value);
+      }
+    } else {
+      return false;
+    }
   }
 
-  checkAllPass():boolean {
+  checkAllPass(): boolean {
     if (this.checkRequired() || this.checkPattern() || this.checkCustom()) {
       return false;
     } else {
@@ -50,8 +75,9 @@ export class CustomInputComponent implements OnInit {
     }
   }
 
-  public setto(){
-    this.customFormService.setNameAndValue(this.customInput?.fieldName, this.checkAllPass(), this.value);
+  public setToTheForm() {
+    const key = this.customInput?.fieldName;
+    this.customFormService.setNameAndValue(key, this.checkAllPass(), this.value);
   }
 
 }

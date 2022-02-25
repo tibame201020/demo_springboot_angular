@@ -2,14 +2,15 @@
   <h2>{{formTitle}}</h2>
   <br>
   <form>
-      <div *ngFor="let input of customInputArray">
-        <app-custom-input [customInput] = "input"></app-custom-input>
-
-      </div>
-      <div *ngIf="!this.customFormService.isFormValid()">
-        <button id="requiredMsg" type="submit" class="btn btn-default submit" [disabled]="true">{{formBtn.unvalid}}</button>
-      </div>
-      <div *ngIf="this.customFormService.isFormValid()">
-        <button type="submit" class="btn btn-default submit" [disabled]="!this.customFormService.isFormValid()" (click)="customClick()" >{{formBtn.valid}}</button>
-      </div>
+    <div *ngFor="let input of customInputArray">
+      <app-custom-input [customInput]="input"></app-custom-input>
+    </div>
+    <div *ngIf="!this.customFormService.isFormValid()">
+      <button id="requiredMsg" type="submit" class="btn btn-default submit"
+        [disabled]="true">{{formBtn.unvalid}}</button>
+    </div>
+    <div *ngIf="this.customFormService.isFormValid()">
+      <button type="submit" class="btn btn-default submit" [disabled]="!this.customFormService.isFormValid()"
+        (click)="customClick()">{{formBtn.valid}}</button>
+    </div>
   </form>
