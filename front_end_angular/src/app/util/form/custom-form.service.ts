@@ -18,8 +18,6 @@ export class CustomFormService {
     }
     this.formObj[key] = isValid;
     this.form[key] = value;
-    console.log(this.form);
-    console.log(this.formObj);
   }
   public isFormValid():boolean {
     for (const key in this.formObj) {

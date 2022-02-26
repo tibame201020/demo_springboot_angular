@@ -1,6 +1,6 @@
 <div *ngIf="customInput">
   <div class="form-group has-feedback">
-    <input type="{{type}}" class="form-control form-input" placeholder="{{placeHolder}}" [(ngModel)]="value"
+    <input type="{{this.customInput?.type}}" class="form-control form-input" placeholder="{{this.customInput?.palceholder}}" [(ngModel)]="value"
       (ngModelChange)="setToTheForm()">
     <span class="glyphicon form-control-feedback">
       <span>
