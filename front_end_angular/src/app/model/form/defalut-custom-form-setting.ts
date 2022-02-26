@@ -1,3 +1,4 @@
+import { CustomFormService } from "src/app/util/form/custom-form.service";
 import { CustomForm } from "./customFrom";
 export const customFromDefaultSetting: CustomForm = {
   formTitle: "defalut title",
@@ -8,5 +9,9 @@ export const customFromDefaultSetting: CustomForm = {
   },
   submitFunction: function (formValue: any) {
     console.log(formValue);
+  },
+  service: new CustomFormService,
+  getParams: function () {
+    throw new Error("Function not implemented.");
   }
 }

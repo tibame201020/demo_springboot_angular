@@ -1,3 +1,4 @@
+import { CustomFormService } from './../../util/form/custom-form.service';
 import { customFromDefaultSetting } from './defalut-custom-form-setting';
 import { CustomInput } from "./customInput";
 
@@ -8,7 +9,10 @@ export interface CustomForm {
     valid: string,
     unvalid: string
   },
-  submitFunction: any
+  submitFunction: any,
+  service:CustomFormService
+
+  getParams():any;
 }
 
 export class CustomFormBulider implements CustomForm {
@@ -18,6 +22,7 @@ export class CustomFormBulider implements CustomForm {
   customInputArray: CustomInput[] = [];
   formBtn: { valid: string; unvalid: string; } = { valid:"send the form",unvalid:"Plz Enter The Necessary Info"};
   submitFunction: any;
+  service:CustomFormService = new CustomFormService;
 
 
   setTitle(title: string): CustomFormBulider {
@@ -65,6 +70,10 @@ export class CustomFormBulider implements CustomForm {
         }
     }
     return formSetting;
+  }
+
+  getParams():any {
+    return this.service.getForm();
   }
 
 }

@@ -33,5 +33,15 @@ export class FrontIndexComponent implements OnInit {
       const inputArray = [account, mail];
       const form = this.FormBuilderService.createForm().setTitle('We Will Help U').setFormBtnValid('Send The ResetPwd to Email').setInputArray(inputArray).bulid();
       this.formSetting = form;
+      console.log(this.formSetting)
+  }
+
+  public onSubmit(form:any):void {
+    console.log(form)
+    this.UserService.checkRestPwdInfo(form).subscribe(
+      (res => {
+        console.log(res)
+      })
+    )
   }
 }
