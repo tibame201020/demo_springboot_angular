@@ -47,8 +47,8 @@ public class JwtProvider {
         try {
             DecodedJWT decodedJWT = verifier.verify(token);
             jwt.setAccount(decodedJWT.getSubject());
+            jwt.setIssue(decodedJWT.getIssuer());
             jwt.setRoles(decodedJWT.getClaim("role").asList(Role.class));
-
             jwt.setMessage(VALID_SUCCESSFUL_MSG);
             jwt.setExpire(true);
         } catch (TokenExpiredException tokenExpiredException) {

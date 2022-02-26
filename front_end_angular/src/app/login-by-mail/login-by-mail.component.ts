@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2'
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -12,56 +13,90 @@ import { UserService } from '../user.service';
 export class LoginByMailComponent implements OnInit {
 
   form: FormGroup = new FormGroup({});
-  mailCheck:boolean = false;
-  private account:string='';
-  mail:string = '';
-  simpleCode:string = '';
+  mailCheck: boolean = false;
+  alreadyCheck:boolean = false;
+  mail: string = '';
+  simpleCode: string = '';
 
-  constructor(private userService:UserService,
-              private router: Router,
-              private formBuilder:FormBuilder,
-              private authService:AuthService) { }
+  constructor(private userService: UserService,
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private authService: AuthService) { }
 
   ngOnInit(): void {
     this.createForm();
     if (this.authService.isLogIn()) {
       this.router.navigate(['home']);
     }
-    this.account = '';
     this.mail = '';
     this.simpleCode = '';
     this.mailCheck = false;
+    this.alreadyCheck = false;
   }
 
-  private createForm():void {
+  private createForm(): void {
     const emailRegex = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
-      this.form = this.formBuilder.group({
-        mail: ['', [Validators.required, Validators.pattern(emailRegex)]]
-      });
+    this.form = this.formBuilder.group({
+      mail: ['', [Validators.required, Validators.pattern(emailRegex)]]
+    });
   }
 
-  public onSubmit(form : FormGroup):void {
+  public onSubmit(form: FormGroup): void {
     this.authService.loginByMailCheck(form.value.mail).subscribe(
       res => {
-        console.log(res)
         this.mailCheck = res.result;
         if (this.mailCheck) {
-          this.account = res.user_info.account;
-          this.mail = res.user_info.mail;
-          this.simpleCode= '';
+          this.mail = form.value.mail;
+          this.simpleCode = '';
         } else {
-          this.account = ''
-          this.simpleCode= '';
+          this.simpleCode = '';
+          this.swalError(form);
         }
-    })
+      })
 
   }
 
-  useSimpleCodeLogin():void{
-    alert('click');
+  useSimpleCodeLogin(): void {
+    let param = {
+      account: this.mail?this.mail:this.form.value.mail,
+      shortRandom: this.simpleCode
+    };
+    this.authService.loginByMail(param).subscribe(
+      (res: any) => {
+        console.log(res)
+        this.authService.handleLogin(res);
+        this.swalDialog(res.rtnStatusCode, res.rtnMsg);
+      }
+    )
   }
 
-  checkSimpleCodeLength():boolean{
+  swalDialog(statusCode: number, msg: string): void {
+    switch (statusCode) {
+      case 0:
+        Swal.fire({
+          icon: 'error',
+          text:msg,
+        })
+        break;
+      case 1:
+        Swal.fire({
+          icon: 'success',
+          text:msg,
+        }).then(() => {
+          this.router.navigate(['home']);
+        });
+        break;
+      case 2:
+        Swal.fire({
+          icon: 'info',
+          text:msg,
+        })
+        break;
+    }
+
+  }
+
+  checkSimpleCodeLength(): boolean {
     if (this.simpleCode.length == 5) {
       return false;
     } else {
@@ -69,12 +104,24 @@ export class LoginByMailComponent implements OnInit {
     }
   }
 
-  checkSimpleCodeLengthBeingEnter():boolean{
+  checkSimpleCodeLengthBeingEnter(): boolean {
     if (this.simpleCode.length == 5) {
       return false;
     } else {
       return true;
     }
+  }
+
+  swalError(form: FormGroup): void {
+    const register_link = `<a href="/signUp">use the email register?</a>`;
+    Swal.fire({
+      icon: 'error',
+      title: 'error',
+      text: '沒有相符的email',
+      footer: register_link
+    }).then(() => {
+      form.reset();
+    });
   }
 
 }

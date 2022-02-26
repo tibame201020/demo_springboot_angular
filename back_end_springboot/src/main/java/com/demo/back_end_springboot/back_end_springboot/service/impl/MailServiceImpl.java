@@ -47,14 +47,14 @@ public class MailServiceImpl implements MailService {
     @Override
     public User sendResetPwdMail(User user) {
         SimpleMailMessage message = getSimpleMailMessage(user);
-        String reset_token = jwtProvider.getToken(new Auth(user), 10*60*1000, "");
+        String reset_token = jwtProvider.getToken(new Auth(user), 10*60*1000, user.getMail());
         message.setSubject("Reset Ur Password");
         String preStr = "Dear " + user.getAccount() + " :" + "\n";
         preStr = preStr + "plz click the under url to reset ur pwd, but it's only have ten min to reset" + "\n";
         String base_enable_url = "http://localhost:4200/user/reset_pwd?resetToken=";
         message.setText(preStr + base_enable_url + reset_token);
         sendMail(message);
-        onceTokenRepo.save(new OnceToken(user.getAccount(), reset_token));
+        onceTokenRepo.save(new OnceToken(user.getMail(), reset_token));
         return user;
     }
 
@@ -72,7 +72,8 @@ public class MailServiceImpl implements MailService {
             String random = JwtProvider.getRandomInts();
             message.setText(preStr + random);
             // sendMail(message);
-            onceTokenRepo.save(new OnceToken(user.getAccount(), login_token, random));
+            onceTokenRepo.save(new OnceToken(user.getMail(), login_token, random));
+            System.out.println(random);
             rtnMap.put("result", true);
             user.setPwd(null);
             rtnMap.put("user_info", user);

@@ -65,7 +65,6 @@ public class AuthorFilter extends UsernamePasswordAuthenticationFilter {
         String refresh_token = jwtProvider.getToken(auth, 30 * 1000, request.getRequestURL().toString());
 
         Map<String, Object> tokens = new HashMap<>();
-        tokens.put("jwt", jwtProvider.validToken(access_token));
         tokens.put("access_token", access_token);
         tokens.put("refresh_token", refresh_token);
         tokens.put("user_info", jwtProvider.validToken(access_token));

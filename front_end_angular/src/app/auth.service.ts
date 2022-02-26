@@ -15,27 +15,33 @@ export class AuthService {
     let storage_user = localStorage.getItem('user') || '{}';
     this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(storage_user));
     this.currentUser = this.currentUserSubject.asObservable();
-   }
+  }
 
+  public loginByMail(param: any): Observable<any> {
+    return this.http.post<any>(`api/user/loginByShortCode`, param);
+  }
 
-  public validUser(user:User) : Observable<Boolean> {
+  public handleLogin(res: any): void {
+    if (res.access_token) {
+      res.user_info.access_token = res.access_token;
+      res.user_info.refresh_token = res.refresh_token;
+      res.user_info.pwd = '';
+      res.user_info.changePwd = '';
+      this.currentUserSubject.next(res.user_info);
+      localStorage.setItem('user', JSON.stringify(res.user_info));
+    } else {
+      this.currentUserSubject.next(null);
+      localStorage.removeItem('user');
+    }
+  }
+
+  public validUser(user: User): Observable<Boolean> {
     let rtn = this.http.post<any>(`api/user/login`, user);
     rtn.subscribe(
-        (res:any) => {
-          if (res.access_token) {
-            res.user_info.access_token = res.access_token;
-            res.user_info.refresh_token = res.refresh_token;
-            res.user_info.pwd = '';
-            res.user_info.changePwd = '';
-            this.currentUserSubject.next(res.user_info);
-            localStorage.setItem('user', JSON.stringify(res.user_info));
-          } else {
-            this.currentUserSubject.next(null);
-            localStorage.removeItem('user');
-          }
-        }
+      (res: any) => {
+        this.handleLogin(res);
+      }
     )
-
     return rtn;
   }
 
@@ -53,7 +59,7 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
-  isLogIn():Boolean {
+  isLogIn(): Boolean {
     let rtn = false;
     this.getCurrentUser().subscribe(
       user => {
@@ -61,18 +67,18 @@ export class AuthService {
           if (user.access_token != null) {
             rtn = true;
           }
+        }
       }
-    }
     )
     return rtn;
   }
 
-  loginByMailCheck(mail:string):Observable<any>{
+  loginByMailCheck(mail: string): Observable<any> {
     return this.http.post<any>(`api/user/requiredUseMailLogin`, mail);
   }
 
 
-  test():Observable<string>{
+  test(): Observable<string> {
     return this.http.post<string>(`api/user/testMock`, "");
   }
 }

@@ -4,6 +4,7 @@ import com.demo.back_end_springboot.back_end_springboot.domain.Auth;
 import com.demo.back_end_springboot.back_end_springboot.domain.Jwt;
 import com.demo.back_end_springboot.back_end_springboot.domain.OnceToken;
 import com.demo.back_end_springboot.back_end_springboot.domain.User;
+import com.demo.back_end_springboot.back_end_springboot.service.AuthService;
 import com.demo.back_end_springboot.back_end_springboot.service.MailService;
 import com.demo.back_end_springboot.back_end_springboot.service.UserService;
 import com.demo.back_end_springboot.back_end_springboot.util.JwtProvider;
@@ -38,6 +39,9 @@ public class UserController {
 
     @Autowired
     private JwtProvider jwtProvider;
+
+    @Autowired
+    private AuthService authService;
 
     @RequestMapping("/register")
     public ResponseEntity<User> registerUser(@RequestBody User registerUser) {
@@ -147,7 +151,7 @@ public class UserController {
     public Map<String,Object> checkResetToken (@RequestBody String token) {
         Map<String,Object> rtnMap = new HashMap<>();
         Jwt jwt = jwtProvider.validToken(token);
-        String account = jwt.getAccount();
+        String account = jwt.getIssue();
         if (jwt.isExpire() && userService.checkResetToken(account, token)) {
             rtnMap.put("token_ok", true);
             rtnMap.put("user_info", jwt);
@@ -185,8 +189,11 @@ public class UserController {
     }
 
     @RequestMapping("/loginByShortCode")
-    public void loginByShortCode (@RequestBody OnceToken onceToken) {
+    public Map<String, Object> loginByShortCode (@RequestBody OnceToken onceToken) {
         onceToken.getAccount();
+        onceToken.getShortRandom();
+        Map<String, Object> rtnMap = authService.checkShortCode(onceToken);
+        return rtnMap;
     }
 
     @RequestMapping("/testMock")

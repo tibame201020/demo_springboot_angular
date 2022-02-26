@@ -9,6 +9,7 @@ public class Jwt {
     private String account;
     private Collection<Role> roles = new ArrayList<>();
     private String exceptionMsg;
+    private String issue;
 
     public boolean isExpire() {
         return expire;
@@ -48,5 +49,13 @@ public class Jwt {
 
     public void setRoles(Collection<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getIssue() {
+        return issue;
+    }
+
+    public void setIssue(String issue) {
+        this.issue = issue;
     }
 }
