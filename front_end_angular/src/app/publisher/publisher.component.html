@@ -1,12 +1,32 @@
-<div class="container loginForm">
-  <h2>Publish</h2>
-  <br>
-  <form [formGroup]="form" (submit)="onSubmit(form)">
-    <input type="text"> serach框
-    <input type="text"> readOny 代號-中文
-    <input type="text"> readOny now price
-    <input type="text"> comment
-    <input type="text"> checkbox subcriberOnly buyerOnly
-    <app-custom-form-control [CustomInput] = "CustomInput"></app-custom-form-control>
-  </form>
+<div class="wrapper">
+  <nav id="sidebar">
+    <app-side-bar></app-side-bar>
+  </nav>
+  <div id="content">
+    <div class="container loginForm">
+      <h2>Publish</h2>
+      <br>
+      <form [formGroup]="form" (submit)="onSubmit(form)">
+        <div class="form-groupinputControl">
+          <input type="text" class="form-control form-input" autocomplete="off" placeholder="searchBar">
+        </div>
+        <div class="form-groupinputControl">
+          <input type="text" class="form-control form-input" autocomplete="off" placeholder="代號-中文">
+        </div>
+        <hr>
+        <div class="custom-control custom-switch">
+          <input type="checkbox" class="custom-control-input" id="customSwitch1">
+          <label class="custom-control-label" for="customSwitch1">only for Subcriber</label>
+        </div>
+        <div class="custom-control custom-switch">
+          <input type="checkbox" class="custom-control-input" id="customSwitch2">
+          <label class="custom-control-label" for="customSwitch2">only for Buyer</label>
+        </div>
+        <div class="form-groupinputControl">
+          <input type="text" class="form-control form-input" autocomplete="off" placeholder="comment">
+        </div>
+        <app-custom-form-control [CustomInput]="CustomInput"></app-custom-form-control>
+      </form>
+    </div>
+  </div>
 </div>

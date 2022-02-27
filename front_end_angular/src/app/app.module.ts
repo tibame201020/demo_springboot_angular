@@ -18,6 +18,10 @@ import { UnValidUserComponent } from './un-valid-user/un-valid-user.component';
 import { LoginByMailComponent } from './login-by-mail/login-by-mail.component';
 import { UserResetPwdComponent } from './user-reset-pwd/user-reset-pwd.component';
 import { CustomFormControlComponent } from './custom-form-control/custom-form-control.component';
+import { SideBarComponent } from './side-bar/side-bar.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { CkEditorComponent } from './ck-editor/ck-editor.component';
+
 
 @NgModule({
   declarations: [
@@ -33,14 +37,17 @@ import { CustomFormControlComponent } from './custom-form-control/custom-form-co
     UnValidUserComponent,
     LoginByMailComponent,
     UserResetPwdComponent,
-    CustomFormControlComponent
+    CustomFormControlComponent,
+    SideBarComponent,
+    CkEditorComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CKEditorModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent]

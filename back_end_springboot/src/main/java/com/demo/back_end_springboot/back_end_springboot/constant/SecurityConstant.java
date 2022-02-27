@@ -11,6 +11,8 @@ public class SecurityConstant {
     public static final String LOGIN_BY_MAIL_CHECK_URL = "/api/user/requiredUseMailLogin";
     public static final String LOGIN_BY_MAIL_URL = "/api/user/loginByShortCode";
 
+    public static final String TWSE_API_URLS = "/api/twse/**";
+
     public static final String VALID_SUCCESSFUL_MSG = "the token is valid";
     public static final String VALID_UNSUCCESSFUL_EXPIRED_MSG = "the token has Expired";
     public static final String VALID_UNSUCCESSFUL_UN_VALID_MSG = "the token is un-valid";
@@ -23,9 +25,9 @@ public class SecurityConstant {
 
     public static final String[] PASS_URLS =
             new String[] { LOGIN_URL, REGISTER_URL, REFRESH_TOKEN_URL,
-                    RESET_PWD_CONFIRM_URL, ENABLE_USER_URL, "/api/user/test"
+                    RESET_PWD_CONFIRM_URL, ENABLE_USER_URL, "/api/twse/**"
     , CHECK_RESET_TOKEN_URL, RESET_PWD_URL, LOGIN_BY_MAIL_CHECK_URL
-    , LOGIN_BY_MAIL_URL};
+    , LOGIN_BY_MAIL_URL, TWSE_API_URLS};
 
 
 }
