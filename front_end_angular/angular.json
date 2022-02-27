@@ -30,7 +30,7 @@
               "src/styles.css"
             ],
             "scripts": [
-              "../node_modules/jquery/dist/jquery.min.js"
+
             ]
           },
           "configurations": {
@@ -99,7 +99,7 @@
               "src/styles.css"
             ],
             "scripts": [
-              "../node_modules/jquery/dist/jquery.min.js"
+
             ]
           }
         }

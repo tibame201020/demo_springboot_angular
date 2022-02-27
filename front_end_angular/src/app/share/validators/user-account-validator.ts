@@ -8,7 +8,7 @@ export class UserAccountValidator implements AsyncValidator {
 
   constructor(private userService: UserService) {}
 
-  set (validType:string): UserAccountValidator{
+  set (validType:string): UserAccountValidator {
     this.validType = validType;
     return this;
   }

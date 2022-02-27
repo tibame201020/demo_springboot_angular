@@ -1,1 +1,12 @@
-<p>publisher works!</p>
+<div class="container loginForm">
+  <h2>Publish</h2>
+  <br>
+  <form [formGroup]="form" (submit)="onSubmit(form)">
+    <input type="text"> serach框
+    <input type="text"> readOny 代號-中文
+    <input type="text"> readOny now price
+    <input type="text"> comment
+    <input type="text"> checkbox subcriberOnly buyerOnly
+    <app-custom-form-control [CustomInput] = "CustomInput"></app-custom-form-control>
+  </form>
+</div>

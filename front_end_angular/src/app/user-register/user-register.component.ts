@@ -25,6 +25,7 @@ export class UserRegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    console.log(this.registerForm)
   }
 
 
