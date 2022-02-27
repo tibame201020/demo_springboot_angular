@@ -1,5 +1,2 @@
-
-once_token 改 account 為id 一個user 只有一個once token 不管是登入還是重設密碼
-todo
-use mail login
-
+user finish
+next publish
