@@ -1,32 +1,66 @@
-<div class="wrapper">
-  <nav id="sidebar">
-    <app-side-bar></app-side-bar>
-  </nav>
-  <div id="content">
-    <div class="container loginForm">
-      <h2>Publish</h2>
-      <br>
-      <form [formGroup]="form" (submit)="onSubmit(form)">
-        <div class="form-groupinputControl">
-          <input type="text" class="form-control form-input" autocomplete="off" placeholder="searchBar">
+<div class="wrapper container-fluid">
+  <div class="row">
+    <div class="col">
+      <nav id="sidebar">
+        <app-side-bar></app-side-bar>
+      </nav>
+    </div>
+    <div class="col">
+      <div class="publishContent" id="content">
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <h2>Publish</h2>
+          </div>
+          <br>
+          <form [formGroup]="form" (submit)="onSubmit(form)">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-6">
+                  <app-custom-form-control [CustomInput]="codenm"></app-custom-form-control>
+                </div>
+                <div class="col-6">
+                  search bar here
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <app-custom-form-control [CustomInput]="title"></app-custom-form-control>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <app-ckeditor></app-ckeditor>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                    <label class="custom-control-label" for="customSwitch1">only for Subcriber</label>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="customSwitch2">
+                    <label class="custom-control-label" for="customSwitch2">only for Buyer</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div *ngIf="!form.valid">
+                    <button id="requiredMsg" type="submit" class="btn btn-default submit" [disabled]="true">plz check the
+                      all required fileds</button>
+                  </div>
+                  <div *ngIf="form.valid">
+                    <button id="submit" type="submit" class="btn btn-default submit" [disabled]="false">publish</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
-        <div class="form-groupinputControl">
-          <input type="text" class="form-control form-input" autocomplete="off" placeholder="代號-中文">
-        </div>
-        <hr>
-        <div class="custom-control custom-switch">
-          <input type="checkbox" class="custom-control-input" id="customSwitch1">
-          <label class="custom-control-label" for="customSwitch1">only for Subcriber</label>
-        </div>
-        <div class="custom-control custom-switch">
-          <input type="checkbox" class="custom-control-input" id="customSwitch2">
-          <label class="custom-control-label" for="customSwitch2">only for Buyer</label>
-        </div>
-        <div class="form-groupinputControl">
-          <input type="text" class="form-control form-input" autocomplete="off" placeholder="comment">
-        </div>
-        <app-custom-form-control [CustomInput]="CustomInput"></app-custom-form-control>
-      </form>
+      </div>
     </div>
   </div>
 </div>

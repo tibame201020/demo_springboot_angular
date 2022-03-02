@@ -19,6 +19,8 @@ import { LoginByMailComponent } from './login-by-mail/login-by-mail.component';
 import { UserResetPwdComponent } from './user-reset-pwd/user-reset-pwd.component';
 import { CustomFormControlComponent } from './custom-form-control/custom-form-control.component';
 import { SideBarComponent } from './side-bar/side-bar.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { CkeditorComponent } from './rich-text/ckeditor/ckeditor.component';
 
 
 @NgModule({
@@ -36,16 +38,19 @@ import { SideBarComponent } from './side-bar/side-bar.component';
     LoginByMailComponent,
     UserResetPwdComponent,
     CustomFormControlComponent,
-    SideBarComponent
+    SideBarComponent,
+    CkeditorComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CKEditorModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+

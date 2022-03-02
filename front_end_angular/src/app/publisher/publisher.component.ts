@@ -16,15 +16,15 @@ export class PublisherComponent implements OnInit {
 
 
   form: FormGroup = new FormGroup({});
-  CustomInput!: CustomInput;
-  public userAccountValidator: UserAccountValidator = new UserAccountValidator(this.userService).set('account');
+  title!: CustomInput;
+  codenm!:CustomInput;
   constructor(private formBuilder: FormBuilder,
-    private userService: UserService,
     private fbs: FormBuilderService) { }
 
   ngOnInit(): void {
     this.createForm();
-    this.CustomInput = this.fbs.createInput(this.form).setFieldName('acc').bulid();
+    this.title = this.fbs.createInput(this.form).setFieldName('title').bulid();
+    this.codenm = this.fbs.createInput(this.form).setFieldName('code').bulid();
   }
 
   private createForm(): void {
