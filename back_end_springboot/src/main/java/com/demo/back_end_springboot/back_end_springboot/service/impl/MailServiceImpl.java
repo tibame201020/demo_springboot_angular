@@ -86,11 +86,11 @@ public class MailServiceImpl implements MailService {
     private SimpleMailMessage getSimpleMailMessage(User user) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(user.getMail());
+        message.setFrom("localjokerfool@hotmail.com");
         return message;
     }
 
     private void sendMail(SimpleMailMessage message) {
-        message.setFrom("localjokerfool@hotmail.com");
         new Thread(() -> mailSender.send(message)).start();
     }
 }

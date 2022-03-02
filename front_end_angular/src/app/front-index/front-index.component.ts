@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { AuthService } from '../auth.service';
 import { User } from '../model/user';
 
@@ -10,7 +11,6 @@ import { User } from '../model/user';
 export class FrontIndexComponent implements OnInit {
   public user_info = 'default';
   public loginOrNot = 'defaultNot';
-
   constructor(private authService: AuthService) {
     this.authService.getCurrentUser().subscribe(
       (data: User) => {
