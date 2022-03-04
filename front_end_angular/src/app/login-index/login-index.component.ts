@@ -1,4 +1,4 @@
-import { SideBarService } from './../side-bar.service';
+import { SideBarService } from '../side-bar/side-bar.service';
 import { UserService } from './../user.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';

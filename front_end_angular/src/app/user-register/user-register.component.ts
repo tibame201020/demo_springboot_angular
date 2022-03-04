@@ -1,4 +1,4 @@
-import { SideBarService } from './../side-bar.service';
+import { SideBarService } from '../side-bar/side-bar.service';
 import { map, tap } from 'rxjs';
 import { User } from './../model/user';
 import { UserService } from './../user.service';

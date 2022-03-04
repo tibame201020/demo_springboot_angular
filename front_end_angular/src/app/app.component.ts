@@ -1,4 +1,4 @@
-import { SideBarService } from './side-bar.service';
+import { SideBarService } from './side-bar/side-bar.service';
 import { Component } from '@angular/core';
 
 @Component({

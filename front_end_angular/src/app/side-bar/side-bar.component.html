@@ -2,15 +2,9 @@
   <br>
   <br>
   <ul class="list-unstyled components">
-    <p>Publish Manage</p>
-    <li>
-      <a class="nav-link" href="#" routerLink="/publish/home">Publish</a>
-    </li>
-    <li>
-      <a class="nav-link" href="#" routerLink="/publish/manage">Manage</a>
-    </li>
-    <li>
-      <a class="nav-link" href="#" routerLink="/publish/history">History</a>
+    <p>{{this.SideBarService.getSideBar().title}}</p>
+    <li *ngFor="let alink of this.SideBarService.getSideBar().alink">
+      <a class="nav-link" href="#" routerLink="{{alink.link}}">{{alink.name}}</a>
     </li>
   </ul>
 </div>

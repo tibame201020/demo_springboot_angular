@@ -1,4 +1,4 @@
-import { SideBarService } from './../side-bar.service';
+import { SideBarService } from '../side-bar/side-bar.service';
 import Swal from 'sweetalert2'
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';

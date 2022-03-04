@@ -1,4 +1,4 @@
-import { SideBarService } from './../side-bar.service';
+import { SideBarService } from '../side-bar/side-bar.service';
 import { ForwardMessageService } from './../forward-message.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';

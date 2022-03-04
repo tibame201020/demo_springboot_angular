@@ -24,7 +24,6 @@ export class JwtInterceptor implements HttpInterceptor {
   }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
         const user = this.authService.userValue;
         const isLoggedIn = user && user.access_token;
 

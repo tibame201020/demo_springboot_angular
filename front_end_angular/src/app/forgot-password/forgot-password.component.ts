@@ -5,7 +5,7 @@ import { AuthService } from '../auth.service';
 import { UserAccountValidator } from '../share/validators/user-account-validator';
 import Swal from 'sweetalert2'
 import { UserService } from '../user.service';
-import { SideBarService } from '../side-bar.service';
+import { SideBarService } from '../side-bar/side-bar.service';
 
 @Component({
   selector: 'app-forgot-password',
