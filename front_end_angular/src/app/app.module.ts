@@ -21,6 +21,8 @@ import { CustomFormControlComponent } from './custom-form-control/custom-form-co
 import { SideBarComponent } from './side-bar/side-bar.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { CkeditorComponent } from './rich-text/ckeditor/ckeditor.component';
+import { HeaderComponent } from './header/header.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 @NgModule({
@@ -39,7 +41,8 @@ import { CkeditorComponent } from './rich-text/ckeditor/ckeditor.component';
     UserResetPwdComponent,
     CustomFormControlComponent,
     SideBarComponent,
-    CkeditorComponent
+    CkeditorComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +50,8 @@ import { CkeditorComponent } from './rich-text/ckeditor/ckeditor.component';
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    CKEditorModule
+    CKEditorModule,
+    FlexLayoutModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent]

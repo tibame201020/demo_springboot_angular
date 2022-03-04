@@ -1,43 +1,12 @@
-<!-- header -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-  <a class="navbar-brand" href="#"></a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarText">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#" routerLink="/home">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#" routerLink="/read">Read</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#" routerLink="/publish">Publish</a>
-      </li>
-    </ul>
-    <span class="navbar-text" *ngIf="! this.authService.isLogIn()">
-      <a class="nav-link" href="" routerLink="/login">Login</a>
-    </span>
-    <span *ngIf="! this.authService.isLogIn()">|</span>
-    <span class="navbar-text" *ngIf="! this.authService.isLogIn()">
-      <a class="nav-link" href="" routerLink="/signUp">Sign Up</a>
-    </span>
-
-    <span class="navbar-text" *ngIf="this.authService.isLogIn()">
-      <a class="nav-link" href="" routerLink="" (click)="this.authService.logout()">Log Out</a>
-    </span>
+<div fxFill fxLayout="column" class="layout">
+  <div fxFlex="68px" class="header">
+    <app-header></app-header>
   </div>
-</nav>
-
-<!-- content -->
-<router-outlet></router-outlet>
-
-<!-- footer -->
-<footer class="footer">
-  <div class="container">
-    <span class="text-muted">Place sticky footer content here.</span>
+  <div fxFlex fxLayout="row" class="main">
+      <app-side-bar></app-side-bar>
+    <div fxFlex class="content">
+      <router-outlet></router-outlet>
+    </div>
   </div>
-</footer>
-
+</div>
 

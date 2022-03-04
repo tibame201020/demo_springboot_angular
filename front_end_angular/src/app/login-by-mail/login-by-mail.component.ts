@@ -1,3 +1,4 @@
+import { SideBarService } from './../side-bar.service';
 import Swal from 'sweetalert2'
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -21,9 +22,11 @@ export class LoginByMailComponent implements OnInit {
   constructor(private userService: UserService,
     private router: Router,
     private formBuilder: FormBuilder,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private SideBarService:SideBarService) { }
 
   ngOnInit(): void {
+    this.SideBarService.hideSideBar();
     this.createForm();
     if (this.authService.isLogIn()) {
       this.router.navigate(['home']);

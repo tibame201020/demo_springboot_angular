@@ -1,3 +1,4 @@
+import { SideBarService } from './../side-bar.service';
 import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../auth.service';
@@ -11,7 +12,8 @@ import { User } from '../model/user';
 export class FrontIndexComponent implements OnInit {
   public user_info = 'default';
   public loginOrNot = 'defaultNot';
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService,
+    private SideBarService:SideBarService) {
     this.authService.getCurrentUser().subscribe(
       (data: User) => {
         if (data != null) {
@@ -21,6 +23,8 @@ export class FrontIndexComponent implements OnInit {
     )
   }
   ngOnInit(): void {
+    this.SideBarService.hideSideBar();
+
   }
 
 

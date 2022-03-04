@@ -1,3 +1,4 @@
+import { SideBarService } from './../side-bar.service';
 import { ForwardMessageService } from './../forward-message.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -20,9 +21,11 @@ export class ValidUserComponent implements OnInit {
   constructor(private route:ActivatedRoute,
               private userService:UserService,
               private forwardMessageService:ForwardMessageService,
-              private router: Router,) { }
+              private router: Router,
+              private SideBarService:SideBarService) { }
 
   ngOnInit(): void {
+    this.SideBarService.hideSideBar();
     this.route.queryParams.subscribe((queryParams) => {
       if (!queryParams['validToken']) {
         this.forwardMessageService.setMessage(`don't has the token`);

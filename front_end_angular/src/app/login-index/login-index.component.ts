@@ -1,3 +1,4 @@
+import { SideBarService } from './../side-bar.service';
 import { UserService } from './../user.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -17,10 +18,12 @@ export class LoginIndexComponent implements OnInit {
   constructor(private userService:UserService,
               private router: Router,
               private formBuilder:FormBuilder,
-              private authService:AuthService) { }
+              private authService:AuthService,
+              private SideBarService:SideBarService) { }
 
   ngOnInit(): void {
     this.createForm();
+    this.SideBarService.hideSideBar();
   }
 
   private createForm():void {

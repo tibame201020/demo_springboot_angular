@@ -1,3 +1,4 @@
+import { SideBarService } from './../side-bar.service';
 import { map, tap } from 'rxjs';
 import { User } from './../model/user';
 import { UserService } from './../user.service';
@@ -21,11 +22,12 @@ export class UserRegisterComponent implements OnInit {
 
   constructor(private userService:UserService,
               private router: Router,
-              private formBuilder:FormBuilder) { }
+              private formBuilder:FormBuilder,
+              private SideBarService:SideBarService) { }
 
   ngOnInit(): void {
     this.createForm();
-    console.log(this.registerForm)
+    this.SideBarService.hideSideBar();
   }
 
 

@@ -1,4 +1,4 @@
-import { AuthService } from './auth.service';
+import { SideBarService } from './side-bar.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -8,7 +8,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'front_end_angular';
-  constructor( public authService:AuthService ) {
+  constructor(public SideBarService:SideBarService){
+
+  }
+  ngOnInit(): void {
 
   }
 }

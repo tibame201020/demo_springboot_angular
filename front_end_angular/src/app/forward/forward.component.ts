@@ -1,3 +1,4 @@
+import { SideBarService } from './../side-bar.service';
 import { ForwardMessageService } from './../forward-message.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -12,7 +13,8 @@ export class ForwardComponent implements OnInit {
   public seconds:number = 2;
   constructor(
     public forwardMessageService: ForwardMessageService,
-    private router: Router
+    private router: Router,
+    private SideBarService:SideBarService
     ) { }
 
     private forwardPage():void {
@@ -29,6 +31,7 @@ export class ForwardComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    this.SideBarService.hideSideBar();
     let icon:any;
     if (this.forwardMessageService.getIcon) {
       icon = this.forwardMessageService.getIcon;

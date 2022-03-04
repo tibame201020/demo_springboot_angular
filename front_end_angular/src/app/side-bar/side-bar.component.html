@@ -1,17 +1,16 @@
-
-<br>
-<br>
-
-
-<ul class="list-unstyled components">
-  <p>Publish Manage</p>
-  <li>
-    <a href="#">Publish</a>
-  </li>
-  <li>
-    <a href="#">Manage</a>
-  </li>
-  <li>
-    <a href="#">History</a>
-  </li>
-</ul>
+<div fxFlex="200px" class="aside" *ngIf="!this.SideBarService.hideOrShow()">
+  <br>
+  <br>
+  <ul class="list-unstyled components">
+    <p>Publish Manage</p>
+    <li>
+      <a class="nav-link" href="#" routerLink="/publish/home">Publish</a>
+    </li>
+    <li>
+      <a class="nav-link" href="#" routerLink="/publish/manage">Manage</a>
+    </li>
+    <li>
+      <a class="nav-link" href="#" routerLink="/publish/history">History</a>
+    </li>
+  </ul>
+</div>

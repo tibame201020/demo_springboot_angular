@@ -12,7 +12,7 @@ export class AuthService {
   private currentUser: Observable<User>;
 
   constructor(private http: HttpClient, private router: Router,) {
-    let storage_user = localStorage.getItem('user') || '{}';
+    let storage_user = sessionStorage.getItem('user') || '{}';
     this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(storage_user));
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -28,10 +28,10 @@ export class AuthService {
       res.user_info.pwd = '';
       res.user_info.changePwd = '';
       this.currentUserSubject.next(res.user_info);
-      localStorage.setItem('user', JSON.stringify(res.user_info));
+      sessionStorage.setItem('user', JSON.stringify(res.user_info));
     } else {
       this.currentUserSubject.next(null);
-      localStorage.removeItem('user');
+      sessionStorage.removeItem('user');
     }
   }
 
@@ -46,6 +46,7 @@ export class AuthService {
   }
 
   logout() {
+    sessionStorage.removeItem('user');
     localStorage.removeItem('user');
     this.currentUserSubject.next(null);
     this.router.navigate(['home']);

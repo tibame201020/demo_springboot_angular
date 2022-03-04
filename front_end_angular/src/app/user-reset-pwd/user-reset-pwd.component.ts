@@ -1,3 +1,4 @@
+import { SideBarService } from './../side-bar.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -21,9 +22,11 @@ export class UserResetPwdComponent implements OnInit {
     private forwardMessageService:ForwardMessageService,
     private router: Router,
     private formBuilder:FormBuilder,
-    private authService:AuthService) { }
+    private authService:AuthService,
+    private SideBarService:SideBarService) { }
 
   ngOnInit(): void {
+    this.SideBarService.hideSideBar();
     this.route.queryParams.subscribe((queryParams) => {
       console.log(queryParams['resetToken']);
       if (queryParams['resetToken']) {

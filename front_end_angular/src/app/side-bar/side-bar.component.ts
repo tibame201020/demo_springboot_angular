@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { SideBarService } from './../side-bar.service';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-side-bar',
@@ -6,8 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./side-bar.component.css']
 })
 export class SideBarComponent implements OnInit {
+  @Input()hide!:boolean;
 
-  constructor() { }
+  constructor(public SideBarService:SideBarService) { }
 
   ngOnInit(): void {
   }
