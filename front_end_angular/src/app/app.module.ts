@@ -18,6 +18,7 @@ import { SideBarComponent } from './side-bar/side-bar.component';
 import { HeaderComponent } from './header/header.component';
 import { ShareModule } from './share.module';
 import { PublishModule } from './publish/publish.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { PublishModule } from './publish/publish.module';
   ],
   imports: [
     ShareModule,
+    BrowserAnimationsModule,
     // PublishModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],

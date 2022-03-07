@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule, ModuleWithProviders  } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -10,10 +10,11 @@ import { CommonModule } from '@angular/common';
 import { CkeditorComponent } from './rich-text/ckeditor/ckeditor.component';
 
 
+
 @NgModule({
   imports: [
     CommonModule,
-    CKEditorModule
+    CKEditorModule,
   ],
   declarations: [
     CkeditorComponent

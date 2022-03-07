@@ -16,9 +16,6 @@
            </span>
           </div>
         </div>
-        <div class="col-6">
-          search bar here
-        </div>
       </div>
       <div class="row">
         <div class="col-6">
@@ -34,7 +31,7 @@
       </div>
       <div class="row">
         <div class="col">
-          <app-ckeditor></app-ckeditor>
+          <ckeditor [editor]="Editor" data="<p></p>" formControlName='ckContent'></ckeditor>
         </div>
       </div>
       <div class="row">

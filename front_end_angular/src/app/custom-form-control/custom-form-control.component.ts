@@ -14,7 +14,6 @@ export class CustomFormControlComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) { }
   ngOnInit(): void {
     this.CustomInput.form.addControl(this.CustomInput.fieldName, this.formBuilder.control('', this.CustomInput.validArray,this.CustomInput.customValidArray));
-    console.log(this.CustomInput.form)
   }
 
 }
