@@ -1,16 +1,66 @@
-<p>publish-home works!</p>
-
 <div class="container-fluid">
-
-  <div class="row">
-    <div class="col">
-      <H2>Publish</H2>
-    </div>
+  <div class="row justify-content-center">
+    <h2>Publish</h2>
   </div>
-  <div class="row">
-    <div class="col">
-      this is form here
+  <br>
+  <form [formGroup]="form" (submit)="onSubmit(form)">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group has-feedback">
+            <input type="text" class="form-control form-input" formControlName="codeNm" placeholder="please search the codeNm for enter here" ngModel>
+            <span class="glyphicon form-control-feedback" *ngIf="form.controls['codeNm'].invalid && (form.controls['codeNm'].dirty || form.controls['codeNm'].touched)">
+              <span *ngIf="form.controls['codeNm'].errors">
+                <pre *ngIf="form.controls['codeNm'].errors['required']"> the codeNm is required </pre>
+              </span>
+           </span>
+          </div>
+        </div>
+        <div class="col-6">
+          search bar here
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group has-feedback">
+            <input type="text" class="form-control form-input" formControlName="title" placeholder="please enter the title" ngModel>
+            <span class="glyphicon form-control-feedback" *ngIf="form.controls['title'].invalid && (form.controls['title'].dirty || form.controls['title'].touched)">
+              <span *ngIf="form.controls['title'].errors">
+                <pre *ngIf="form.controls['title'].errors['required']"> the title is required </pre>
+              </span>
+           </span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <app-ckeditor></app-ckeditor>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="customSwitch1">
+            <label class="custom-control-label" for="customSwitch1">only for Subcriber</label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="customSwitch2">
+            <label class="custom-control-label" for="customSwitch2">only for Buyer</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div *ngIf="!form.valid">
+            <button id="requiredMsg" type="submit" class="btn btn-default submit" [disabled]="true">plz check the
+              all required fileds</button>
+          </div>
+          <div *ngIf="form.valid">
+            <button id="submit" type="submit" class="btn btn-default submit" [disabled]="false">publish</button>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-
-</div>
+  </form>

@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home.component';
 import { ManageComponent } from './manage/manage.component';
 import { HistoryComponent } from './history/history.component';
+import { ShareModule } from '../share.module';
 
 
 
@@ -13,7 +13,7 @@ import { HistoryComponent } from './history/history.component';
     HistoryComponent
   ],
   imports: [
-    CommonModule
+    ShareModule
   ]
 })
 export class PublishModule { }
