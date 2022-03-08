@@ -4,6 +4,9 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 
+/* .ck-editor__main{
+  max-width: 50rem;
+} */
 
 .ck-editor__editable_inline {
   min-height: 10rem;
@@ -18,3 +21,31 @@ body {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+:root {
+  --ck-image-style-spacing: 1.5em;
+}
+.image-style .image-style-side, .image-style .image-style-align-left, .image-style .image-style-align-center, .image-style .image-style-align-right {
+  max-width: 50%;
+}
+.image-style .image-style-side {
+  float: right;
+  margin-left: var(--ck-image-style-spacing);
+}
+.image-style .image-style-align-left {
+  float: left;
+  margin-right: var(--ck-image-style-spacing);
+}
+.image-style .image-style-align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+.image-style .image-style-align-right {
+  float: right;
+  margin-left: var(--ck-image-style-spacing);
+}
+
+.media > div{
+  width: 100%;
+}
