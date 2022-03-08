@@ -15,7 +15,7 @@
                 <datalist id='codeNmLs'>
                   <div *ngIf="codeNmLs">
                     <div *ngFor="let codeNm of this.codeNmLs">
-                      <option value="{{codeNm.c}} - {{codeNm.n}}" [ngSwitch]="getCodeNmKey(codeNm.key)"></option>
+                      <option value="{{codeNm.Code}} - {{codeNm.Name}}"></option>
                     </div>
                   </div>
                 </datalist>

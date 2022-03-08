@@ -51,33 +51,27 @@ export class HomeComponent implements OnInit {
   }
 
   selectCodeNmLs() {
-    let codeNm = this.form.value.codeNm.trim();
-    if (codeNm.length) {
-      if (codeNm.indexOf(' - ') != -1) {
-        codeNm = codeNm.split(' - ')[0].trim();
+    if (this.form.value.codeNm.trim().length) {
+      if (this.form.value.codeNm.trim().indexOf(' - ') != -1) {
+        this.form.value.codeNm = this.form.value.codeNm.trim().split(' - ')[0].trim();
       }
-      if (codeNm.indexOf('-') != -1) {
-        codeNm = codeNm.split('-')[0].trim();
+      if (this.form.value.codeNm.trim().indexOf('-') != -1) {
+        this.form.value.codeNm = this.form.value.codeNm.trim().split('-')[0].trim();
       }
-      this.PublishService.getCodeNmLs(codeNm).subscribe(
+      this.PublishService.getCodeNmLs(this.form.value.codeNm.trim()).subscribe(
         res => {
-          if (res.datas) {
-            this.codeNmLs = [];
-            res.datas.forEach((element: CodeNmModel) => {
-              if (element.c.startsWith(codeNm) || element.n.indexOf(codeNm)) {
-                this.codeNmLs.push(element);
-              }
-            });
+          this.codeNmLs = [];
+          if (res.length) {
+            res.forEach((element: CodeNmModel) => {
+              this.codeNmLs.push(element)
+            })
           } else {
             Swal.fire({
               icon: 'error',
-              title: '查無資料',
+              title: '查無資料'
             })
           }
-        }
-      );
-    } else {
-      this.codeNmLs = [];
+        })
     }
   }
 
