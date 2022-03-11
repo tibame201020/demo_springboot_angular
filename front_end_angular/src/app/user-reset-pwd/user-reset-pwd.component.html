@@ -4,7 +4,7 @@
     <br>
   <form [formGroup]="form" novalidate (submit)="onSubmit(form)">
 		  <div class="form-group has-feedback">
-		    <input type="text" class="form-control form-input" formControlName="account" placeholder="please enter ur account" ngModel autocomplete="off" readonly value="{{account}}">
+		    <input type="text" class="form-control form-input" formControlName="account" placeholder="please enter ur account"  autocomplete="off" readonly value="{{account}}">
         <span class="glyphicon form-control-feedback" *ngIf="form.controls['account'].invalid && (form.controls['account'].dirty || form.controls['account'].touched)">
           <span *ngIf="form.controls['account'].errors">
             <pre *ngIf="form.controls['account'].errors['required']"> the account is required </pre>
@@ -12,7 +12,7 @@
        </span>
 		  </div>
 		  <div class="form-group has-feedback">
-		    <input type="password" class="form-control form-input" formControlName="pwd" placeholder="please enter the password" required ngModel>
+		    <input type="password" class="form-control form-input" formControlName="pwd" placeholder="please enter the password" required >
         <span class="glyphicon form-control-feedback" *ngIf="form.controls['pwd'].invalid && (form.controls['pwd'].dirty || form.controls['pwd'].touched)">
           <span *ngIf="form.controls['pwd'].errors">
             <pre *ngIf="form.controls['pwd'].errors['required']"> the password is required </pre>
@@ -20,7 +20,7 @@
        </span>
 		  </div>
       <div class="form-group has-feedback">
-		    <input type="password" class="form-control form-input" formControlName="pwd2nd" placeholder="please enter the same password" required ngModel>
+		    <input type="password" class="form-control form-input" formControlName="pwd2nd" placeholder="please enter the same password" required >
        <span class="glyphicon form-control-feedback" *ngIf="form.errors">
         <pre *ngIf="form.errors['pwdDifferent']"> {{form.errors['pwdDifferent']}}</pre>
       </span>

@@ -17,11 +17,14 @@ import Swal from 'sweetalert2';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  form: FormGroup = new FormGroup({});
   public Editor = ClassicEditor;
   public config = ckeditorConfig;
   codeNmLs: CodeNmModel[] = [];
-  codeNmKey: string = '';
+  form: FormGroup = this.formBuilder.group({
+    codeNm: ['', Validators.required],
+    title: ['', Validators.required],
+    ckContent: ['']
+  });
 
   constructor(private SideBarService: SideBarService,
     private formBuilder: FormBuilder,
@@ -30,48 +33,19 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.SideBarService.setSideBar(PUBLISH_SIDE_BAR_CONFIG);
-    this.createForm();
-  }
-
-  private createForm(): void {
-    this.form = this.formBuilder.group({
-      codeNm: ['', Validators.required],
-      title: ['', Validators.required],
-      ckContent: ['']
-    });
   }
 
   onSubmit(form: FormGroup) {
     console.log(form.value);
-    console.log(this.codeNmKey);
   }
 
-  getCodeNmKey(key: string) {
-    this.codeNmKey = key;
-  }
-
-  selectCodeNmLs() {
+  selectCodeNmLs():void {
     if (this.form.value.codeNm.trim().length) {
-      if (this.form.value.codeNm.trim().indexOf(' - ') != -1) {
-        this.form.value.codeNm = this.form.value.codeNm.trim().split(' - ')[0].trim();
-      }
-      if (this.form.value.codeNm.trim().indexOf('-') != -1) {
-        this.form.value.codeNm = this.form.value.codeNm.trim().split('-')[0].trim();
-      }
       this.PublishService.getCodeNmLs(this.form.value.codeNm.trim()).subscribe(
         res => {
-          this.codeNmLs = [];
-          if (res.length) {
-            res.forEach((element: CodeNmModel) => {
-              this.codeNmLs.push(element)
-            })
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: '查無資料'
-            })
-          }
+          this.codeNmLs = res;
         })
+        this.getBasicInfo(this.form.value.codeNm);
     }
   }
 
@@ -79,7 +53,7 @@ export class HomeComponent implements OnInit {
     return JSON.stringify(this.AuthService.userValue.roles).indexOf('Seller') != -1
   }
 
-  public onReady(editor: any) {
+  onReady(editor: any) {
     editor.ui.getEditableElement().parentElement.insertBefore(
       editor.ui.view.toolbar.element,
       editor.ui.getEditableElement()
@@ -90,4 +64,20 @@ export class HomeComponent implements OnInit {
     };
   }
 
+  getBasicInfo(codeNm: string) {
+    if (codeNm.trim().indexOf(' - ') != -1) {
+      codeNm = codeNm.trim().split(' - ')[0].trim();
+    }
+    if (codeNm.trim().indexOf('-') != -1) {
+      codeNm = codeNm.trim().split('-')[0].trim();
+    }
+    const beginDate = new Date();
+    this.PublishService.getBasicInfo(codeNm, beginDate, null).subscribe(
+      res => {
+        console.log(res)
+      }
+    );
+  }
+
 }
+

@@ -2,7 +2,7 @@
   <div class="form-group has-feedback inputControl">
     <input type="{{this.CustomInput.type}}" class="form-control form-input"
       formControlName="{{this.CustomInput.fieldName}}" placeholder="please enter the {{this.CustomInput.fieldName}}"
-      required ngModel autocomplete="off">
+      required  autocomplete="off">
     <span class="glyphicon form-control-feedback"
       *ngIf="this.CustomInput.form.controls[this.CustomInput.fieldName].invalid && (this.CustomInput.form.controls[this.CustomInput.fieldName].dirty || this.CustomInput.form.controls[this.CustomInput.fieldName].touched)">
       <span *ngIf="this.CustomInput.form.controls[this.CustomInput.fieldName].errors"><pre *ngIf="this.CustomInput.form.controls[this.CustomInput.fieldName].errors!['required']">{{this.CustomInput.errMsg.required.length? this.CustomInput.errMsg.required: 'the ' + this.CustomInput.fieldName + ' is required'}}</pre>
