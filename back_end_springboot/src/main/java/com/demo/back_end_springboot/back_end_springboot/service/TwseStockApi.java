@@ -1,8 +1,11 @@
 package com.demo.back_end_springboot.back_end_springboot.service;
 
-import java.util.List;
+import com.demo.back_end_springboot.back_end_springboot.domain.CodeParam;
+import com.demo.back_end_springboot.back_end_springboot.domain.StockJson;
+
 import java.util.Map;
 
 public interface TwseStockApi {
-    List<Map> getCodeNmList(String key);
+    StockJson[] getCodeNmList(String key);
+    Map<String,Object> getBasicInfo(CodeParam codeParam);
 }
