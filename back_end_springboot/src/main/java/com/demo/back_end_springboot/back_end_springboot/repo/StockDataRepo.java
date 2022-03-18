@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface StockDataRepo extends JpaRepository<StockData, StockDataPk> {
     List<StockData> findByYearMonthCode(String yearMonthCode);
+    List<StockData> findByCodeOutAndYearMonthDateBetweenOrderByYearMonthDate(String codeOut, String startDate,String endDate);
 }

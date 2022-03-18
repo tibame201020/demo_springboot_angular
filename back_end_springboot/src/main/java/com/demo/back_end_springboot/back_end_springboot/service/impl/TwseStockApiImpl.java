@@ -37,7 +37,6 @@ public class TwseStockApiImpl implements TwseStockApi {
     private static final String INFO_URL = "https://www.twse.com.tw/en/exchangeReport/STOCK_DAY?response=json&date=%s&stockNo=%s";
     private static final String STOCK_DAY_ALL_URL = "https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL";
     private static final StockJson[] ALL_STOCKS_TODAY_INFO = REST_TEMPLATE.getForObject(STOCK_DAY_ALL_URL, StockJson[].class);
-    private static final String YAHOO_FINANCE_URL = "https://query1.finance.yahoo.com/v8/finance/chart/%s.TW?period1=%s&period2=%s&interval=1d&events=history&=hP2rOschxO0";
 
     @Autowired
     private StockDataRepo stockDataRepo;
@@ -57,9 +56,7 @@ public class TwseStockApiImpl implements TwseStockApi {
             result = "stock code is un-correct";
             status = false;
         } else {
-            checkLastestData(codeParam);
             List<StockData> stockDataList = getStockList(codeParam);
-
             status = true;
             result = stockDataList;
         }
@@ -68,51 +65,26 @@ public class TwseStockApiImpl implements TwseStockApi {
 
         return rtnMap;
     }
-//    @Override
-//    public Map<String,Object> getBasicInfo(CodeParam codeParam) {
-//        Map<String,Object> rtnMap = new HashMap<>();
-//        String url = String.format(YAHOO_FINANCE_URL, codeParam.getCode(), codeParam.getEndDateMilli(), codeParam.getBeginDateMilli());
-//        String str = REST_TEMPLATE.getForEntity(url, String.class).getBody();
-//        return rtnMap;
-//    }
 
     private List<StockData> getStockList(CodeParam codeParam) {
-        List<StockData> stockDataList = new ArrayList<>();
-        LocalDate start = codeParam.getEndLocalDate();
-        LocalDate end = codeParam.getBeginLocalDate();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDate start = LocalDate.parse(codeParam.getStartDate(), formatter);
+        LocalDate end = LocalDate.parse(codeParam.getEndDate(), formatter);
         String code = codeParam.getCode();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM");
         for (LocalDate date = start; date.isBefore(end); date = date.plusMonths(1)) {
-            String yearMonthCode = date.format(formatter) + code;
+            String yearMonthCode = date.format(DateTimeFormatter.ofPattern("yyyy/MM")) + code;
             List<StockData> stockDataListByMonth = stockDataRepo.findByYearMonthCode(yearMonthCode);
             if (null == stockDataListByMonth || stockDataListByMonth.size() == 0) {
-                codeParam.setBeginLocalDate(date);
-                getLastestDataFromUrl(codeParam);
-                stockDataListByMonth = stockDataRepo.findByYearMonthCode(yearMonthCode);
-            }
-            stockDataList.addAll(stockDataListByMonth);
-        }
-        return stockDataList;
-    }
-
-    private void checkLastestData(CodeParam codeParam) {
-        StockDataPk stockDataPk = new StockDataPk();
-        stockDataPk.setCode(codeParam.getCode());
-        if (LocalDate.now().equals(codeParam.getBeginLocalDate())) {
-            if (LocalDateTime.now().getHour() < 16) {
-                codeParam.setBeginLocalDate(LocalDate.now().minus(1, ChronoUnit.DAYS));
+                saveDataFromUrl(date, code);
             }
         }
-        stockDataPk.setDate(codeParam.getBeginDate());
-        Optional<StockData> optionalStockData = stockDataRepo.findById(stockDataPk);
-        if (!optionalStockData.isPresent()) {
-            getLastestDataFromUrl(codeParam);
-        }
+        return stockDataRepo.findByCodeOutAndYearMonthDateBetweenOrderByYearMonthDate(code, codeParam.getStartDate(), codeParam.getEndDate());
     }
 
-    private void getLastestDataFromUrl(CodeParam codeParam) {
-        StockBasicInfo stockBasicInfo = getStockInfoFromTWSE(codeParam);
-        List<StockData> stockDataList = translateJsonData(stockBasicInfo.getData(), codeParam.getCode());
+    private void saveDataFromUrl(LocalDate date, String code) {
+        String dateFormat = date.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        StockBasicInfo stockBasicInfo = getInfoUrl(dateFormat, code);
+        List<StockData> stockDataList = translateJsonData(stockBasicInfo.getData(), code);
         for (StockData stockData : stockDataList) {
             stockDataRepo.save(stockData);
         }
@@ -142,12 +114,9 @@ public class TwseStockApiImpl implements TwseStockApi {
         stockData.setChange(dataInfo[7]);
         stockData.setTransaction(dataInfo[8]);
         stockData.setYearMonthCode(dataInfo[0].substring(0, 7) + code);
+        stockData.setYearMonthDate(dataInfo[0]);
+        stockData.setCodeOut(code);
         return stockData;
-    }
-
-    private StockBasicInfo getStockInfoFromTWSE(CodeParam codeParam) {
-        String url = getInfoUrl(codeParam.getBeginDate().replace("/", ""), codeParam.getCode());
-        return REST_TEMPLATE.getForObject(url, StockBasicInfo.class);
     }
 
     private boolean checkStockCodeNm(String key) {
@@ -163,7 +132,8 @@ public class TwseStockApiImpl implements TwseStockApi {
         return false;
     }
 
-    private String getInfoUrl(String date, String code) {
-        return String.format(INFO_URL, date, code);
+    private StockBasicInfo getInfoUrl(String date, String code) {
+        String url = String.format(INFO_URL, date, code);
+        return REST_TEMPLATE.getForObject(url, StockBasicInfo.class);
     }
 }

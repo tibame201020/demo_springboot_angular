@@ -18,6 +18,8 @@ public class StockData implements Serializable {
     private String change;
     private String transaction;
     private String yearMonthCode;
+    private String yearMonthDate;
+    private String codeOut;
 
     public StockData() {}
 
@@ -92,6 +94,22 @@ public class StockData implements Serializable {
 
     public void setTransaction(String transaction) {
         this.transaction = transaction;
+    }
+
+    public String getYearMonthDate() {
+        return yearMonthDate;
+    }
+
+    public void setYearMonthDate(String yearMonthDate) {
+        this.yearMonthDate = yearMonthDate;
+    }
+
+    public String getCodeOut() {
+        return codeOut;
+    }
+
+    public void setCodeOut(String codeOut) {
+        this.codeOut = codeOut;
     }
 
     public String getYearMonthCode() {

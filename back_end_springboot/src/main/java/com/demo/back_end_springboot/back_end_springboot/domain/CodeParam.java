@@ -1,21 +1,18 @@
 package com.demo.back_end_springboot.back_end_springboot.domain;
 
-import org.apache.commons.lang3.StringUtils;
-
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-
 public class CodeParam {
     private String code;
-    private LocalDate beginDate;
-    private LocalDate endDate;
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-    private Long beginDateMilli;
-    private Long endDateMilli;
+    private String startDate;
+    private String endDate;
+
+    public CodeParam() {
+    }
+
+    public CodeParam(String code, String startDate, String endDate) {
+        this.code = code;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 
     public String getCode() {
         return code;
@@ -25,52 +22,19 @@ public class CodeParam {
         this.code = code;
     }
 
-    public String getBeginDate() {
-        return this.beginDate.format(formatter);
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setBeginDate(String beginDate) {
-        Instant instant = Instant.parse(beginDate);
-        this.beginDateMilli = instant.toEpochMilli()/1000;
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-        this.beginDate = localDateTime.toLocalDate();
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
     }
 
     public String getEndDate() {
-        return this.endDate.format(formatter);
+        return endDate;
     }
 
     public void setEndDate(String endDate) {
-        LocalDateTime localDateTime;
-        Instant instant;
-        if (StringUtils.isBlank(endDate)) {
-            instant = Instant.parse(endDate).minus(30, ChronoUnit.DAYS);
-        } else {
-            instant = Instant.parse(endDate);
-        }
-        this.endDateMilli = instant.toEpochMilli()/1000;
-        localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-        this.endDate = localDateTime.toLocalDate();
+        this.endDate = endDate;
     }
-
-    public LocalDate getBeginLocalDate() {
-        return this.beginDate;
-    }
-
-    public LocalDate getEndLocalDate() {
-        return this.endDate;
-    }
-
-    public Long getBeginDateMilli() {
-        return beginDateMilli;
-    }
-
-    public Long getEndDateMilli() {
-        return endDateMilli;
-    }
-
-    public void setBeginLocalDate(LocalDate date) {
-        this.beginDate = date;
-    }
-
 }
