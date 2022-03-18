@@ -13,6 +13,7 @@ import { AngularMaterialModule } from '../angular-material/angular-material.modu
 import { CandlestickChartComponent } from './candlestick-chart/candlestick-chart.component';
 import { KLineComponent } from './k-line/k-line.component';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { StockBasicInfoComponent } from './stock-basic-info/stock-basic-info.component';
 
 
 
@@ -32,7 +33,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
     CkeditorComponent,
     DatePickerRangeComponent,
     CandlestickChartComponent,
-    KLineComponent
+    KLineComponent,
+    StockBasicInfoComponent
   ],
   exports:[
     CommonModule,

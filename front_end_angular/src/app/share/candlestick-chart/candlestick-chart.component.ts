@@ -10,6 +10,7 @@ export class CandlestickChartComponent implements OnInit {
 
   @Input() code!: string;
   dataLs = [];
+  companyInfo = {};
   dataRange: any;
   startDate: any;
   endDate: any;
@@ -20,6 +21,7 @@ export class CandlestickChartComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     if (this.startDate && this.endDate && changes['code']) {
       this.getBasicInfo(this.code, this.startDate, this.endDate);
+      this.getCompanyInfo(this.code);
     }
   }
   getBasicInfo(codeNm: string, startDate: any, endDate: any) {
@@ -31,11 +33,19 @@ export class CandlestickChartComponent implements OnInit {
     }
     this.PublishService.getBasicInfo(codeNm, startDate, endDate).subscribe(
       res => {
-        console.log(res)
         this.showHide = res.status;
         this.dataLs = res;
       }
     );
+  }
+
+  getCompanyInfo(code:string) {
+    this.PublishService.getCompanyInfo(this.code).subscribe(
+      res => {
+      if (res) {
+        this.companyInfo = res;
+      }
+    });
   }
 
   getDataRange(dataRange: any) {
@@ -47,6 +57,7 @@ export class CandlestickChartComponent implements OnInit {
 
     if (startDate && endDate && this.code) {
       this.getBasicInfo(this.code, startDate, endDate);
+      this.getCompanyInfo(this.code);
     }
   }
 }

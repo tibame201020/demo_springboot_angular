@@ -16,4 +16,9 @@ export class PublishService {
   getBasicInfo(code: string, startDate: any, endDate: any): Observable<any> {
     return this.http.post<any>('api/twse/getBasicInfo', { code, "startDate": startDate, "endDate": endDate });
   }
+
+  getCompanyInfo(code: string): Observable<any> {
+    return this.http.post<any>('api/twse/getCompanyInfo', code);
+  }
+
 }
