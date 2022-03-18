@@ -1,6 +1,7 @@
 package com.demo.back_end_springboot.back_end_springboot.controller.outerApi;
 
 import com.demo.back_end_springboot.back_end_springboot.domain.CodeParam;
+import com.demo.back_end_springboot.back_end_springboot.domain.CompanyInfo;
 import com.demo.back_end_springboot.back_end_springboot.domain.StockJson;
 import com.demo.back_end_springboot.back_end_springboot.service.TwseStockApi;
 import org.apache.commons.lang3.time.DateUtils;
@@ -33,6 +34,11 @@ public class TwseApiController {
     @RequestMapping("/getBasicInfo")
     public ResponseEntity<Map<String,Object>> getBasicInfo(@RequestBody CodeParam codeParam) {
         return new ResponseEntity<>(twseStockApi.getBasicInfo(codeParam), HttpStatus.OK);
+    }
+
+    @RequestMapping("/getCompanyInfo")
+    public CompanyInfo getCompanyInfo(@RequestBody String key) {
+        return twseStockApi.getCompanyInfo(key);
     }
 
 }
