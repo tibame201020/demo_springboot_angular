@@ -41,7 +41,7 @@
             </div>
           </div>
         </div>
-        <div class="col basic-info">here is basic-info</div>
+        <div class="col"></div>
       </div>
       <div class="row">
         <div class="col">
@@ -72,6 +72,11 @@
           <div *ngIf="form.valid">
             <button id="submit" type="submit" class="btn btn-default submit" [disabled]="false">publish</button>
           </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col basic-info">
+          <app-candlestick-chart [code]="this.form.value.codeNm"></app-candlestick-chart>
         </div>
       </div>
     </div>

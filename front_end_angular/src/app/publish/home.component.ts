@@ -45,7 +45,6 @@ export class HomeComponent implements OnInit {
         res => {
           this.codeNmLs = res;
         })
-        this.getBasicInfo(this.form.value.codeNm);
     }
   }
 
@@ -63,21 +62,5 @@ export class HomeComponent implements OnInit {
       return new Base64UploadAdapter(loader);
     };
   }
-
-  getBasicInfo(codeNm: string) {
-    if (codeNm.trim().indexOf(' - ') != -1) {
-      codeNm = codeNm.trim().split(' - ')[0].trim();
-    }
-    if (codeNm.trim().indexOf('-') != -1) {
-      codeNm = codeNm.trim().split('-')[0].trim();
-    }
-    const beginDate = new Date();
-    this.PublishService.getBasicInfo(codeNm, beginDate, null).subscribe(
-      res => {
-        console.log(res)
-      }
-    );
-  }
-
 }
 
