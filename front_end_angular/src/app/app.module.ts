@@ -16,7 +16,7 @@ import { UserResetPwdComponent } from './user-reset-pwd/user-reset-pwd.component
 import { CustomFormControlComponent } from './custom-form-control/custom-form-control.component';
 import { SideBarComponent } from './side-bar/side-bar.component';
 import { HeaderComponent } from './header/header.component';
-import { ShareModule } from './share.module';
+import { ShareModule } from './share/share.module';
 import { PublishModule } from './publish/publish.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
