@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class TwseStockApiImpl implements TwseStockApi {
@@ -48,11 +49,15 @@ public class TwseStockApiImpl implements TwseStockApi {
     }
 
     @Override
-    public CompanyInfo getCompanyInfo(String key) {
+    public CompanyInfo[] getCompanyInfo(String key) {
         if (!checkStockCodeNm(key)) {
             return null;
         } else {
-            return Arrays.stream(ALL_COMPANY_TODAY_INFO).filter(companyInfo -> companyInfo.getCode().equals(key)).findAny().orElse(null);
+            if (key.contains("-")) {
+                key = key.split("-")[0].trim();
+            }
+            String finalKey = key;
+            return Arrays.stream(ALL_COMPANY_TODAY_INFO).filter(companyInfo -> companyInfo.getCode().equals(finalKey)).toArray(CompanyInfo[]::new);
         }
     }
 

@@ -30,7 +30,7 @@ public class TwseApiController {
     }
 
     @RequestMapping("/getCompanyInfo")
-    public CompanyInfo getCompanyInfo(@RequestBody String key) {
+    public CompanyInfo[] getCompanyInfo(@RequestBody String key) {
         return twseStockApi.getCompanyInfo(key);
     }
 
