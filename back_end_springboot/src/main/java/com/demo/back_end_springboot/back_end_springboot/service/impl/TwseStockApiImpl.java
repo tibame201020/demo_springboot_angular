@@ -126,7 +126,8 @@ public class TwseStockApiImpl implements TwseStockApi {
         return stockData;
     }
 
-    private boolean checkStockCodeNm(String key) {
+    @Override
+    public boolean checkStockCodeNm(String key) {
         if (key.contains("-")) {
             key = key.split("-")[0].trim();
         }

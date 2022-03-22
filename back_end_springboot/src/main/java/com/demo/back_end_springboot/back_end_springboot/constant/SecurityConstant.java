@@ -25,9 +25,9 @@ public class SecurityConstant {
 
     public static final String[] PASS_URLS =
             new String[] { LOGIN_URL, REGISTER_URL, REFRESH_TOKEN_URL,
-                    RESET_PWD_CONFIRM_URL, ENABLE_USER_URL, "/api/twse/**"
-    , CHECK_RESET_TOKEN_URL, RESET_PWD_URL, LOGIN_BY_MAIL_CHECK_URL
-    , LOGIN_BY_MAIL_URL, TWSE_API_URLS};
+                    RESET_PWD_CONFIRM_URL, ENABLE_USER_URL, CHECK_RESET_TOKEN_URL,
+                    RESET_PWD_URL, LOGIN_BY_MAIL_CHECK_URL, LOGIN_BY_MAIL_URL,
+                    TWSE_API_URLS };
 
 
 }
