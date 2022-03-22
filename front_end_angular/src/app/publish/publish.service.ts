@@ -21,4 +21,8 @@ export class PublishService {
     return this.http.post<any>('api/twse/getCompanyInfo', code);
   }
 
+  checkCodeNm(codeNm:string): Observable<Boolean> {
+    return this.http.post<Boolean>(`api/twse/checkCodeNm`, codeNm);
+  }
+
 }

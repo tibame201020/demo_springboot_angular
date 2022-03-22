@@ -1,0 +1,15 @@
+<div class="container-fluid" id="stockInfoContainer">
+  <div class="row">
+    <div class="col">
+      <mat-form-field class="example-full-width" appearance="fill" matTooltip="The Stock Code" appearance="legacy" [formGroup]="form">
+        <mat-label>Enter The Stock Code</mat-label>
+        <input matInput placeholder="" value="" autocomplete="off" formControlName="code">
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col" *ngIf="form.value.code">
+      here is stock info
+    </div>
+  </div>
+</div>

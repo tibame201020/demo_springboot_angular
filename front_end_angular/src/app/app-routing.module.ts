@@ -8,10 +8,10 @@ import { FrontIndexComponent } from './front-index/front-index.component';
 import { LoginIndexComponent } from './login-index/login-index.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ReaderComponent } from './reader/reader.component';
 import { Role } from './model/role_enum';
 import { UserResetPwdComponent } from './user-reset-pwd/user-reset-pwd.component';
 import { publishRouter } from './publish/publish.routing';
+import { ReadRouter } from './read/read.routing';
 
 
 const routes: Routes = [
@@ -19,7 +19,7 @@ const routes: Routes = [
   {path:"login", component:LoginIndexComponent},
   {
     path:"read",
-    component:ReaderComponent
+    children:ReadRouter
   },
   {
     path:"publish",

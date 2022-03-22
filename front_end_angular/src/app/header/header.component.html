@@ -7,25 +7,38 @@
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#" routerLink="/home">Home</a>
+        <a class="nav-link" href="#" routerLink="/home">
+          <i class="material-icons">home</i>
+          Home
+        </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#" routerLink="/read">Read</a>
+        <a class="nav-link" href="#" routerLink="/read">
+          <i class="material-icons">library_books</i>
+          Read</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#" routerLink="/publish">Publish</a>
+        <a class="nav-link" href="#" routerLink="/publish">
+          <i class="material-icons">rate_review</i>
+          Publish</a>
       </li>
     </ul>
     <span class="navbar-text" *ngIf="! this.authService.isLogIn()">
-      <a class="nav-link" href="" routerLink="/login">Login</a>
+      <a class="nav-link" href="" routerLink="/login">
+        <i class="material-icons">streetview</i>
+        Login</a>
     </span>
     <span *ngIf="! this.authService.isLogIn()">|</span>
     <span class="navbar-text" *ngIf="! this.authService.isLogIn()">
-      <a class="nav-link" href="" routerLink="/signUp">Sign Up</a>
+      <a class="nav-link" href="" routerLink="/signUp">
+        <i class="material-icons">queue</i>
+        Sign Up</a>
     </span>
 
     <span class="navbar-text" *ngIf="this.authService.isLogIn()">
-      <a class="nav-link" href="" routerLink="" (click)="this.authService.logout()">Log Out</a>
+      <a class="nav-link" href="" routerLink="" (click)="this.authService.logout()">
+        <i class="material-icons">logout</i>
+        Log Out</a>
     </span>
   </div>
 </nav>

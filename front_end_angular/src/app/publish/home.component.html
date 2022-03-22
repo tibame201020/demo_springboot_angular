@@ -1,6 +1,6 @@
 <div class="container-fluid publish-content">
   <div class="row justify-content-center">
-    <h2>Publish</h2>
+    <h2>{{title}}</h2>
   </div>
   <br>
   <form [formGroup]="form" (submit)="onSubmit(form)">
@@ -8,6 +8,19 @@
       <div class="row">
         <div class="col">
           <div class="row">
+
+            <div class="col-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Aricle Visibility</mat-label>
+                <mat-select formControlName="visibility" >
+                  <mat-option value="all">every one can read</mat-option>
+                  <mat-option value="subercibe">only for subcriber</mat-option>
+                  <mat-option value="buyer" *ngIf="checkSellRole()">only for buyer</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+
             <div class="col-12">
               <div class="form-group has-feedback">
                 <input type="text" list="codeNmLs" class="form-control form-input" formControlName="codeNm"
@@ -23,6 +36,8 @@
                   *ngIf="form.controls['codeNm'].invalid && (form.controls['codeNm'].dirty || form.controls['codeNm'].touched)">
                   <span *ngIf="form.controls['codeNm'].errors">
                     <pre *ngIf="form.controls['codeNm'].errors['required']"> the codeNm is required </pre>
+                    <pre *ngIf="form.controls['codeNm'].errors['isOK']"> the stock-code is un-correct</pre>
+                    <pre *ngIf="form.controls['codeNm'].errors['serverError']"> {{form.controls['codeNm'].errors['serverError']}}</pre>
                   </span>
                 </span>
               </div>
@@ -41,26 +56,13 @@
             </div>
           </div>
         </div>
-        <div class="col"></div>
-      </div>
-      <div class="row">
         <div class="col">
-          <ckeditor [editor]="Editor" [config]="config" (ready)="onReady($event)" data="<p></p>"
-            formControlName='ckContent'></ckeditor>
         </div>
       </div>
       <div class="row">
         <div class="col">
-          <div class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" id="customSwitch1">
-            <label class="custom-control-label" for="customSwitch1">only for Subcriber</label>
-          </div>
-        </div>
-        <div class="col">
-          <div class="custom-control custom-switch" *ngIf="checkSellRole()">
-            <input type="checkbox" class="custom-control-input" id="customSwitch2">
-            <label class="custom-control-label" for="customSwitch2">only for Buyer</label>
-          </div>
+          <ckeditor [editor]="Editor" [config]="config" (ready)="onReady($event)" data="" formControlName='ckContent'>
+          </ckeditor>
         </div>
       </div>
       <div class="row">
@@ -70,7 +72,7 @@
               all required fileds</button>
           </div>
           <div *ngIf="form.valid">
-            <button id="submit" type="submit" class="btn btn-default submit" [disabled]="false">publish</button>
+            <button id="submit" type="submit" class="btn btn-default submit" [disabled]="false">{{submitMsg}}</button>
           </div>
         </div>
       </div>

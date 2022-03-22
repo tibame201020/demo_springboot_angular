@@ -25,6 +25,10 @@ export class CandlestickChartComponent implements OnInit {
     }
   }
   getBasicInfo(codeNm: string, startDate: any, endDate: any) {
+    if (!codeNm || !startDate || !endDate) {
+      return;
+    }
+
     if (codeNm.trim().indexOf(' - ') != -1) {
       codeNm = codeNm.trim().split(' - ')[0].trim();
     }
@@ -40,6 +44,9 @@ export class CandlestickChartComponent implements OnInit {
   }
 
   getCompanyInfo(code:string) {
+    if (!code){
+      return;
+    }
     this.PublishService.getCompanyInfo(this.code).subscribe(
       res => {
       if (res) {

@@ -5,7 +5,6 @@ import { AppComponent } from './app.component';
 import { FrontIndexComponent } from './front-index/front-index.component';
 import { LoginIndexComponent } from './login-index/login-index.component';
 import { UserRegisterComponent } from './user-register/user-register.component';
-import { ReaderComponent } from './reader/reader.component';
 import { ForwardComponent } from './forward/forward.component';
 import { JwtInterceptor } from './inteceptor/jwt.interceptor';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
@@ -19,6 +18,7 @@ import { HeaderComponent } from './header/header.component';
 import { ShareModule } from './share/share.module';
 import { PublishModule } from './publish/publish.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReadModule } from './read/read.module';
 
 
 @NgModule({
@@ -27,7 +27,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FrontIndexComponent,
     LoginIndexComponent,
     UserRegisterComponent,
-    ReaderComponent,
     ForwardComponent,
     ForgotPasswordComponent,
     ValidUserComponent,
@@ -40,8 +39,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   ],
   imports: [
     ShareModule,
-    BrowserAnimationsModule,
-    // PublishModule
+    BrowserAnimationsModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent]

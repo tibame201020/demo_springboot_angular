@@ -11,10 +11,6 @@ export const PUBLISH_SIDE_BAR_CONFIG: Sidebar = {
     {
       name: 'manage',
       link: '/publish/manage'
-    },
-    {
-      name: 'hitsory',
-      link: '/publish/history'
     }
   ]
 }
