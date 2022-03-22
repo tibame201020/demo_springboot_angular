@@ -22,6 +22,7 @@ export class CandlestickChartComponent implements OnInit {
     if (this.startDate && this.endDate && changes['code']) {
       this.getBasicInfo(this.code, this.startDate, this.endDate);
       this.getCompanyInfo(this.code);
+      console.log(this.code)
     }
   }
   getBasicInfo(codeNm: string, startDate: any, endDate: any) {
@@ -49,9 +50,10 @@ export class CandlestickChartComponent implements OnInit {
     }
     this.PublishService.getCompanyInfo(this.code).subscribe(
       res => {
-      if (res) {
-        this.companyInfo = res;
-      }
+        console.log(res)
+        if (res) {
+          this.companyInfo = res[0];
+        }
     });
   }
 
