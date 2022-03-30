@@ -120,8 +120,8 @@ public class TwseStockApiImpl implements TwseStockApi {
         stockData.setTradeVolume(dataInfo[1]);
         stockData.setTradeValue(dataInfo[2]);
         stockData.setOpeningPrice(dataInfo[3]);
-        stockData.setHighestPrice(dataInfo[4]);
-        stockData.setLowestPrice(dataInfo[5]);
+        stockData.setLowestPrice(dataInfo[4]);
+        stockData.setHighestPrice(dataInfo[5]);
         stockData.setClosingPrice(dataInfo[6]);
         stockData.setChange(dataInfo[7]);
         stockData.setTransaction(dataInfo[8]);
