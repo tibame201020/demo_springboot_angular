@@ -14,6 +14,7 @@ import { UserResetPwdComponent } from './user-reset-pwd/user-reset-pwd.component
 import { publishRouter } from './publish/publish.routing';
 import { ReadRouter } from './read/read.routing';
 import { PraticeRouter } from './pratice/pratice.routing';
+import { LoadingComponent } from './share/loading/loading.component';
 
 
 const routes: Routes = [
@@ -42,7 +43,7 @@ const routes: Routes = [
   {path:"valid", component:ValidUserComponent},
   {path:"user/reset_pwd", component:UserResetPwdComponent},
   {path:'', redirectTo:"/home", pathMatch: 'full'}
-  ,{path:"test", component:StockCompositionComponent},
+  ,{path:"test", component:LoadingComponent},
 ];
 
 @NgModule({

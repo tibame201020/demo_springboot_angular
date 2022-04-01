@@ -18,6 +18,7 @@ import { ArticleIntroComponent } from './article-intro/article-intro.component';
 import { ArticleDetailComponent } from '../read/article-detail/article-detail.component';
 import { StockCompositionComponent } from './stock-composition/stock-composition.component';
 import { AssestCompositionComponent } from './assest-composition/assest-composition.component';
+import { LoadingComponent } from './loading/loading.component';
 
 
 
@@ -42,7 +43,8 @@ import { AssestCompositionComponent } from './assest-composition/assest-composit
     ArticleIntroComponent,
     ArticleDetailComponent,
     StockCompositionComponent,
-    AssestCompositionComponent
+    AssestCompositionComponent,
+    LoadingComponent
   ],
   exports:[
     CommonModule,
@@ -61,7 +63,8 @@ import { AssestCompositionComponent } from './assest-composition/assest-composit
     ArticleIntroComponent,
     ArticleDetailComponent,
     StockCompositionComponent,
-    AssestCompositionComponent
+    AssestCompositionComponent,
+    LoadingComponent
   ]
 })
 export class ShareModule {}
