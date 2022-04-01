@@ -2,6 +2,7 @@ package com.demo.back_end_springboot.back_end_springboot.controller.outerApi;
 
 import com.demo.back_end_springboot.back_end_springboot.domain.CodeParam;
 import com.demo.back_end_springboot.back_end_springboot.domain.CompanyInfo;
+import com.demo.back_end_springboot.back_end_springboot.domain.News;
 import com.demo.back_end_springboot.back_end_springboot.domain.StockJson;
 import com.demo.back_end_springboot.back_end_springboot.service.TwseStockApi;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,19 @@ public class TwseApiController {
     @RequestMapping("/checkCodeNm")
     public ResponseEntity<Boolean> checkCodeNm (@RequestBody String codeNm) {
         return new ResponseEntity<>(!twseStockApi.checkStockCodeNm(codeNm.trim()), HttpStatus.OK);
+    }
+
+    @RequestMapping("/getNews")
+    public News[] getNews() {
+        return twseStockApi.getNews();
+    }
+
+    @RequestMapping("/getPriceByCode")
+    public String getPriceByCode(@RequestBody String code) {
+        if (twseStockApi.checkStockCodeNm(code.trim())) {
+            return twseStockApi.getPriceByCode(code.trim());
+        } else {
+            return "";
+        }
     }
 }

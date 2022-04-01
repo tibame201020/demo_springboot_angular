@@ -2,6 +2,7 @@ package com.demo.back_end_springboot.back_end_springboot.service.impl;
 
 import com.demo.back_end_springboot.back_end_springboot.domain.CodeParam;
 import com.demo.back_end_springboot.back_end_springboot.domain.CompanyInfo;
+import com.demo.back_end_springboot.back_end_springboot.domain.News;
 import com.demo.back_end_springboot.back_end_springboot.domain.StockBasicInfo;
 import com.demo.back_end_springboot.back_end_springboot.domain.StockData;
 import com.demo.back_end_springboot.back_end_springboot.domain.StockData.StockDataPk;
@@ -20,7 +21,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class TwseStockApiImpl implements TwseStockApi {
@@ -36,8 +36,10 @@ public class TwseStockApiImpl implements TwseStockApi {
     private static final String INFO_URL = "https://www.twse.com.tw/en/exchangeReport/STOCK_DAY?response=json&date=%s&stockNo=%s";
     private static final String STOCK_DAY_ALL_URL = "https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL";
     private static final String COMPANY_INFO_URL = "https://openapi.twse.com.tw/v1/opendata/t187ap03_L";
+    private static final String NEWS_URL = "https://openapi.twse.com.tw/v1/news/newsList";
     private static final StockJson[] ALL_STOCKS_TODAY_INFO = REST_TEMPLATE.getForObject(STOCK_DAY_ALL_URL, StockJson[].class);
     private static final CompanyInfo[] ALL_COMPANY_TODAY_INFO = REST_TEMPLATE.getForObject(COMPANY_INFO_URL, CompanyInfo[].class);
+    private static final News[] ALL_NEWS = REST_TEMPLATE.getForObject(NEWS_URL, News[].class);
 
     @Autowired
     private StockDataRepo stockDataRepo;
@@ -143,6 +145,24 @@ public class TwseStockApiImpl implements TwseStockApi {
             }
         }
         return false;
+    }
+
+    @Override
+    public News[] getNews() {
+        return ALL_NEWS;
+    }
+
+    @Override
+    public String getPriceByCode(String code) {
+        StockJson[] stockJsons = REST_TEMPLATE.getForObject(STOCK_DAY_ALL_URL, StockJson[].class);
+        return Arrays.stream(ALL_STOCKS_TODAY_INFO).filter(stockJson -> stockJson.getCode().equals(splitCode(code))).findFirst().get().getClosingprice();
+    }
+
+    private String splitCode (String code) {
+        if (code.contains("-")) {
+            code = code.split("-")[0].trim();
+        }
+        return code.trim();
     }
 
     private StockBasicInfo getInfoUrl(String date, String code) {

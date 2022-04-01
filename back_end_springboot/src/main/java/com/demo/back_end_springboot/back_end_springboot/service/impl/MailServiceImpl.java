@@ -71,9 +71,8 @@ public class MailServiceImpl implements MailService {
             preStr = preStr + "this is the code to use login, but it's only have ten min valid" + "\n";
             String random = JwtProvider.getRandomInts();
             message.setText(preStr + random);
-            // sendMail(message);
+            sendMail(message);
             onceTokenRepo.save(new OnceToken(user.getMail(), login_token, random));
-            System.out.println(random);
             rtnMap.put("result", true);
             user.setPwd(null);
             rtnMap.put("user_info", user);
