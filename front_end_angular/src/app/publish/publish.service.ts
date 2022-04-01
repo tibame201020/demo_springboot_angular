@@ -25,4 +25,8 @@ export class PublishService {
     return this.http.post<Boolean>(`api/twse/checkCodeNm`, codeNm);
   }
 
+  getAllPublish(): Observable<Boolean> {
+    return this.http.get<Boolean>(`api/read/all`);
+  }
+
 }

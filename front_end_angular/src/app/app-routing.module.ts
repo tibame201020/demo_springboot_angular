@@ -1,3 +1,4 @@
+import { StockCompositionComponent } from './share/stock-composition/stock-composition.component';
 import { LoginByMailComponent } from './login-by-mail/login-by-mail.component';
 import { ValidUserComponent } from './valid-user/valid-user.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
@@ -12,6 +13,7 @@ import { Role } from './model/role_enum';
 import { UserResetPwdComponent } from './user-reset-pwd/user-reset-pwd.component';
 import { publishRouter } from './publish/publish.routing';
 import { ReadRouter } from './read/read.routing';
+import { PraticeRouter } from './pratice/pratice.routing';
 
 
 const routes: Routes = [
@@ -27,6 +29,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { roles: [Role.Publisher] }
   },
+  {
+    path:"pratice",
+    children:PraticeRouter,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Reader] }
+  },
   {path:"signUp", component:UserRegisterComponent},
   {path:"login/forgot_password", component:ForgotPasswordComponent},
   {path:"login/login_by_mail", component:LoginByMailComponent},
@@ -34,6 +42,7 @@ const routes: Routes = [
   {path:"valid", component:ValidUserComponent},
   {path:"user/reset_pwd", component:UserResetPwdComponent},
   {path:'', redirectTo:"/home", pathMatch: 'full'}
+  ,{path:"test", component:StockCompositionComponent},
 ];
 
 @NgModule({

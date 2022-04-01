@@ -6,7 +6,7 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="#" routerLink="/home">
           <i class="material-icons">home</i>
           Home
@@ -21,6 +21,11 @@
         <a class="nav-link" href="#" routerLink="/publish">
           <i class="material-icons">rate_review</i>
           Publish</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" routerLink="/pratice">
+          <i class="material-icons">school</i>
+          Pratice</a>
       </li>
     </ul>
     <span class="navbar-text" *ngIf="! this.authService.isLogIn()">
