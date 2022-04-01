@@ -14,6 +14,10 @@ import { CandlestickChartComponent } from './candlestick-chart/candlestick-chart
 import { KLineComponent } from './k-line/k-line.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { StockBasicInfoComponent } from './stock-basic-info/stock-basic-info.component';
+import { ArticleIntroComponent } from './article-intro/article-intro.component';
+import { ArticleDetailComponent } from '../read/article-detail/article-detail.component';
+import { StockCompositionComponent } from './stock-composition/stock-composition.component';
+import { AssestCompositionComponent } from './assest-composition/assest-composition.component';
 
 
 
@@ -34,7 +38,11 @@ import { StockBasicInfoComponent } from './stock-basic-info/stock-basic-info.com
     DatePickerRangeComponent,
     CandlestickChartComponent,
     KLineComponent,
-    StockBasicInfoComponent
+    StockBasicInfoComponent,
+    ArticleIntroComponent,
+    ArticleDetailComponent,
+    StockCompositionComponent,
+    AssestCompositionComponent
   ],
   exports:[
     CommonModule,
@@ -49,7 +57,11 @@ import { StockBasicInfoComponent } from './stock-basic-info/stock-basic-info.com
     DatePickerRangeComponent,
     AngularMaterialModule,
     CandlestickChartComponent,
-    KLineComponent
+    KLineComponent,
+    ArticleIntroComponent,
+    ArticleDetailComponent,
+    StockCompositionComponent,
+    AssestCompositionComponent
   ]
 })
 export class ShareModule {}

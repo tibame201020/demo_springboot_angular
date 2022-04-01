@@ -10,7 +10,7 @@ export class DatePickerRangeComponent implements OnInit {
   @Output() newItemEvent = new EventEmitter<any>();
   maxDate = new Date();
   range = this.formBuilder.group({
-    start: [new Date(new Date().setDate(this.maxDate.getDate() - 15))],
+    start: [new Date(new Date().setDate(this.maxDate.getDate() - 30))],
     end: [this.maxDate],
   });
   constructor(private formBuilder:FormBuilder) { }

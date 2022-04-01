@@ -29,19 +29,20 @@ export class ManageComponent implements OnInit {
   }
 
   refreshArray() {
-    this.articleArray = [];
-    this.publishedArray = [];
-    this.historyArray = [];
     this.ArticleService.findByAccount(this.AuthService.userValue.account).subscribe(
       res => {
+        let publishedAry: any[] = [];
+        let historyAry: any[] = []
         this.articleArray = res;
         this.articleArray.forEach(element => {
           if (element.state == 'publish') {
-            this.publishedArray.push(element);
+            publishedAry.push(element);
           } else {
-            this.historyArray.push(element);
+            historyAry.push(element);
           }
         });
+        this.publishedArray = publishedAry;
+        this.historyArray = historyAry;
       }
     );
   }
