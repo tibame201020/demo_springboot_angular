@@ -11,6 +11,10 @@
 .ck-editor__editable_inline {
   min-height: 10rem;
 }
+.ck-sticky-panel__content {
+  display: none;
+}
+
 
 html,
 body {
