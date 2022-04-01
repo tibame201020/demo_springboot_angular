@@ -1,0 +1,17 @@
+<div *ngIf="this.ReadService.getArticle()">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <h2>{{this.ReadService.getArticle().title}}</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">Code : {{this.ReadService.getArticle().codeNm}}</div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <ckeditor [editor]="Editor" [config]="config" data={{this.ReadService.getArticle().ckContent}} [disabled]="true"></ckeditor>
+    </div>
+  </div>
+</div>
+</div>
