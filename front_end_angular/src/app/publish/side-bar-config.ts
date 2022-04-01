@@ -6,11 +6,13 @@ export const PUBLISH_SIDE_BAR_CONFIG: Sidebar = {
   alink: [
     {
       name: 'publish',
-      link: '/publish/home'
+      link: '/publish/home',
+      icon:'add_circle_outline'
     },
     {
       name: 'manage',
-      link: '/publish/manage'
+      link: '/publish/manage',
+      icon:'attach_file'
     }
   ]
 }

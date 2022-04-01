@@ -3,11 +3,13 @@ export class Sidebar {
     alink: alink[] = [
       {
         name:'test',
-        link:'/home'
+        link:'/home',
+        icon:''
       },
       {
         name:'test2',
-        link:'/read'
+        link:'/read',
+        icon:''
       }
     ];
 }
@@ -17,4 +19,5 @@ export class Sidebar {
 export class alink {
     name:string = '';
     link:string=  '';
+    icon:string=  '';
 }

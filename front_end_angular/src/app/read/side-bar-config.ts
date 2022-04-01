@@ -6,15 +6,18 @@ export const READ_SIDE_BAR_CONFIG: Sidebar = {
   alink: [
     {
       name: 'All',
-      link: '/read/all'
+      link: '/read/all',
+      icon:'reorder'
     },
     {
       name: 'News',
-      link: '/read/news'
+      link: '/read/news',
+      icon:'newspaper'
     },
     {
       name: 'Stock-Info',
-      link: '/read/stock'
+      link: '/read/stock',
+      icon:'pageview'
     }
   ]
 }
