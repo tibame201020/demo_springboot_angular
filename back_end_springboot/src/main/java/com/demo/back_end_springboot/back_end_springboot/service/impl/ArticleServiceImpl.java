@@ -28,5 +28,10 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepo.findByAccount(account);
     }
 
+    @Override
+    public List<Article> findByPublish() {
+        return articleRepo.findByStateAndVisibilityOrderByUpdateTimeDesc("publish", "all");
+    }
+
 
 }
