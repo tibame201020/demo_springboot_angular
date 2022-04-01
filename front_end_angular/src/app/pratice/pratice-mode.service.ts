@@ -10,6 +10,7 @@ export class PraticeModeService {
 
   record: any;
   assest: any;
+  states: number = 0;
 
   constructor(private http: HttpClient) { }
 
@@ -35,6 +36,11 @@ export class PraticeModeService {
 
   setRecord(record: RecordInfo) {
     this.record = record;
+    if (record) {
+      this.states = 2;
+    } else {
+      this.states = 1;
+    }
   }
 
   getRecord() {
