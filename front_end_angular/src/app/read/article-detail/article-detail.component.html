@@ -12,6 +12,9 @@
     <div class="col">
       <ckeditor [editor]="Editor" [config]="config" data={{this.ReadService.getArticle().ckContent}} [disabled]="true"></ckeditor>
     </div>
+    <!-- <div class="col">
+      <div [outerHTML]="this.ReadService.getArticle().ckContent"></div>
+    </div> -->
   </div>
 </div>
 </div>

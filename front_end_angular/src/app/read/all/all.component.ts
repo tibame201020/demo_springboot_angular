@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Article } from './../../model/article';
 import { ReadService } from './../read.service';
 import { SideBarService } from './../../side-bar/side-bar.service';
@@ -14,7 +15,8 @@ export class AllComponent implements OnInit {
   articles: Article[] = [];
 
   constructor(private SideBarService: SideBarService,
-    private ReadService: ReadService) { }
+    private ReadService: ReadService,
+    private router: Router,) { }
 
   ngOnInit(): void {
     this.SideBarService.setSideBar(READ_SIDE_BAR_CONFIG);
@@ -23,6 +25,11 @@ export class AllComponent implements OnInit {
         this.articles = res;
        }
     )
+  }
+
+  toArticleDetail(article:Article) {
+    this.ReadService.setArticle(article);
+    this.router.navigate(['read/article_detail']);
   }
 
 }
