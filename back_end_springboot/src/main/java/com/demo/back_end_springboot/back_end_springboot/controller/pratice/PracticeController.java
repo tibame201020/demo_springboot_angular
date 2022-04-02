@@ -1,5 +1,6 @@
 package com.demo.back_end_springboot.back_end_springboot.controller.pratice;
 
+import com.demo.back_end_springboot.back_end_springboot.domain.pratice.HistoryAssetsForm;
 import com.demo.back_end_springboot.back_end_springboot.domain.pratice.PracticeForm;
 import com.demo.back_end_springboot.back_end_springboot.service.PracticeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,11 @@ public class PracticeController {
     public Map<String, Object> sell(@RequestBody PracticeForm practiceForm) {
         practiceForm.setBehavior("sell");
         return practiceService.sellStock(practiceForm);
+    }
+
+    @RequestMapping("/getHistory")
+    public Map<String, Object> getHistoryAssetsByAccountAndDateRange(@RequestBody HistoryAssetsForm historyAssetsForm) {
+        return practiceService.getHistoryAssets(historyAssetsForm);
     }
 
 

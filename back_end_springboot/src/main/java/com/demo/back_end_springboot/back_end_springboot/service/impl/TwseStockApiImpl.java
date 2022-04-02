@@ -85,7 +85,7 @@ public class TwseStockApiImpl implements TwseStockApi {
     private List<StockData> getStockList(CodeParam codeParam) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDate start = LocalDate.parse(codeParam.getStartDate(), formatter);
-        LocalDate end = LocalDate.parse(codeParam.getEndDate(), formatter);
+        LocalDate end = LocalDate.parse(codeParam.getEndDate(), formatter).plusDays(1);
         String code = codeParam.getCode();
         for (LocalDate date = start; date.isBefore(end); date = date.plusMonths(1)) {
             String yearMonthCode = date.format(DateTimeFormatter.ofPattern("yyyy/MM")) + code;

@@ -29,6 +29,15 @@ public class StockRecord {
     public StockRecord() {
     }
 
+    public StockRecord(String account, String stockCode, BigDecimal volume, BigDecimal unitPrice, BigDecimal beforeCash, BigDecimal remainCash) {
+        this.account = account;
+        this.stockCode = stockCode;
+        this.volume = volume;
+        this.unitPrice = unitPrice;
+        this.beforeCash = beforeCash;
+        this.remainCash = remainCash;
+    }
+
     public StockRecord(Integer id, String account, String stockCode, BigDecimal volume, BigDecimal unitPrice, BigDecimal beforeCash, BigDecimal remainCash, Timestamp recordTime) {
         this.id = id;
         this.account = account;
@@ -102,5 +111,19 @@ public class StockRecord {
 
     public void setRecordTime(Timestamp recordTime) {
         this.recordTime = recordTime;
+    }
+
+    @Override
+    public String toString() {
+        return "StockRecord{" +
+                "id=" + id +
+                ", account='" + account + '\'' +
+                ", stockCode='" + stockCode + '\'' +
+                ", volume=" + volume +
+                ", unitPrice=" + unitPrice +
+                ", beforeCash=" + beforeCash +
+                ", remainCash=" + remainCash +
+                ", recordTime=" + recordTime +
+                '}';
     }
 }
