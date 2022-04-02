@@ -42,7 +42,7 @@ export class HistoryComponent implements OnInit {
       }
       this.PraticeModeService.getHistory(form).subscribe(
         res => {
-          if (res.status && res.result && res.result[res.result.length - 1].price.remainCash) {
+          if (res.status && res.result && res.result[res.result.length - 1] && res.result[res.result.length - 1].price && res.result[res.result.length - 1].price.remainCash) {
             this.splitArray(res.result);
             this.states = 2;
           } else {
