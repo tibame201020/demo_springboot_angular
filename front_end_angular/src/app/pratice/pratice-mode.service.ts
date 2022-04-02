@@ -34,6 +34,10 @@ export class PraticeModeService {
     return this.http.post<any>('api/practice/sell', form);
   }
 
+  getHistory(form: any): Observable<any> {
+    return this.http.post<any>('api/practice/getHistory', form);
+  }
+
   setRecord(record: RecordInfo) {
     this.record = record;
     if (record) {

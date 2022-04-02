@@ -1,9 +1,8 @@
-<p>history works!</p>
-
-
 <div class="container">
   <div class="row">
-    <div class="col">title</div>
+    <div class="col">
+      <h2>Self_Assets_History</h2>
+    </div>
   </div>
   <div class="row">
     <div class="col">
@@ -12,7 +11,25 @@
   </div>
   <div class="row">
     <div class="col">
-      content
+      <div *ngIf="states == 2">
+        <app-self-assets-history [inputData]="data"></app-self-assets-history>
+      </div>
+
+      <div *ngIf="states == 1">
+        there is no history record, u may want to go myself to create ur own record
+      </div>
+
+      <div *ngIf="!states">
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <app-loading></app-loading>
+      </div>
     </div>
   </div>
 </div>

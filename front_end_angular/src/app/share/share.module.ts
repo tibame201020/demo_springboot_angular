@@ -19,6 +19,7 @@ import { ArticleDetailComponent } from '../read/article-detail/article-detail.co
 import { StockCompositionComponent } from './stock-composition/stock-composition.component';
 import { AssestCompositionComponent } from './assest-composition/assest-composition.component';
 import { LoadingComponent } from './loading/loading.component';
+import { SelfAssetsHistoryComponent } from './self-assets-history/self-assets-history.component';
 
 
 
@@ -44,7 +45,8 @@ import { LoadingComponent } from './loading/loading.component';
     ArticleDetailComponent,
     StockCompositionComponent,
     AssestCompositionComponent,
-    LoadingComponent
+    LoadingComponent,
+    SelfAssetsHistoryComponent
   ],
   exports:[
     CommonModule,
@@ -64,7 +66,8 @@ import { LoadingComponent } from './loading/loading.component';
     ArticleDetailComponent,
     StockCompositionComponent,
     AssestCompositionComponent,
-    LoadingComponent
+    LoadingComponent,
+    SelfAssetsHistoryComponent
   ]
 })
 export class ShareModule {}
