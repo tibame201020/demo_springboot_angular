@@ -4,11 +4,11 @@ import { Sidebar } from "../side-bar/side-bar";
 export const PRATICE_SIDE_BAR_CONFIG: Sidebar = {
   title: "Pratice Manage",
   alink: [
-    {
-      name: 'home',
-      link: '/pratice/home',
-      icon:'tv'
-    },
+    // {
+    //   name: 'home',
+    //   link: '/pratice/home',
+    //   icon:'tv'
+    // },
     {
       name: 'myself',
       link: '/pratice/myself',

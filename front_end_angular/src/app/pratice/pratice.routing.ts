@@ -6,8 +6,8 @@ import { MyselfComponent } from './myself/myself.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
+  { path: '', redirectTo: 'myself', pathMatch: 'full' },
+  { path: 'home', component: MyselfComponent },
   { path: 'myself', component: MyselfComponent },
   { path: 'history', component: HistoryComponent },
 ];
