@@ -18,10 +18,10 @@ public class BackEndSpringbootApplication {
 	@Bean
 	CommandLineRunner run(UserService userService) {
 		return args -> {
-			userService.addRole(new Role(null, "Reader"));
-			userService.addRole(new Role(null, "Subscriber"));
-			userService.addRole(new Role(null, "Publisher"));
-			userService.addRole(new Role(null, "Seller"));
+			userService.addRole(new Role(1, "Reader"));
+			userService.addRole(new Role(2, "Subscriber"));
+			userService.addRole(new Role(3, "Publisher"));
+			userService.addRole(new Role(4, "Seller"));
 			User user = new User();
 			user.setAccount("test");
 			user.setPwd("123");
