@@ -74,7 +74,12 @@ export class HomeComponent implements OnInit {
               icon: 'success',
               title: 'the article was edit',
             })
-            this.form.reset();
+            this.form = this.formBuilder.group({
+              visibility: ['all', Validators.required],
+              codeNm: ['', Validators.required, this.StockCodeValidator.validate.bind(this.StockCodeValidator)],
+              title: ['', Validators.required],
+              ckContent: ['', Validators.required]
+            });
           } else {
             Swal.fire({
               icon: 'error',
@@ -93,7 +98,12 @@ export class HomeComponent implements OnInit {
               icon: 'success',
               title: 'the article is published',
             });
-            this.form.reset();
+            this.form = this.formBuilder.group({
+              visibility: ['all', Validators.required],
+              codeNm: ['', Validators.required, this.StockCodeValidator.validate.bind(this.StockCodeValidator)],
+              title: ['', Validators.required],
+              ckContent: ['', Validators.required]
+            });
           } else {
             Swal.fire({
               icon: 'error',

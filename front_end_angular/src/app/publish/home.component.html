@@ -14,8 +14,7 @@
                 <mat-label>Aricle Visibility</mat-label>
                 <mat-select formControlName="visibility" >
                   <mat-option value="all">every one can read</mat-option>
-                  <mat-option value="subercibe">only for subcriber</mat-option>
-                  <mat-option value="buyer" *ngIf="checkSellRole()">only for buyer</mat-option>
+                  <mat-option value="own">only for my self record</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
