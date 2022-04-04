@@ -1,49 +1,26 @@
 <br>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col">
-      <h2>All Article</h2>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <div *ngFor="let article of articles" class="card">
-        <app-article-intro [article]="article"></app-article-intro>
+
+<mat-tab-group>
+  <mat-tab label="All Public Articles">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col" id="rowCenter">
+          <div *ngFor="let article of articles" class="card">
+            <app-article-intro [article]="article"></app-article-intro>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-<!-- <br>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col">
-      <h2>All Article</h2>
+  </mat-tab>
+  <mat-tab label="My Articles" *ngIf="ownArticles.length">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col" id="rowCenter">
+          <div *ngFor="let article of ownArticles" class="card">
+            <app-article-intro [article]="article"></app-article-intro>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div *ngFor="let article of articles" class="col">
-        <app-article-intro [article]="article"></app-article-intro>
-    </div>
-  </div>
-</div> -->
-
-<!-- <br>
-<h2>All Article</h2>
-<br>
-<hr>
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th scope="col" style="width: 60%;">標題</th>
-      <th scope="col" style="width: 20%;">作者</th>
-      <th scope="col" style="width: auto;">發佈時間</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let article of articles" (click)="toArticleDetail(article)">
-      <th scope="row">[{{article.codeNm}}] - {{article.title}}</th>
-      <td>{{article.account}}</td>
-      <td>{{article.updateTime | date:'yyyy/MM/dd hh:mm:ss'}}</td>
-    </tr>
-  </tbody>
-</table> -->
+  </mat-tab>
+</mat-tab-group>

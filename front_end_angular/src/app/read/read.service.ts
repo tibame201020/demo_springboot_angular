@@ -16,6 +16,10 @@ export class ReadService {
     return this.http.get<Article[]>(`api/read/all`);
   }
 
+  getOwnPublish(account:string): Observable<Article[]> {
+    return this.http.post<Article[]>(`api/read/own`, account);
+  }
+
   setArticle(article:Article) {
     this.article = article;
   }
