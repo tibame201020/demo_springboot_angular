@@ -42,8 +42,8 @@ export class KLineComponent implements OnInit {
     for (let i = 0; i < this.values.length; i++) {
       openPrice.push(this.values[i][0]);
       closePrice.push(this.values[i][1]);
-      highestPrice.push(this.values[i][2]);
-      lowestPrice.push(this.values[i][3]);
+      highestPrice.push(this.values[i][3]);
+      lowestPrice.push(this.values[i][2]);
     }
 
     this.options = {
