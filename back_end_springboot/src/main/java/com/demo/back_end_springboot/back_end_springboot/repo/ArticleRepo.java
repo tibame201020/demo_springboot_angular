@@ -9,4 +9,5 @@ import java.util.List;
 public interface ArticleRepo extends JpaRepository<Article, Integer> {
     List<Article> findByAccount(String account);
     List<Article> findByStateAndVisibilityOrderByUpdateTimeDesc(String state, String visibility);
+    List<Article> findByAccountAndStateOrderByUpdateTimeDesc(String account, String state);
 }

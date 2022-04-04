@@ -9,4 +9,5 @@ public interface ArticleService {
     List<Article> findByAccount(String account);
     List<Article> findByPublish();
 
+    List<Article> findOwnArticle(String account);
 }
