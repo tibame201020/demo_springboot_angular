@@ -3,6 +3,7 @@ package com.demo.back_end_springboot.back_end_springboot.service.impl;
 import com.demo.back_end_springboot.back_end_springboot.domain.CodeParam;
 import com.demo.back_end_springboot.back_end_springboot.domain.CompanyInfo;
 import com.demo.back_end_springboot.back_end_springboot.domain.News;
+import com.demo.back_end_springboot.back_end_springboot.domain.RestTemplateWithProxy;
 import com.demo.back_end_springboot.back_end_springboot.domain.StockBasicInfo;
 import com.demo.back_end_springboot.back_end_springboot.domain.StockData;
 import com.demo.back_end_springboot.back_end_springboot.domain.StockData.StockDataPk;

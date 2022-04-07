@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class PracticeServiceImpl implements PracticeService {
@@ -57,6 +58,7 @@ public class PracticeServiceImpl implements PracticeService {
             record.setRecordPk(recordPk);
             record.setAccountOutline(account);
             record.setCash(new BigDecimal(1000000));
+            record.setVisibility("own");
             recordRepo.save(record);
             rtnMap.put("status", true);
             rtnMap.put("recordInfo", recordRepo.findById(recordPk));
@@ -203,6 +205,68 @@ public class PracticeServiceImpl implements PracticeService {
             rtnMap.put("result", e.getMessage());
             return rtnMap;
         }
+    }
+
+    @Override
+    public void changeRecordVisibility(String account, String visibility) {
+        List<Record> records = recordRepo.findByAccountOutlineOrderByRecordPk(account);
+        Record record = records.get(records.size() - 1);
+        record.setVisibility(visibility);
+        recordRepo.save(record);
+    }
+
+    @Override
+    public void resetRecordByAccount(String account) {
+        recordRepo.deleteByAccountOutline(account);
+        createRecord(account);
+    }
+
+    @Override
+    public List<Record> getTopList() {
+        List<String> visibilityIsAllAccounts = getVisibilityIsAllAccount();
+        List<Record> records = getRecordsByAccounts(visibilityIsAllAccounts);
+        calcTotalPiceIsToday(records);
+        records.sort(((o1, o2) -> {
+            return o2.getTotal().compareTo(o1.getTotal());
+        }));
+
+        return records;
+    }
+
+    private List<Record> calcTotalPiceIsToday(List<Record> records) {
+
+        records.forEach(
+                record -> {
+                    StockVolume[] stockVolumes = record.getStockVolumes();
+                    BigDecimal total = new BigDecimal(0);
+                    if (!(stockVolumes == null) && !(stockVolumes.length == 0)) {
+                        for (StockVolume stockVolume : stockVolumes) {
+                            BigDecimal price = new BigDecimal(twseStockApi.getPriceByCode(stockVolume.getCode()));
+                            BigDecimal volume = stockVolume.getVolume();
+                            BigDecimal assets = price.multiply(volume);
+                            total = total.add(assets);
+                        }
+                    }
+                    record.setTotal(total.add(record.getCash()));
+                }
+        );
+        return records;
+    }
+
+    private List<Record> getRecordsByAccounts(List<String> visibilityIsAllAccounts) {
+        List<Record> records = new ArrayList<>();
+        visibilityIsAllAccounts.forEach(str -> {
+            List<Record> recordLs = recordRepo.findByAccountOutlineOrderByRecordPk(str);
+            records.add(recordLs.get(recordLs.size() - 1));
+        });
+
+        return records;
+    }
+
+    private List<String> getVisibilityIsAllAccount() {
+        return recordRepo.findAll().stream().filter(record -> {
+            return record.getVisibility().equals("all");
+        }).map(Record::getAccountOutline).collect(Collectors.toList());
     }
 
     private StockVolume[] plusStockVolume (StockVolume[] stockVolumes, PracticeForm practiceForm) {

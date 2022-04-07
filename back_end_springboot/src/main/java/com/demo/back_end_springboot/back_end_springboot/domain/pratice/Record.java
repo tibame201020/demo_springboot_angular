@@ -26,16 +26,19 @@ public class Record implements Serializable {
 
     private BigDecimal total;
 
+    private String visibility;
+
     public Record() {
     }
 
-    public Record(RecordPk recordPk, String accountOutline, BigDecimal cash, StockVolume[] stockVolumes, Timestamp recordTime, BigDecimal total) {
+    public Record(RecordPk recordPk, String accountOutline, BigDecimal cash, StockVolume[] stockVolumes, Timestamp recordTime, BigDecimal total, String visibility) {
         this.recordPk = recordPk;
         this.accountOutline = accountOutline;
         this.cash = cash;
         this.stockVolumes = stockVolumes;
         this.recordTime = recordTime;
         this.total = total;
+        this.visibility = visibility;
     }
 
     public String getAccountOutline() {
@@ -85,6 +88,14 @@ public class Record implements Serializable {
 
     public void setTotal(BigDecimal total) {
         this.total = total;
+    }
+
+    public String getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(String visibility) {
+        this.visibility = visibility;
     }
 
     @Embeddable
