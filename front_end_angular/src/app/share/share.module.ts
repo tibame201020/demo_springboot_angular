@@ -20,6 +20,7 @@ import { StockCompositionComponent } from './stock-composition/stock-composition
 import { AssestCompositionComponent } from './assest-composition/assest-composition.component';
 import { LoadingComponent } from './loading/loading.component';
 import { SelfAssetsHistoryComponent } from './self-assets-history/self-assets-history.component';
+import { RankEchartsComponent } from './rank-echarts/rank-echarts.component';
 
 
 
@@ -46,7 +47,8 @@ import { SelfAssetsHistoryComponent } from './self-assets-history/self-assets-hi
     StockCompositionComponent,
     AssestCompositionComponent,
     LoadingComponent,
-    SelfAssetsHistoryComponent
+    SelfAssetsHistoryComponent,
+    RankEchartsComponent
   ],
   exports:[
     CommonModule,
@@ -67,7 +69,8 @@ import { SelfAssetsHistoryComponent } from './self-assets-history/self-assets-hi
     StockCompositionComponent,
     AssestCompositionComponent,
     LoadingComponent,
-    SelfAssetsHistoryComponent
+    SelfAssetsHistoryComponent,
+    RankEchartsComponent
   ]
 })
 export class ShareModule {}
