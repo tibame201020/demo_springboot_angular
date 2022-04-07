@@ -61,8 +61,8 @@ public class AuthorFilter extends UsernamePasswordAuthenticationFilter {
         //generate json web token here
         Auth auth = (Auth) authResult.getPrincipal();
 
-        String access_token = jwtProvider.getToken(auth, 60 * 60 * 1000, request.getRequestURL().toString());
-        String refresh_token = jwtProvider.getToken(auth, 30 * 1000, request.getRequestURL().toString());
+        String access_token = jwtProvider.getToken(auth,  1000 * 60 * 60 * 12, request.getRequestURL().toString());
+        String refresh_token = jwtProvider.getToken(auth, 1000 * 60 * 60 * 24, request.getRequestURL().toString());
 
         Map<String, Object> tokens = new HashMap<>();
         tokens.put("access_token", access_token);
