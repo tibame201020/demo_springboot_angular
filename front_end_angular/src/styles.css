@@ -11,6 +11,9 @@
 .ck-editor__editable_inline {
   min-height: 10rem;
 }
+.ck-read-only {
+  border: 0em !important;
+}
 .ck-sticky-panel__content {
   display: none;
 }

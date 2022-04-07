@@ -23,6 +23,7 @@
     "@angular/router": "~13.1.0",
     "@ckeditor/ckeditor5-angular": "^2.0.2",
     "@ckeditor/ckeditor5-build-classic": "^32.0.0",
+    "@ckeditor/ckeditor5-horizontal-line": "^33.0.0",
     "@ckeditor/ckeditor5-ui": "^32.0.0",
     "@ckeditor/ckeditor5-upload": "^32.0.0",
     "@syncfusion/ej2-richtexteditor": "^19.4.54",
