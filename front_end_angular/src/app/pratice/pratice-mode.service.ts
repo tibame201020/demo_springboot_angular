@@ -38,7 +38,19 @@ export class PraticeModeService {
     return this.http.post<any>('api/practice/getHistory', form);
   }
 
-  setRecord(record: RecordInfo) {
+  changeVisibility(account: string, visibility: string): Observable<any> {
+    return this.http.post<any>('api/practice/changeVisibility', { 'accountOutline': account, 'visibility': visibility });
+  }
+
+  resetRecord(account: string): Observable<any> {
+    return this.http.post<any>('api/practice/resetRecord', account);
+  }
+
+  getTopList(): Observable<RecordInfo[]> {
+    return this.http.get<RecordInfo[]>('api/practice/getTopList');
+  }
+
+  setRecord(record: any) {
     this.record = record;
     if (record) {
       this.states = 2;

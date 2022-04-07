@@ -51,6 +51,13 @@ export class LoginByMailComponent implements OnInit {
         if (this.mailCheck) {
           this.mail = form.value.mail;
           this.simpleCode = '';
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'already sent the simple code to ur email',
+            showConfirmButton: false,
+            timer: 900
+          })
         } else {
           this.simpleCode = '';
           this.swalError(form);
@@ -66,7 +73,6 @@ export class LoginByMailComponent implements OnInit {
     };
     this.authService.loginByMail(param).subscribe(
       (res: any) => {
-        console.log(res)
         this.authService.handleLogin(res);
         this.swalDialog(res.rtnStatusCode, res.rtnMsg);
       }

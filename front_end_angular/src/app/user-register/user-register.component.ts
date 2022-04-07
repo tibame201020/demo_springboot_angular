@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserAccountValidator } from '../share/validators/user-account-validator';
 import { pwdValidator } from '../share/validators/pwd.directive';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-user-register',
@@ -15,15 +16,15 @@ import { pwdValidator } from '../share/validators/pwd.directive';
 })
 export class UserRegisterComponent implements OnInit {
 
-  registerForm:FormGroup = new FormGroup({});
-  private userAccountValidator:UserAccountValidator = new UserAccountValidator(this.userService).set('account');
-  private userMailValidator:UserAccountValidator = new UserAccountValidator(this.userService).set('mail');
-  private userPhoneValidator:UserAccountValidator  = new UserAccountValidator(this.userService).set('phone');
+  registerForm: FormGroup = new FormGroup({});
+  private userAccountValidator: UserAccountValidator = new UserAccountValidator(this.userService).set('account');
+  private userMailValidator: UserAccountValidator = new UserAccountValidator(this.userService).set('mail');
+  private userPhoneValidator: UserAccountValidator = new UserAccountValidator(this.userService).set('phone');
 
-  constructor(private userService:UserService,
-              private router: Router,
-              private formBuilder:FormBuilder,
-              private SideBarService:SideBarService) { }
+  constructor(private userService: UserService,
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private SideBarService: SideBarService) { }
 
   ngOnInit(): void {
     this.createForm();
@@ -31,7 +32,7 @@ export class UserRegisterComponent implements OnInit {
   }
 
 
-  private createForm():void {
+  private createForm(): void {
     const emailRegex = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
     const phoneRegex = /^09\d{2}-?\d{3}-?\d{3}$/;
     this.registerForm = this.formBuilder.group({
@@ -40,24 +41,29 @@ export class UserRegisterComponent implements OnInit {
       pwd2nd: ['', Validators.required],
       mail: ['', [Validators.required, Validators.pattern(emailRegex)], [this.userMailValidator.validate.bind(this.userMailValidator)]],
       phone: ['', [Validators.required, Validators.pattern(phoneRegex)], [this.userPhoneValidator.validate.bind(this.userPhoneValidator)]],
-    }, {validators: pwdValidator });
-}
+    }, { validators: pwdValidator });
+  }
 
   // sign up submit
-  public onRegisterSubmit(registerForm:FormGroup):void {
+  public onRegisterSubmit(registerForm: FormGroup): void {
 
     if (registerForm.value.pwd != registerForm.value.pwd2nd) {
-      alert(`pwd2nd is false`);
+      Swal.fire('pwd2nd is false', 'error');
       return;
     }
 
     this.userService.registerUser(registerForm.value).subscribe(
-      (res : User) => {
+      (res: User) => {
         if (res.message.indexOf("已註冊過") != -1) {
-
-          alert(false);
+          Swal.fire(res.message, 'error');
         } else {
-          alert("導入登入頁面");
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: '已註冊，將導至登入頁面',
+            showConfirmButton: false,
+            timer: 1000
+          })
           this.router.navigate(['login']);
         }
 
