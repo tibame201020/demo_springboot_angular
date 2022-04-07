@@ -4,6 +4,7 @@ import { Observable, catchError, of, throwError } from 'rxjs';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { ForwardMessageService } from '../forward-message.service';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable()
@@ -24,6 +25,20 @@ export class JwtInterceptor implements HttpInterceptor {
   }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+
+      request = request.clone({
+        setHeaders: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': 'true',
+          'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS, PATCH',
+          'Access-Control-Max-Age': '86400',
+          'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
+        }
+      });
+
+      console.log(request.headers)
+
+
         const user = this.authService.userValue;
         const isLoggedIn = user && user.access_token;
 

@@ -2,6 +2,7 @@ import { Article } from './../model/article';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,18 +14,18 @@ export class ArticleService {
   constructor(private http: HttpClient) { }
 
   save(article: Article): Observable<any> {
-    return this.http.post<any>('api/publish/save', article);
+    return this.http.post<any>(environment.backend.baseURL + 'api/publish/save', article);
   }
 
   delete(article: Article): Observable<any> {
-    return this.http.post<any>('api/publish/deleteArticle', article);
+    return this.http.post<any>(environment.backend.baseURL + 'api/publish/deleteArticle', article);
   }
   restore(article: Article): Observable<any> {
-    return this.http.post<any>('api/publish/restoreArticle', article);
+    return this.http.post<any>(environment.backend.baseURL + 'api/publish/restoreArticle', article);
   }
 
   findByAccount(account: string): Observable<Article[]> {
-    return this.http.post<Article[]>('api/publish/manage', account);
+    return this.http.post<Article[]>(environment.backend.baseURL + 'api/publish/manage', account);
   }
 
   saveEditData(data:Article) {

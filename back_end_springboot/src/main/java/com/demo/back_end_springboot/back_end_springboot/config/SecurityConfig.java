@@ -30,7 +30,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         AuthorFilter authorFilter = new AuthorFilter(authenticationManagerBean(), new JwtProvider());
         authorFilter.setFilterProcessesUrl(LOGIN_URL);
 
-       http.csrf().disable();
        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
        http.authorizeRequests().antMatchers(PASS_URLS)
                .permitAll();
@@ -39,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
        http.authorizeRequests().anyRequest().authenticated();
        http.addFilter(authorFilter);
        http.addFilterBefore(new CustomAuthorizaionFilter(), UsernamePasswordAuthenticationFilter.class);
-
+        http.cors().and().csrf().disable();
     }
 
     @Override

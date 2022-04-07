@@ -2,6 +2,7 @@ import { RecordInfo } from 'src/app/model/recordInfo';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,39 +16,39 @@ export class PraticeModeService {
   constructor(private http: HttpClient) { }
 
   getSelfRecord(account: string): Observable<any> {
-    return this.http.post<any>('api/practice/getSelfRecord', account);
+    return this.http.post<any>(environment.backend.baseURL + 'api/practice/getSelfRecord', account);
   }
 
   createSelfRecord(account: string): Observable<any> {
-    return this.http.post<any>('api/practice/createSelfRecord', account);
+    return this.http.post<any>(environment.backend.baseURL + 'api/practice/createSelfRecord', account);
   }
 
   getPriceByCode(code: string): Observable<any> {
-    return this.http.post<any>('api/twse/getPriceByCode', code);
+    return this.http.post<any>(environment.backend.baseURL + 'api/twse/getPriceByCode', code);
   }
 
   buyStock(form: any): Observable<any> {
-    return this.http.post<any>('api/practice/buy', form);
+    return this.http.post<any>(environment.backend.baseURL + 'api/practice/buy', form);
   }
 
   sellStock(form: any): Observable<any> {
-    return this.http.post<any>('api/practice/sell', form);
+    return this.http.post<any>(environment.backend.baseURL + 'api/practice/sell', form);
   }
 
   getHistory(form: any): Observable<any> {
-    return this.http.post<any>('api/practice/getHistory', form);
+    return this.http.post<any>(environment.backend.baseURL + 'api/practice/getHistory', form);
   }
 
   changeVisibility(account: string, visibility: string): Observable<any> {
-    return this.http.post<any>('api/practice/changeVisibility', { 'accountOutline': account, 'visibility': visibility });
+    return this.http.post<any>(environment.backend.baseURL + 'api/practice/changeVisibility', { 'accountOutline': account, 'visibility': visibility });
   }
 
   resetRecord(account: string): Observable<any> {
-    return this.http.post<any>('api/practice/resetRecord', account);
+    return this.http.post<any>(environment.backend.baseURL + 'api/practice/resetRecord', account);
   }
 
   getTopList(): Observable<RecordInfo[]> {
-    return this.http.get<RecordInfo[]>('api/practice/getTopList');
+    return this.http.get<RecordInfo[]>(environment.backend.baseURL + 'api/practice/getTopList');
   }
 
   setRecord(record: any) {

@@ -3,6 +3,7 @@ import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from './model/user';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class AuthService {
   }
 
   public loginByMail(param: any): Observable<any> {
-    return this.http.post<any>(`api/user/loginByShortCode`, param);
+    return this.http.post<any>(environment.backend.baseURL + `api/user/loginByShortCode`, param);
   }
 
   public handleLogin(res: any): void {
@@ -36,7 +37,7 @@ export class AuthService {
   }
 
   public validUser(user: User): Observable<Boolean> {
-    let rtn = this.http.post<any>(`api/user/login`, user);
+    let rtn = this.http.post<any>(environment.backend.baseURL + `api/user/login`, user);
     rtn.subscribe(
       (res: any) => {
         this.handleLogin(res);
@@ -75,11 +76,11 @@ export class AuthService {
   }
 
   loginByMailCheck(mail: string): Observable<any> {
-    return this.http.post<any>(`api/user/requiredUseMailLogin`, mail);
+    return this.http.post<any>(environment.backend.baseURL + `api/user/requiredUseMailLogin`, mail);
   }
 
 
   test(): Observable<string> {
-    return this.http.post<string>(`api/user/testMock`, "");
+    return this.http.post<string>(environment.backend.baseURL + `api/user/testMock`, "");
   }
 }
