@@ -5,6 +5,7 @@ export interface RecordInfo {
   recordTime:string;
   stockVolumes:StockVolume[];
   total:number;
+  visibility:string;
 }
 
 export interface RecordPk {

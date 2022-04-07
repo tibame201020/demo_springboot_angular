@@ -5,6 +5,7 @@ import { MyselfComponent } from './myself/myself.component';
 import { SelfInfoComponent } from './self-info/self-info.component';
 import { StockManageComponent } from './stock-manage/stock-manage.component';
 import { HistoryComponent } from './history/history.component';
+import { SettingComponent } from './setting/setting.component';
 
 
 
@@ -14,7 +15,8 @@ import { HistoryComponent } from './history/history.component';
     MyselfComponent,
     SelfInfoComponent,
     StockManageComponent,
-    HistoryComponent
+    HistoryComponent,
+    SettingComponent
   ],
   imports: [
     ShareModule
