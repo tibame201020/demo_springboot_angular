@@ -2,10 +2,15 @@ package com.demo.back_end_springboot.back_end_springboot.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.io.Serializable;
 
+@Entity
 public class StockJson implements Serializable {
 
+    @Id
     @JsonProperty(value="Code")
     private String code;
 
@@ -30,9 +35,10 @@ public class StockJson implements Serializable {
     @JsonProperty(value="ClosingPrice")
     private String closingprice;
 
+    @Column(name="change2")
     @JsonProperty(value="Change")
     private String change;
-
+    @Column(name="transaction2")
     @JsonProperty(value="Transaction")
     private String transaction;
 

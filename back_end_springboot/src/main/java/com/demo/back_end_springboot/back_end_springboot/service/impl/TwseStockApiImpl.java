@@ -9,7 +9,9 @@ import com.demo.back_end_springboot.back_end_springboot.domain.StockData;
 import com.demo.back_end_springboot.back_end_springboot.domain.StockData.StockDataPk;
 import com.demo.back_end_springboot.back_end_springboot.domain.StockJson;
 import com.demo.back_end_springboot.back_end_springboot.repo.StockDataRepo;
+import com.demo.back_end_springboot.back_end_springboot.repo.StockJsonRepo;
 import com.demo.back_end_springboot.back_end_springboot.service.TwseStockApi;
+import com.demo.back_end_springboot.back_end_springboot.tasks.ScheduledTasks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
@@ -35,20 +37,19 @@ public class TwseStockApiImpl implements TwseStockApi {
         REST_TEMPLATE = new RestTemplate(factory);
     }
     private static final String INFO_URL = "https://www.twse.com.tw/en/exchangeReport/STOCK_DAY?response=json&date=%s&stockNo=%s";
-    private static final String STOCK_DAY_ALL_URL = "https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL";
     private static final String COMPANY_INFO_URL = "https://openapi.twse.com.tw/v1/opendata/t187ap03_L";
     private static final String NEWS_URL = "https://openapi.twse.com.tw/v1/news/newsList";
-    private static final StockJson[] ALL_STOCKS_TODAY_INFO = REST_TEMPLATE.getForObject(STOCK_DAY_ALL_URL, StockJson[].class);
     private static final CompanyInfo[] ALL_COMPANY_TODAY_INFO = REST_TEMPLATE.getForObject(COMPANY_INFO_URL, CompanyInfo[].class);
     private static final News[] ALL_NEWS = REST_TEMPLATE.getForObject(NEWS_URL, News[].class);
 
     @Autowired
     private StockDataRepo stockDataRepo;
+    @Autowired
+    private StockJsonRepo stockJsonRepo;
 
     @Override
     public StockJson[] getCodeNmList(String key) {
-        assert ALL_STOCKS_TODAY_INFO != null;
-        return Arrays.stream(ALL_STOCKS_TODAY_INFO).filter(stockJson -> stockJson.getCode().contains(key) || stockJson.getName().contains(key)).toArray(StockJson[]::new);
+        return Arrays.stream(ScheduledTasks.getStockJsons()).filter(stockJson -> stockJson.getCode().contains(key) || stockJson.getName().contains(key)).toArray(StockJson[]::new);
     }
 
     @Override
@@ -139,13 +140,12 @@ public class TwseStockApiImpl implements TwseStockApi {
         if (key.contains("-")) {
             key = key.split("-")[0].trim();
         }
-        assert ALL_STOCKS_TODAY_INFO != null;
-        for (StockJson stockJson : ALL_STOCKS_TODAY_INFO) {
-            if (stockJson.getCode().equals(key)) {
-                return true;
-            }
+
+        if (stockJsonRepo.findById(key).isPresent()) {
+            return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     @Override
@@ -155,8 +155,12 @@ public class TwseStockApiImpl implements TwseStockApi {
 
     @Override
     public String getPriceByCode(String code) {
-        StockJson[] stockJsons = REST_TEMPLATE.getForObject(STOCK_DAY_ALL_URL, StockJson[].class);
-        return Arrays.stream(ALL_STOCKS_TODAY_INFO).filter(stockJson -> stockJson.getCode().equals(splitCode(code))).findFirst().get().getClosingprice();
+        try {
+            return stockJsonRepo.findById(code).get().getClosingprice();
+        } catch (Exception e) {
+            return "no price find";
+        }
+
     }
 
     private String splitCode (String code) {
