@@ -89,7 +89,7 @@
             <h1><strong>Pratice Mode Rank</strong></h1>
           </a>
         </div>
-        <div class="col-12" *ngIf="!getRankStates" style="height: 10rem;">
+        <div class="col-12" *ngIf="getRankStates == 0" style="height: 10rem;">
           <app-loading></app-loading>
         </div>
         <div class="col-12" *ngIf="getRankStates">

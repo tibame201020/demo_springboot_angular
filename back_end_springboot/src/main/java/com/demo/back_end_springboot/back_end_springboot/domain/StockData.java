@@ -1,5 +1,6 @@
 package com.demo.back_end_springboot.back_end_springboot.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -15,7 +16,9 @@ public class StockData implements Serializable {
     private String highestPrice;
     private String lowestPrice;
     private String closingPrice;
+    @Column(name="change2")
     private String change;
+    @Column(name="transaction2")
     private String transaction;
     private String yearMonthCode;
     private String yearMonthDate;

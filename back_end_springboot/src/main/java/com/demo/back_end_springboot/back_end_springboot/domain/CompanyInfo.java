@@ -2,7 +2,9 @@ package com.demo.back_end_springboot.back_end_springboot.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CompanyInfo {
+import java.io.Serializable;
+
+public class CompanyInfo implements Serializable {
     @JsonProperty(value="上市日期")
     private String publishDate;
     @JsonProperty(value="公司代號")

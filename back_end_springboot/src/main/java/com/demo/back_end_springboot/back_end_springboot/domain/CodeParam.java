@@ -1,6 +1,8 @@
 package com.demo.back_end_springboot.back_end_springboot.domain;
 
-public class CodeParam {
+import java.io.Serializable;
+
+public class CodeParam implements Serializable {
     private String code;
     private String startDate;
     private String endDate;

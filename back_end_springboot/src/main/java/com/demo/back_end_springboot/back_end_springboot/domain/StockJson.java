@@ -2,7 +2,9 @@ package com.demo.back_end_springboot.back_end_springboot.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class StockJson {
+import java.io.Serializable;
+
+public class StockJson implements Serializable {
 
     @JsonProperty(value="Code")
     private String code;

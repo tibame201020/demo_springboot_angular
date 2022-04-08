@@ -2,7 +2,9 @@ package com.demo.back_end_springboot.back_end_springboot.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class StockBasicInfo {
+import java.io.Serializable;
+
+public class StockBasicInfo implements Serializable {
     @JsonProperty(value="status")
     private String status;
 

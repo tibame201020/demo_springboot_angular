@@ -2,7 +2,9 @@ package com.demo.back_end_springboot.back_end_springboot.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class News {
+import java.io.Serializable;
+
+public class News implements Serializable {
     @JsonProperty(value="Date")
     private String date;
     @JsonProperty(value="Title")
