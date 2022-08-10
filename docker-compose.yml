@@ -1,6 +1,19 @@
 version: '3.8'
 #service group
 services:
+  app-frontend:
+    depends_on:
+      - app-backend
+      - app-database
+    image: front-img
+    restart: on-failure
+    ports:
+      - 4200:80
+    networks:
+      front2back:
+
+
+
   #backend server
   app-backend:
     #wait for db up
@@ -15,6 +28,7 @@ services:
       DB_NAME: demo
       DB_PWD: 123456
     networks:
+      front2back:
       server2db:
 
   #database
@@ -35,6 +49,7 @@ services:
 
 #network
 networks:
+  front2back:
   server2db:
 #db data
 volumes:
