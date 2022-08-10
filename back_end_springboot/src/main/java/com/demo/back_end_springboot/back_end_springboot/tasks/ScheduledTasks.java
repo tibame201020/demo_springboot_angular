@@ -3,6 +3,7 @@ package com.demo.back_end_springboot.back_end_springboot.tasks;
 import com.demo.back_end_springboot.back_end_springboot.domain.CompanyInfo;
 import com.demo.back_end_springboot.back_end_springboot.domain.News;
 import com.demo.back_end_springboot.back_end_springboot.domain.StockJson;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -12,7 +13,14 @@ public class ScheduledTasks {
     private static final String STOCK_DAY_ALL_URL = "https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL";
     private static final String NEWS_URL = "https://openapi.twse.com.tw/v1/news/newsList";
     private static final String COMPANY_INFO_URL = "https://openapi.twse.com.tw/v1/opendata/t187ap03_L";
-    private final RestTemplate REST_TEMPLATE = new RestTemplate();
+    private static final RestTemplate REST_TEMPLATE;
+
+    static {
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+        factory.setConnectTimeout(15000);
+        factory.setReadTimeout(5000);
+        REST_TEMPLATE = new RestTemplate(factory);
+    }
 
     private static StockJson[] stockJsons;
     private static News[] news;

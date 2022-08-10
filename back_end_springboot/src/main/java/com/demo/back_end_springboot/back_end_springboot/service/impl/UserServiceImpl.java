@@ -42,10 +42,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User addUser(User registerUser) {
-        if (registerUser.getAccount().equals("test")) {
-            registerUser.setPwd(passwordEncoder.encode(registerUser.getPwd()));
-            return userRepo.save(registerUser);
-        }
+//        if (registerUser.getAccount().equals("test")) {
+//            registerUser.setPwd(passwordEncoder.encode(registerUser.getPwd()));
+//            return userRepo.save(registerUser);
+//        }
 
         String rtnMsg;
         //若已有同account

@@ -28,7 +28,8 @@ public class MailServiceImpl implements MailService {
     @Autowired
     private UserRepo userRepo;
 
-    private final String FRONT_BASE_URL = "https://tibame201020.github.io/front_end_angular/";
+//    private final String FRONT_BASE_URL = "https://tibame201020.github.io/front_end_angular/";
+    private final String FRONT_BASE_URL = "localhost:4200";
 
     @Override
     public User sendValidMail(User user) {

@@ -6,6 +6,7 @@ import com.demo.back_end_springboot.back_end_springboot.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
@@ -16,7 +17,7 @@ public class BackEndSpringbootApplication {
         SpringApplication.run(BackEndSpringbootApplication.class, args);
     }
 
-    //	@Bean
+    @Bean
     CommandLineRunner run(UserService userService) {
         return args -> {
             userService.addRole(new Role(1, "Reader"));
@@ -28,7 +29,7 @@ public class BackEndSpringbootApplication {
             user.setPwd("123");
             user.setValid(true);
             user.setMail("sc30jie@gmail.com");
-            user.setPhone("");
+            user.setPhone("0912123123");
             user.setRoles(userService.getAllRole());
             userService.addUser(user);
         };

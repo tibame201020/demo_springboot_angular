@@ -1,0 +1,43 @@
+version: '3.8'
+#service group
+services:
+  #backend server
+  app-backend:
+    #wait for db up
+    depends_on:
+      - app-database
+    image: backendspringboot
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: app-database
+      DB_NAME: demo
+      DB_PWD: 123456
+    networks:
+      server2db:
+
+  #database
+  app-database:
+    image: mysql:8.0.17
+    restart: always
+    expose:
+      - 3306
+    volumes:
+      - database-data:/data/mysql
+    environment:
+      MYSQL_ROOT_USERNAME: root
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: demo
+    networks:
+      server2db:
+
+
+#network
+networks:
+  server2db:
+#db data
+volumes:
+  database-data:
+
+
