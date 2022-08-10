@@ -73,7 +73,10 @@ public class PracticeServiceImpl implements PracticeService {
     public Map<String, Object> buyStock(PracticeForm practiceForm) {
         Map<String, Object> rtnMap = new HashMap<>();
         List<Record> records = recordRepo.findByAccountOutlineOrderByRecordPk(practiceForm.getAccount());
-        Record record = records.get(records.size() - 1);
+        Record dbRecord = records.get(records.size() - 1);
+        Record saveRecord = getSaveRecord(dbRecord);
+        recordRepo.save(saveRecord);
+        Record record = recordRepo.getById(new RecordPk(practiceForm.getAccount(), DateUtil.getToday()));
         BigDecimal beforeCash = record.getCash();
 
         if (!checkRemainCashCanAfford(record, practiceForm)) {
@@ -82,18 +85,18 @@ public class PracticeServiceImpl implements PracticeService {
             return rtnMap;
         }
         if (record.getStockVolumes() == null) {
-            record.setStockVolumes(new StockVolume[] {});
+            record.setStockVolumes(new StockVolume[]{});
         }
         StockVolume[] stockVolumes = record.getStockVolumes();
         stockVolumes = plusStockVolume(stockVolumes, practiceForm);
         record.setStockVolumes(stockVolumes);
 
-        record.getRecordPk().setDate(DateUtil.getToday());
 
         Map<String, BigDecimal> assets = calcTotalAssets(record.getRecordPk().getAccount(), record.getRecordPk().getDate());
         BigDecimal volume = new BigDecimal(practiceForm.getVolume());
         BigDecimal remainCash = assets.get("remainCash");
         saveStockRecord(practiceForm, volume, beforeCash, remainCash);
+
 
         recordRepo.save(record);
         rtnMap.put("status", true);
@@ -107,8 +110,17 @@ public class PracticeServiceImpl implements PracticeService {
         String account = practiceForm.getAccount();
         String stockCode = practiceForm.getCode();
         BigDecimal unitPrice = new BigDecimal(twseStockApi.getPriceByCode(stockCode));
-        StockRecord stockRecord = new StockRecord(account, stockCode, volume, unitPrice, beforeCash, remainCash);
-        stockRecordRepo.save(stockRecord);
+
+        StockRecord stockRecord = new StockRecord();
+        stockRecord.setAccount(account);
+        stockRecord.setStockCode(stockCode);
+        stockRecord.setVolume(volume);
+        stockRecord.setUnitPrice(unitPrice);
+        stockRecord.setBeforeCash(beforeCash);
+        stockRecord.setRemainCash(remainCash);
+        stockRecord.setId(null);
+
+       stockRecordRepo.save(stockRecord);
     }
 
     private boolean checkRemainCashCanAfford(Record record, PracticeForm practiceForm) {
@@ -130,15 +142,18 @@ public class PracticeServiceImpl implements PracticeService {
     public Map<String, Object> sellStock(PracticeForm practiceForm) {
         Map<String, Object> rtnMap = new HashMap<>();
         List<Record> records = recordRepo.findByAccountOutlineOrderByRecordPk(practiceForm.getAccount());
-        Record record = records.get(records.size() - 1);
+        Record dbRecord = records.get(records.size() - 1);
+        Record saveRecord = getSaveRecord(dbRecord);
+        recordRepo.save(saveRecord);
+        Record record = recordRepo.getById(new RecordPk(practiceForm.getAccount(), DateUtil.getToday()));
 
         if (record.getStockVolumes() == null) {
-            record.setStockVolumes(new StockVolume[] {});
+            record.setStockVolumes(new StockVolume[]{});
         }
         StockVolume[] stockVolumes = record.getStockVolumes();
 
         if (checkStockVolumesHasCode(stockVolumes, practiceForm.getCode())) {
-            for (StockVolume stockVolume :stockVolumes) {
+            for (StockVolume stockVolume : stockVolumes) {
                 if (stockVolume.getCode().equals(practiceForm.getCode())) {
                     BigDecimal ownerVolume = stockVolume.getVolume();
                     BigDecimal wantToSellVolume = new BigDecimal(practiceForm.getVolume());
@@ -152,7 +167,6 @@ public class PracticeServiceImpl implements PracticeService {
                         BigDecimal remainCash = record.getCash();
                         record.setCash(remainCash.add(price.multiply(volume)));
 
-                        record.getRecordPk().setDate(DateUtil.getToday());
                         recordRepo.save(record);
                         Map<String, BigDecimal> assets = calcTotalAssets(record.getRecordPk().getAccount(), record.getRecordPk().getDate());
                         saveStockRecord(practiceForm, volume.negate(), beforeCash, record.getCash());
@@ -176,6 +190,22 @@ public class PracticeServiceImpl implements PracticeService {
         rtnMap.put("status", false);
         rtnMap.put("result", "u don't have enough stock volume to sell");
         return rtnMap;
+    }
+
+    private Record getSaveRecord(Record record) {
+        RecordPk recordPk = new RecordPk();
+        recordPk.setAccount(record.getRecordPk().getAccount());
+        recordPk.setDate(DateUtil.getToday());
+        Record rtnRecord = new Record();
+        rtnRecord.setRecordPk(recordPk);
+
+        rtnRecord.setCash(record.getCash());
+        rtnRecord.setVisibility(record.getVisibility());
+        rtnRecord.setStockVolumes(record.getStockVolumes());
+        rtnRecord.setTotal(record.getTotal());
+        rtnRecord.setAccountOutline(record.getAccountOutline());
+
+        return rtnRecord;
     }
 
     @Override
@@ -210,9 +240,10 @@ public class PracticeServiceImpl implements PracticeService {
     @Override
     public void changeRecordVisibility(String account, String visibility) {
         List<Record> records = recordRepo.findByAccountOutlineOrderByRecordPk(account);
-        Record record = records.get(records.size() - 1);
-        record.setVisibility(visibility);
-        recordRepo.save(record);
+        for (Record record : records) {
+            record.setVisibility(visibility);
+        }
+        recordRepo.saveAll(records);
     }
 
     @Override
@@ -223,7 +254,7 @@ public class PracticeServiceImpl implements PracticeService {
 
     @Override
     public List<Record> getTopList() {
-        List<String> visibilityIsAllAccounts = getVisibilityIsAllAccount();
+        Set<String> visibilityIsAllAccounts = getVisibilityIsAllAccount();
         List<Record> records = getRecordsByAccounts(visibilityIsAllAccounts);
         calcTotalPiceIsToday(records);
         records.sort(((o1, o2) -> {
@@ -253,29 +284,29 @@ public class PracticeServiceImpl implements PracticeService {
         return records;
     }
 
-    private List<Record> getRecordsByAccounts(List<String> visibilityIsAllAccounts) {
+    private List<Record> getRecordsByAccounts(Set<String> visibilityIsAllAccounts) {
         List<Record> records = new ArrayList<>();
         visibilityIsAllAccounts.forEach(str -> {
-            List<Record> recordLs = recordRepo.findByAccountOutlineOrderByRecordPk(str);
+            List<Record> recordLs = recordRepo.findByAccountOutlineAndVisibilityOrderByRecordPk(str, "all");
             records.add(recordLs.get(recordLs.size() - 1));
         });
 
         return records;
     }
 
-    private List<String> getVisibilityIsAllAccount() {
+    private Set<String> getVisibilityIsAllAccount() {
         return recordRepo.findAll().stream().filter(record -> {
             return record.getVisibility().equals("all");
-        }).map(Record::getAccountOutline).collect(Collectors.toList());
+        }).map(Record::getAccountOutline).collect(Collectors.toSet());
     }
 
-    private StockVolume[] plusStockVolume (StockVolume[] stockVolumes, PracticeForm practiceForm) {
+    private StockVolume[] plusStockVolume(StockVolume[] stockVolumes, PracticeForm practiceForm) {
         String code = practiceForm.getCode();
         BigDecimal volume = new BigDecimal(practiceForm.getVolume());
         List<StockVolume> stockVolumeList = new ArrayList<>();
         if (stockVolumes.length > 0) {
-            for (StockVolume stockVolume:
-                 stockVolumes) {
+            for (StockVolume stockVolume :
+                    stockVolumes) {
                 stockVolumeList.add(stockVolume);
             }
         }
@@ -291,7 +322,7 @@ public class PracticeServiceImpl implements PracticeService {
         return stockVolumeList.toArray(new StockVolume[stockVolumeList.size()]);
     }
 
-    private StockVolume[] reduceStockVolume (StockVolume[] stockVolumes, PracticeForm practiceForm) {
+    private StockVolume[] reduceStockVolume(StockVolume[] stockVolumes, PracticeForm practiceForm) {
         String code = practiceForm.getCode();
         List<StockVolume> stockVolumeList = new ArrayList<>();
         BigDecimal volume = new BigDecimal(practiceForm.getVolume());
@@ -311,8 +342,8 @@ public class PracticeServiceImpl implements PracticeService {
 
 
     private boolean checkStockVolumesHasCode(StockVolume[] stockVolumes, String code) {
-        for (StockVolume stockVolume:
-             stockVolumes) {
+        for (StockVolume stockVolume :
+                stockVolumes) {
             if (stockVolume.getCode().equals(code)) {
                 return true;
             }
@@ -337,7 +368,7 @@ public class PracticeServiceImpl implements PracticeService {
             }
             //where date decide what price
             if (DateUtil.getToday().equals(date)) {
-                for (StockVolume stockVolume :stockVolumes) {
+                for (StockVolume stockVolume : stockVolumes) {
                     BigDecimal price = new BigDecimal(twseStockApi.getPriceByCode(stockVolume.getCode()));
                     rtnMap.put(stockVolume.getCode(), price);
                 }
@@ -370,7 +401,7 @@ public class PracticeServiceImpl implements PracticeService {
             return recordOptional.get();
         } else {
             Record record = null;
-            List<Record> records = recordRepo.findByAccountOutlineOrderByRecordPk(account);
+            List<Record> records = recordRepo.findByAccountOutlineOrderByRecordPkDesc(account);
             for (Record rec : records) {
                 Integer recordDate = new Integer(rec.getRecordPk().getDate().replace("/", ""));
                 Integer findDate = new Integer(date.replace("/", ""));

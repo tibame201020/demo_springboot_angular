@@ -28,17 +28,19 @@ public class MailServiceImpl implements MailService {
     @Autowired
     private UserRepo userRepo;
 
+    private final String FRONT_BASE_URL = "https://tibame201020.github.io/front_end_angular/";
+
     @Override
     public User sendValidMail(User user) {
         SimpleMailMessage message = getSimpleMailMessage(user);
         message.setSubject("HI " + user.getAccount() + " Thanks Register Start Ur Journey");
-        String valid_token = jwtProvider.getToken(new Auth(user), 7*24*60*60*1000, "");
+        String valid_token = jwtProvider.getToken(new Auth(user), 7 * 24 * 60 * 60 * 1000, "");
         //this is need to generate a link to valid user
         String preStr = "Dear " + user.getAccount() + " :" + "\n";
 
         preStr = preStr + "plz click the under url to enable ur account" + "\n";
 
-        String base_enable_url = "http://localhost:4200/valid?validToken=";
+        String base_enable_url = FRONT_BASE_URL + "valid?validToken=";
         message.setText(preStr + base_enable_url + valid_token);
         sendMail(message);
         return user;
@@ -47,11 +49,11 @@ public class MailServiceImpl implements MailService {
     @Override
     public User sendResetPwdMail(User user) {
         SimpleMailMessage message = getSimpleMailMessage(user);
-        String reset_token = jwtProvider.getToken(new Auth(user), 10*60*1000, user.getMail());
+        String reset_token = jwtProvider.getToken(new Auth(user), 10 * 60 * 1000, user.getMail());
         message.setSubject("Reset Ur Password");
         String preStr = "Dear " + user.getAccount() + " :" + "\n";
         preStr = preStr + "plz click the under url to reset ur pwd, but it's only have ten min to reset" + "\n";
-        String base_enable_url = "http://localhost:4200/user/reset_pwd?resetToken=";
+        String base_enable_url = FRONT_BASE_URL + "user/reset_pwd?resetToken=";
         message.setText(preStr + base_enable_url + reset_token);
         sendMail(message);
         onceTokenRepo.save(new OnceToken(user.getMail(), reset_token));
@@ -65,7 +67,7 @@ public class MailServiceImpl implements MailService {
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             SimpleMailMessage message = getSimpleMailMessage(user);
-            String login_token = jwtProvider.getToken(new Auth(user), 10*60*1000, "");
+            String login_token = jwtProvider.getToken(new Auth(user), 10 * 60 * 1000, "");
             message.setSubject("This is for ur once login code");
             String preStr = "Dear " + user.getAccount() + " :" + "\n";
             preStr = preStr + "this is the code to use login, but it's only have ten min valid" + "\n";
@@ -85,7 +87,7 @@ public class MailServiceImpl implements MailService {
     private SimpleMailMessage getSimpleMailMessage(User user) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(user.getMail());
-        message.setFrom("demoservice0407@hotmail.com");
+        message.setFrom("backservice0408@gmail.com");
         return message;
     }
 

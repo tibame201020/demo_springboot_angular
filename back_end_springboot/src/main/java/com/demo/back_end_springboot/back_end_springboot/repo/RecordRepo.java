@@ -10,6 +10,9 @@ import java.util.List;
 @Repository
 public interface RecordRepo extends JpaRepository<Record, RecordPk> {
     List<Record> findByAccountOutlineOrderByRecordPk(String accountOutline);
+    List<Record> findByAccountOutlineOrderByRecordPkDesc(String accountOutline);
+    List<Record> findByAccountOutlineAndVisibilityOrderByRecordPk(String accountOutline, String visibility);
+
     void deleteByAccountOutline(String accountOutline);
 
 }

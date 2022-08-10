@@ -1,17 +1,11 @@
 package com.demo.back_end_springboot.back_end_springboot.service.impl;
 
-import com.demo.back_end_springboot.back_end_springboot.domain.CodeParam;
-import com.demo.back_end_springboot.back_end_springboot.domain.CompanyInfo;
-import com.demo.back_end_springboot.back_end_springboot.domain.News;
-import com.demo.back_end_springboot.back_end_springboot.domain.RestTemplateWithProxy;
-import com.demo.back_end_springboot.back_end_springboot.domain.StockBasicInfo;
-import com.demo.back_end_springboot.back_end_springboot.domain.StockData;
+import com.demo.back_end_springboot.back_end_springboot.domain.*;
 import com.demo.back_end_springboot.back_end_springboot.domain.StockData.StockDataPk;
-import com.demo.back_end_springboot.back_end_springboot.domain.StockJson;
 import com.demo.back_end_springboot.back_end_springboot.repo.StockDataRepo;
-import com.demo.back_end_springboot.back_end_springboot.repo.StockJsonRepo;
 import com.demo.back_end_springboot.back_end_springboot.service.TwseStockApi;
 import com.demo.back_end_springboot.back_end_springboot.tasks.ScheduledTasks;
+import com.demo.back_end_springboot.back_end_springboot.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
@@ -19,33 +13,26 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class TwseStockApiImpl implements TwseStockApi {
 
 
     private static final RestTemplate REST_TEMPLATE;
+
     static {
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
         factory.setConnectTimeout(15000);
         factory.setReadTimeout(5000);
         REST_TEMPLATE = new RestTemplate(factory);
     }
+
     private static final String INFO_URL = "https://www.twse.com.tw/en/exchangeReport/STOCK_DAY?response=json&date=%s&stockNo=%s";
-    private static final String COMPANY_INFO_URL = "https://openapi.twse.com.tw/v1/opendata/t187ap03_L";
-    private static final String NEWS_URL = "https://openapi.twse.com.tw/v1/news/newsList";
-    private static final CompanyInfo[] ALL_COMPANY_TODAY_INFO = REST_TEMPLATE.getForObject(COMPANY_INFO_URL, CompanyInfo[].class);
-    private static final News[] ALL_NEWS = REST_TEMPLATE.getForObject(NEWS_URL, News[].class);
 
     @Autowired
     private StockDataRepo stockDataRepo;
-    @Autowired
-    private StockJsonRepo stockJsonRepo;
+
 
     @Override
     public StockJson[] getCodeNmList(String key) {
@@ -61,13 +48,13 @@ public class TwseStockApiImpl implements TwseStockApi {
                 key = key.split("-")[0].trim();
             }
             String finalKey = key;
-            return Arrays.stream(ALL_COMPANY_TODAY_INFO).filter(companyInfo -> companyInfo.getCode().equals(finalKey)).toArray(CompanyInfo[]::new);
+            return Arrays.stream(ScheduledTasks.getCompanyInfo()).filter(companyInfo -> companyInfo.getCode().equals(finalKey)).toArray(CompanyInfo[]::new);
         }
     }
 
     @Override
-    public Map<String,Object> getBasicInfo(CodeParam codeParam) {
-        Map<String,Object> rtnMap = new HashMap<>();
+    public Map<String, Object> getBasicInfo(CodeParam codeParam) {
+        Map<String, Object> rtnMap = new HashMap<>();
         boolean status;
         Object result;
         if (!checkStockCodeNm(codeParam.getCode())) {
@@ -78,7 +65,7 @@ public class TwseStockApiImpl implements TwseStockApi {
             status = true;
             result = stockDataList;
         }
-        rtnMap.put("result",result);
+        rtnMap.put("result", result);
         rtnMap.put("status", status);
 
         return rtnMap;
@@ -89,11 +76,28 @@ public class TwseStockApiImpl implements TwseStockApi {
         LocalDate start = LocalDate.parse(codeParam.getStartDate(), formatter);
         LocalDate end = LocalDate.parse(codeParam.getEndDate(), formatter).plusDays(1);
         String code = codeParam.getCode();
-        for (LocalDate date = start; date.isBefore(end); date = date.plusMonths(1)) {
+        String beforeYearMonthCode = "";
+        String thisMonth = DateUtil.getThisMonth();
+        for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)) {
             String yearMonthCode = date.format(DateTimeFormatter.ofPattern("yyyy/MM")) + code;
-            List<StockData> stockDataListByMonth = stockDataRepo.findByYearMonthCode(yearMonthCode);
-            if (null == stockDataListByMonth || stockDataListByMonth.size() == 0) {
-                saveDataFromUrl(date, code);
+            if (!beforeYearMonthCode.equals(yearMonthCode)) {
+
+                if (yearMonthCode.equals(thisMonth + code)) {
+                    String dateFormat = date.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+                    StockBasicInfo stockBasicInfo = getInfoUrl(dateFormat, code);
+                    List<StockData> stockDataList = translateJsonData(stockBasicInfo.getData(), code);
+                    long apiDateSize = stockDataList.size();
+                    long dbCount = stockDataRepo.countByYearMonthCode(yearMonthCode);
+                    if (apiDateSize != dbCount) {
+                        stockDataRepo.saveAll(stockDataList);
+                    }
+                }
+
+                List<StockData> stockDataListByMonth = stockDataRepo.findByYearMonthCode(yearMonthCode);
+                if (null == stockDataListByMonth || stockDataListByMonth.size() == 0) {
+                    saveDataFromUrl(date, code);
+                }
+                beforeYearMonthCode = yearMonthCode;
             }
         }
         return stockDataRepo.findByCodeOutAndYearMonthDateBetweenOrderByYearMonthDate(code, codeParam.getStartDate(), codeParam.getEndDate());
@@ -141,29 +145,25 @@ public class TwseStockApiImpl implements TwseStockApi {
             key = key.split("-")[0].trim();
         }
 
-        if (stockJsonRepo.findById(key).isPresent()) {
-            return true;
-        } else {
-            return false;
+        for (StockJson stockJson : ScheduledTasks.getStockJsons()) {
+            if (stockJson.getCode().equals(key)) {
+                return true;
+            }
         }
+        return false;
     }
 
     @Override
     public News[] getNews() {
-        return ALL_NEWS;
+        return ScheduledTasks.getNews();
     }
 
     @Override
     public String getPriceByCode(String code) {
-        try {
-            return stockJsonRepo.findById(code).get().getClosingprice();
-        } catch (Exception e) {
-            return "no price find";
-        }
-
+        return Arrays.stream(ScheduledTasks.getStockJsons()).filter(stockJson -> stockJson.getCode().equals(splitCode(code))).findFirst().get().getClosingprice();
     }
 
-    private String splitCode (String code) {
+    private String splitCode(String code) {
         if (code.contains("-")) {
             code = code.split("-")[0].trim();
         }
