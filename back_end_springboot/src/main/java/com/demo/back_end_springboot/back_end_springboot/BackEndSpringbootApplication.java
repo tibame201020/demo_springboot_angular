@@ -17,7 +17,7 @@ public class BackEndSpringbootApplication {
         SpringApplication.run(BackEndSpringbootApplication.class, args);
     }
 
-    @Bean
+//    @Bean
     CommandLineRunner run(UserService userService) {
         return args -> {
             userService.addRole(new Role(1, "Reader"));
