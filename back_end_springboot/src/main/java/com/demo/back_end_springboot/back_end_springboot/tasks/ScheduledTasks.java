@@ -13,14 +13,7 @@ public class ScheduledTasks {
     private static final String STOCK_DAY_ALL_URL = "https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL";
     private static final String NEWS_URL = "https://openapi.twse.com.tw/v1/news/newsList";
     private static final String COMPANY_INFO_URL = "https://openapi.twse.com.tw/v1/opendata/t187ap03_L";
-    private static final RestTemplate REST_TEMPLATE;
-
-    static {
-        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
-        factory.setConnectTimeout(15000);
-        factory.setReadTimeout(5000);
-        REST_TEMPLATE = new RestTemplate(factory);
-    }
+    private final RestTemplate REST_TEMPLATE = new RestTemplate();
 
     private static StockJson[] stockJsons;
     private static News[] news;
