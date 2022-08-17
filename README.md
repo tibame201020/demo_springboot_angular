@@ -12,6 +12,8 @@ run this command
 sh script.sh
 ```
 
+script.sh content
+
 ```shell
 #download what we needs
 sudo apt install maven -y
