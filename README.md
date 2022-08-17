@@ -2,6 +2,15 @@
 
 in branch localDockerCompomseVersion
 
+## Clone
+
+```bash
+sudo apt install git -y
+```
+```bash
+git clone -b localDockerCompomseVersion https://github.com/tibame201020/demo_springboot_angular.git
+```
+
 ## Installation
 
 on the root path demo_springboot_angular/
