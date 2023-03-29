@@ -1,7 +1,3 @@
-FROM maven:3.6.3-jdk-8
-copy ./ ./
-ENTRYPOINT ["mvn", "-DskipTests=true", "clean package"]
-
 FROM openjdk:8-jdk-alpine
 COPY --from=build /home/app/target/back_end_springboot-0.0.1-SNAPSHOT.jar /app/back_end_springboot.jar
 COPY ./twsessl.cer /app/twsessl.cer
