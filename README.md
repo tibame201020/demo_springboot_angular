@@ -52,7 +52,10 @@ sudo docker compose up
 ```
 
 ## Web
- Oepen Browser to `http://localhost:4200/`
+ Oepen Browser
+ ```bash
+[sh installMavenAndNodeJs.sh](http://localhost:4200/)
+```
 
 # external
 #### use docker in wsl without docker desktop
