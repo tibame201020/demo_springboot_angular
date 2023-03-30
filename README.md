@@ -17,16 +17,16 @@ on the root path demo_springboot_angular/
 
 run this command
 
-if u don't have docker / docker compose
+#### if u don't have docker / docker compose
 ```bash
 sh installDockerAndDockerCompose.sh
 ```
-if u don't have maven / nodejs
+#### if u don't have maven / nodejs
 ```bash
 sh installMavenAndNodeJs.sh
 ```
 
-package and build image for docker compose use
+#### package and build image for docker compose use
 ```bash
 sh script.sh
 ```
