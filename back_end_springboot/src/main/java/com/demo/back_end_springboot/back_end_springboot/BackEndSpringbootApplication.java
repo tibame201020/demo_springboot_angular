@@ -24,14 +24,6 @@ public class BackEndSpringbootApplication {
             userService.addRole(new Role(2, "Subscriber"));
             userService.addRole(new Role(3, "Publisher"));
             userService.addRole(new Role(4, "Seller"));
-            User user = new User();
-            user.setAccount("test");
-            user.setPwd("123");
-            user.setValid(true);
-            user.setMail("sc30jie@gmail.com");
-            user.setPhone("0912123123");
-            user.setRoles(userService.getAllRole());
-            userService.addUser(user);
         };
     }
 }
