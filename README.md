@@ -26,6 +26,7 @@ if u don't have maven / nodejs
 sh installMavenAndNodeJs.sh
 ```
 
+package and build image for docker compose use
 ```bash
 sh script.sh
 ```
