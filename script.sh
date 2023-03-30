@@ -12,6 +12,5 @@ sudo docker build -t front-img .
 
 # run docker containers
 cd ../
-sudo docker compose up -d
-sudo docker ps -a
+sudo docker compose up
 
