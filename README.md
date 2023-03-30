@@ -49,7 +49,6 @@ sudo docker build -t front-img .
 # run docker containers
 cd ../
 sudo docker compose up
-sudo docker ps -a
 ```
 
 ## Web
