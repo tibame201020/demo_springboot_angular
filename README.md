@@ -17,6 +17,15 @@ on the root path demo_springboot_angular/
 
 run this command
 
+if u don't have docker / docker compose
+```bash
+sh installDockerAndDockerCompose.sh
+```
+if u don't have maven / nodejs
+```bash
+sh installMavenAndNodeJs.sh
+```
+
 ```bash
 sh script.sh
 ```
@@ -24,12 +33,6 @@ sh script.sh
 script.sh content
 
 ```shell
-#download what we needs
-sudo apt install maven -y
-sudo apt install npm -y
-sudo apt install docker.io docker-compose -y
-sudo apt update
-
 #generate back_end server img
 cd back_end_springboot/
 sudo mvn -DskipTests=true  clean package
@@ -44,7 +47,7 @@ sudo docker build -t front-img .
 
 # run docker containers
 cd ../
-sudo docker-compose up -d
+sudo docker compose up -d
 sudo docker ps -a
 ```
 
